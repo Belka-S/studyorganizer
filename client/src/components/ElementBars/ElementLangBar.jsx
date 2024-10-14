@@ -61,7 +61,11 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
 
     for (let i = 0; i < playList.length; i += 1) {
       const { element } = playList[i];
-      if (element.endsWith('.')) {
+      if (
+        element.endsWith('.') ||
+        element.endsWith('!') ||
+        element.endsWith('?')
+      ) {
         textString += element
           .replaceAll('.', divider)
           .replaceAll('!', divider)
