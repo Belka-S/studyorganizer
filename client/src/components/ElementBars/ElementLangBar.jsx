@@ -68,9 +68,11 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
       ) {
         textString += element
           .replaceAll('.', divider)
+          .replaceAll(',', divider)
           .replaceAll('!', divider)
           .replaceAll('?', divider)
-          .replaceAll(',', divider);
+          .replaceAll(':', divider)
+          .replaceAll('`', divider);
       } else {
         textString += element.replaceAll('.', divider) + divider;
       }
