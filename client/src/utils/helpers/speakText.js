@@ -2,9 +2,15 @@ import { themes } from 'styles/themes';
 
 const { white } = themes.colors;
 
-const markAsRead = message => {
+const markAsRead = (message, nextMessage) => {
   document.querySelectorAll('button').forEach(el => {
-    if (el.innerText.trim().includes(message.text.trim())) {
+    if (
+      el.innerText.trim() === message.text.trim() ||
+      el.innerText
+        .trim()
+        .replaceAll('...', '__')
+        .includes(message.text + nextMessage)
+    ) {
       const activeEl = el.closest('li');
       const prevActiveEl = activeEl?.previousElementSibling;
 
@@ -50,7 +56,9 @@ export const speakText = ({ text, lang, rate = 1, divider, setLiColor }) => {
 
   // divide message on parts
   message.onend = () => {
-    if (messageParts.length !== 1) markAsRead(message);
+    if (messageParts.length !== 1) {
+      markAsRead(message, messageParts[currentIndex + 1]);
+    }
     currentIndex += 1;
     if (currentIndex < messageParts.length) {
       message.text = messageParts[currentIndex];

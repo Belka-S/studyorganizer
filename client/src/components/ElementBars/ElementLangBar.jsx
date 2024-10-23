@@ -67,12 +67,13 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
         element.endsWith('?')
       ) {
         textString += element
-          .replaceAll('.', divider)
-          .replaceAll(',', divider)
-          .replaceAll('!', divider)
-          .replaceAll('?', divider)
-          .replaceAll(':', divider)
-          .replaceAll('`', divider);
+          .replaceAll('...', `__${divider}`)
+          .replaceAll('.', `.${divider}`)
+          .replaceAll(',', `,${divider}`)
+          .replaceAll('!', `!${divider}`)
+          .replaceAll('?', `?${divider}`)
+          .replaceAll(':', `:${divider}`)
+          .replaceAll('`', `\`${divider}`);
       } else {
         textString += element.replaceAll('.', divider) + divider;
       }
@@ -170,6 +171,6 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
 export default ElementLangBar;
 
 ElementLangBar.propTypes = {
-  filtredElements: PropTypes.object,
+  filtredElements: PropTypes.array,
   setLiColor: PropTypes.func,
 };
