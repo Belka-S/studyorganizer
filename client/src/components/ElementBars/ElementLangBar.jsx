@@ -64,7 +64,8 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
       if (
         element.endsWith('.') ||
         element.endsWith('!') ||
-        element.endsWith('?')
+        element.endsWith('?') ||
+        element.endsWith(']')
       ) {
         textString += element
           .replaceAll('...', `__${divider}`)
@@ -73,7 +74,17 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
           .replaceAll('!', `!${divider}`)
           .replaceAll('?', `?${divider}`)
           .replaceAll(':', `:${divider}`)
-          .replaceAll('`', `\`${divider}`);
+          .replaceAll('`', `\`${divider}`)
+          .replaceAll(`0.${divider}`, '0.')
+          .replaceAll(`1.${divider}`, '1.')
+          .replaceAll(`2.${divider}`, '2.')
+          .replaceAll(`3.${divider}`, '3.')
+          .replaceAll(`4.${divider}`, '4.')
+          .replaceAll(`5.${divider}`, '5.')
+          .replaceAll(`6.${divider}`, '6.')
+          .replaceAll(`7.${divider}`, '7.')
+          .replaceAll(`8.${divider}`, '8.')
+          .replaceAll(`9.${divider}`, '9.');
       } else {
         textString += element.replaceAll('.', divider) + divider;
       }

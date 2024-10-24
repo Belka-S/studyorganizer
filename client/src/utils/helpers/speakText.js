@@ -14,12 +14,12 @@ const markAsRead = (message, nextMessage) => {
       const activeEl = el.closest('li');
       const prevActiveEl = activeEl?.previousElementSibling;
 
-      el.style.fontSize = '32px';
+      el.style.fontSize = '30px';
       if (activeEl && activeEl.style) {
         activeEl.style.backgroundColor = white;
       }
       if (el.nextElementSibling && el.nextElementSibling.nextElementSibling) {
-        el.nextElementSibling.nextElementSibling.alignItems = 'center';
+        el.nextElementSibling.nextElementSibling.style.alignItems = 'center';
       }
       if (prevActiveEl) {
         prevActiveEl.style.backgroundColor = null;
