@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 
-import { getMediaLink, speakText, writeClipboard } from 'utils/helpers';
+import { getMediaLink, speakText } from 'utils/helpers';
 import { useClusters } from 'utils/hooks';
 
 import { GridWrap, Divider, SpeakBtn, Iframe, Audio } from './Element.styled';
@@ -10,14 +10,48 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
   const { activeCluster } = useClusters();
   const { element, caption } = el;
 
-  const speakElement = async () => {
+  const speakElement = e => {
+    let textString = '';
+    const divider = '$*@';
+
+    if (
+      element.trim().endsWith('.') ||
+      element.trim().endsWith('!') ||
+      element.trim().endsWith('?') ||
+      element.endsWith('"')
+    ) {
+      textString = element
+        .trim()
+        .replaceAll('...', `__${divider}`)
+        .replaceAll('.', `.${divider}`)
+        .replaceAll(',', `,${divider}`)
+        .replaceAll('!', `!${divider}`)
+        .replaceAll('?', `?${divider}`)
+        .replaceAll(':', `:${divider}`)
+        .replaceAll('`', `\`${divider}`)
+        .replaceAll(`0.${divider}`, '0.')
+        .replaceAll(`1.${divider}`, '1.')
+        .replaceAll(`2.${divider}`, '2.')
+        .replaceAll(`3.${divider}`, '3.')
+        .replaceAll(`4.${divider}`, '4.')
+        .replaceAll(`5.${divider}`, '5.')
+        .replaceAll(`6.${divider}`, '6.')
+        .replaceAll(`7.${divider}`, '7.')
+        .replaceAll(`8.${divider}`, '8.')
+        .replaceAll(`9.${divider}`, '9.');
+    } else {
+      textString = element.trim() + divider;
+    }
+
     const msg = speakText({
       setLiColor,
-      text: element,
+      divider,
+      text: textString,
       lang: activeCluster.lang,
       rate: activeCluster.rate,
     });
-    await writeClipboard(element);
+
+    e.target.blur();
     msg && toast.error(msg);
   };
 

@@ -32,7 +32,9 @@ const markAsRead = (message, nextMessage) => {
           behavior: 'smooth',
         });
       };
-      scrollOnActive();
+      if (message.text) {
+        scrollOnActive();
+      }
     }
   });
 };

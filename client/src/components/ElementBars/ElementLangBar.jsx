@@ -65,7 +65,7 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
         element.endsWith('.') ||
         element.endsWith('!') ||
         element.endsWith('?') ||
-        element.endsWith(']')
+        element.endsWith('"')
       ) {
         textString += element
           .replaceAll('...', `__${divider}`)
