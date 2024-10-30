@@ -1,6 +1,6 @@
 import { themes } from 'styles/themes';
 
-const { white } = themes.colors;
+const { white, background } = themes.colors;
 
 const markAsRead = (message, nextMessage) => {
   document.querySelectorAll('button').forEach(el => {
@@ -15,17 +15,18 @@ const markAsRead = (message, nextMessage) => {
       const prevActiveEl = activeEl?.previousElementSibling;
 
       el.style.fontSize = '30px';
-      if (activeEl && activeEl.style) {
-        activeEl.style.backgroundColor = white;
-      }
       if (el.nextElementSibling && el.nextElementSibling.nextElementSibling) {
         el.nextElementSibling.nextElementSibling.style.alignItems = 'center';
       }
       if (prevActiveEl) {
+        activeEl.style.backgroundColor = null;
+        // activeEl.querySelector('button').style.fontSize = null;
+        // activeEl.querySelectorAll('button')[1].style.alignItems = null;
         prevActiveEl.style.backgroundColor = null;
         prevActiveEl.querySelector('button').style.fontSize = null;
         prevActiveEl.querySelectorAll('button')[1].style.alignItems = null;
       }
+
       const scrollOnActive = () => {
         activeEl?.scrollIntoView({
           block: 'center',
@@ -33,6 +34,7 @@ const markAsRead = (message, nextMessage) => {
         });
       };
       if (message.text) {
+        activeEl.style.backgroundColor = white;
         scrollOnActive();
       }
     }
@@ -58,6 +60,7 @@ export const speakText = ({ text, lang, rate = 1, divider, setLiColor }) => {
 
   // divide message on parts
   message.onend = () => {
+    setLiColor(background);
     if (messageParts.length !== 1) {
       markAsRead(message, messageParts[currentIndex + 1]);
     }
@@ -68,6 +71,9 @@ export const speakText = ({ text, lang, rate = 1, divider, setLiColor }) => {
       setTimeout(() => {
         speech.speak(message);
       }, messageParts[currentIndex - 1].length * 120);
+    }
+    if (currentIndex === messageParts.length) {
+      setLiColor(white);
     }
   };
 
