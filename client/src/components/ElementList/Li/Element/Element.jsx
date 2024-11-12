@@ -23,13 +23,16 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
       textString = element
         .trim()
 
+        .replaceAll(',`', ';')
+        .replaceAll(' `', ` ${divider}`)
+
         .replaceAll('...', `__${divider}`)
         .replaceAll('.', `.${divider}`)
         .replaceAll(',', `,${divider}`)
         .replaceAll('!', `!${divider}`)
         .replaceAll('?', `?${divider}`)
         .replaceAll(':', `:${divider}`)
-        .replaceAll('`', `\`${divider}`)
+
         .replaceAll(`0.${divider}`, '0.')
         .replaceAll(`1.${divider}`, '1.')
         .replaceAll(`2.${divider}`, '2.')
