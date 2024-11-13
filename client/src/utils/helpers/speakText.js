@@ -9,6 +9,8 @@ const markAsRead = (message, nextMessage) => {
       el.innerText
         .trim()
         .replaceAll('...', '__')
+        .replaceAll(' `', ' ')
+        .replaceAll(',`', ';')
         .includes(message.text + nextMessage)
     ) {
       const activeEl = el.closest('li');
@@ -43,7 +45,14 @@ const markAsRead = (message, nextMessage) => {
 
 export const speakText = ({ text, lang, rate = 1, divider, setLiColor }) => {
   const speech = window.speechSynthesis;
-  const messageParts = text.split(divider);
+  const messageParts = text.split(divider).reduce((acc, el, i, arr) => {
+    if (el.split(' ').length < 4 && el.endsWith(',')) {
+      arr.splice(i + 1, 1, el + arr[i + 1]);
+    } else {
+      acc.push(el);
+    }
+    return acc;
+  }, []);
   let currentIndex = 0;
 
   const message = new SpeechSynthesisUtterance();
