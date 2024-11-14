@@ -5,7 +5,7 @@ const { white, background } = themes.colors;
 const markAsRead = (message, nextMessage) => {
   document.querySelectorAll('button').forEach(el => {
     if (
-      el.innerText.trim() === message.text.trim() ||
+      el.innerText.trim().replaceAll(',`', ';') === message.text.trim() ||
       el.innerText
         .trim()
         .replaceAll('...', '__')
