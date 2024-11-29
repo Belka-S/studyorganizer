@@ -105,10 +105,13 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
     //   top: document.body.scrollHeight,
     //   behavior: 'smooth',
     // });
+    const captionText = caption.includes('(')
+      ? caption.substring(0, caption.indexOf('('))
+      : caption;
 
     const msg = speakText({
       setLiColor,
-      text: caption,
+      text: captionText,
       lang: el.lang,
       rate: el.rate,
     });
