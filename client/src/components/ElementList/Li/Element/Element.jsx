@@ -100,11 +100,11 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
   };
 
   const speakCaption = () => {
-    window.scrollTo({
-      left: 0,
-      top: document.body.scrollHeight,
-      behavior: 'smooth',
-    });
+    // window.scrollTo({
+    //   left: 0,
+    //   top: document.body.scrollHeight,
+    //   behavior: 'smooth',
+    // });
 
     const msg = speakText({
       setLiColor,
