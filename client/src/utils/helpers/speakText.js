@@ -37,7 +37,7 @@ const markAsRead = (message, nextMessage) => {
       };
       if (message.text) {
         activeEl.style.backgroundColor = white;
-        scrollOnActive();
+        if (el.innerText.trim().endsWith('.')) scrollOnActive();
       }
     }
   });
