@@ -47,42 +47,6 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
         .replaceAll(`,${divider} oder?`, ', oder?')
         .replaceAll(`,${divider} bitte.`, ', bitte.')
         .replaceAll(`,${divider} danke.`, ', danke.');
-
-      // .replaceAll(`Ja,${divider}`, 'Ja,')
-      // .replaceAll(`Ok,${divider}`, 'Ok,')
-      // .replaceAll(`Nein,${divider}`, 'Nein,')
-      // .replaceAll(`Schade,${divider}`, 'Schade,')
-
-      // .replaceAll(`gut,${divider}`, 'gut,')
-      // .replaceAll(`wichtig,${divider}`, 'wichtig,')
-      // .replaceAll(`glaube,${divider}`, 'glaube,')
-      // .replaceAll(`denke,${divider}`, 'denke,')
-      // .replaceAll(`finde,${divider}`, 'finde,')
-      // .replaceAll(`meine,${divider}`, 'meine,')
-      // .replaceAll(`schlage vor,${divider}`, 'schlage vor,')
-
-      // .replaceAll(`vermute,${divider}`, 'vermute,')
-      // .replaceAll(`nehme an,${divider}`, 'nehme an,')
-      // .replaceAll(`sein,${divider}`, 'sein,')
-      // .replaceAll(`habe den Eindruck,${divider}`, 'habe den Eindruck,')
-      // .replaceAll(`finde ich,${divider}`, 'finde ich,')
-      // .replaceAll(`gefällt es,${divider}`, 'gefällt es,')
-
-      // .replaceAll(`schon,${divider}`, 'schon,')
-      // .replaceAll(`uper,${divider}`, 'uper,')
-      // .replaceAll(`klar,${divider}`, 'klar,')
-      // .replaceAll(`uper,${divider}`, 'uper,')
-      // .replaceAll(`atürlich,${divider}`, 'atürlich,')
-      // .replaceAll(`nicht,${divider}`, 'nicht,')
-      // .replaceAll(`wäre es,${divider}`, 'wäre es,')
-      // .replaceAll(`ist es,${divider}`, 'ist es,')
-
-      // .replaceAll(`weißt,${divider}`, 'weißt,')
-      // .replaceAll(`weißt du,${divider}`, 'weißt du,')
-
-      // .replaceAll(`besser,${divider}`, 'besser,')
-      // .replaceAll(`interessant,${divider}`, 'interessant,')
-      // .replaceAll(`ist wichtig,${divider}`, 'ist wichtig,')
     } else {
       textString = element.trim() + divider;
     }
@@ -100,11 +64,6 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
   };
 
   const speakCaption = () => {
-    // window.scrollTo({
-    //   left: 0,
-    //   top: document.body.scrollHeight,
-    //   behavior: 'smooth',
-    // });
     const captionText = caption.includes('(')
       ? caption.substring(0, caption.indexOf('('))
       : caption;

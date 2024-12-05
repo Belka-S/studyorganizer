@@ -43,9 +43,7 @@ const LiElement = ({ el, sortByDate, setSortByDate, liColor, setLiColor }) => {
         behavior: 'smooth',
       });
     };
-    activeElementEl
-      ? scrollOnActive()
-      : window.scrollTo(0, document.body.scrollHeight);
+    scrollOnActive();
   }, []);
 
   const handleFavorite = () => {

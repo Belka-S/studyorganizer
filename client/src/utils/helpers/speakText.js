@@ -6,12 +6,13 @@ const markAsRead = (message, nextMessage) => {
   document.querySelectorAll('button').forEach(el => {
     if (
       el.innerText.trim().replaceAll(',`', ';') === message.text.trim() ||
-      el.innerText
-        .trim()
-        .replaceAll('...', '__')
-        .replaceAll(' `', ' ')
-        .replaceAll(',`', ';')
-        .includes(message.text + nextMessage)
+      (!el.innerText.includes(' ') &&
+        el.innerText
+          .trim()
+          .replaceAll('...', '__')
+          .replaceAll(' `', ' ')
+          .replaceAll(',`', ';')
+          .includes(message.text + nextMessage))
     ) {
       const activeEl = el.closest('li');
       const prevActiveEl = activeEl?.previousElementSibling;
@@ -37,7 +38,7 @@ const markAsRead = (message, nextMessage) => {
       };
       if (message.text) {
         activeEl.style.backgroundColor = white;
-        if (el.innerText.trim().endsWith('.')) scrollOnActive();
+        scrollOnActive();
       }
     }
   });
