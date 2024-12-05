@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import GdriveSearchBar from 'components/GdriveBars/GdriveSearchBar';
 import ClustersSearchBar from 'components/ClusterBars/ClusterSearchBar';
@@ -17,12 +17,12 @@ const { s } = themes.indents;
 
 const Header = ({ $height, barW, setBarW }) => {
   const { pathname } = useLocation();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
   const { activeCluster: ac } = useClusters();
   const { activeFile: af } = useGdrive();
 
-  const scroll = () => {
+  const scrollGdrive = () => {
     const activeFileEl = document.getElementById('active-file');
     const scrollOnActive = () => {
       activeFileEl?.scrollIntoView({ block: 'center', behavior: 'smooth' });
@@ -31,6 +31,35 @@ const Header = ({ $height, barW, setBarW }) => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
     const positionY = activeFileEl?.getBoundingClientRect().y;
+    const isVisible = window.innerHeight > positionY;
+    isVisible ? scrollOnTop() : scrollOnActive();
+  };
+
+  const scrollCluster = () => {
+    const activeClusterEl = document.getElementById('active-cluster');
+    const scrollOnActive = () => {
+      activeClusterEl?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    };
+    const scrollOnTop = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    const positionY = activeClusterEl?.getBoundingClientRect().y;
+    const isVisible = window.innerHeight > positionY;
+    isVisible ? scrollOnTop() : scrollOnActive();
+  };
+
+  const scrollElement = () => {
+    const activeElementEl = document.getElementById('active-element');
+    const scrollOnActive = () => {
+      activeElementEl?.scrollIntoView({
+        block: 'center',
+        behavior: 'smooth',
+      });
+    };
+    const scrollOnTop = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    const positionY = activeElementEl?.getBoundingClientRect().y;
     const isVisible = window.innerHeight > positionY;
     isVisible ? scrollOnTop() : scrollOnActive();
   };
@@ -47,15 +76,17 @@ const Header = ({ $height, barW, setBarW }) => {
     });
   };
 
-  const handleNavigate = () => {
+  const handleScroll = () => {
     if (pathname.includes('/cluster')) {
-      navigate(`/element/${ac?._id}`, { replace: true });
+      scrollCluster();
+      // navigate(`/element/${ac?._id}`, { replace: true });
     }
     if (pathname.includes('/element')) {
-      navigate('/cluster', { replace: true });
+      scrollElement();
+      // navigate('/cluster', { replace: true });
     }
     if (pathname.includes('/gdrive')) {
-      scroll();
+      scrollGdrive();
     }
   };
 
@@ -82,7 +113,7 @@ const Header = ({ $height, barW, setBarW }) => {
           {isLoggedIn && <NavLink to="/gdrive">G-Drive</NavLink>}
           {isLoggedIn && <NavLink to="/cluster">Cluster</NavLink>}
           {isLoggedIn && (
-            <TitleBtn onClick={handleNavigate}>
+            <TitleBtn onClick={handleScroll}>
               {clusterTitle()}
               {gdriveTitle()}
             </TitleBtn>
