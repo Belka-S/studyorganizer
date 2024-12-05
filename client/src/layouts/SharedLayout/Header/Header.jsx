@@ -22,46 +22,55 @@ const Header = ({ $height, barW, setBarW }) => {
   const { activeCluster: ac } = useClusters();
   const { activeFile: af } = useGdrive();
 
+  const scrollOnTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  const scrollOnBottom = () => {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  };
+  const scrollOnActive = el => {
+    el?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  };
+
   const scrollGdrive = () => {
     const activeFileEl = document.getElementById('active-file');
-    const scrollOnActive = () => {
-      activeFileEl?.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    };
-    const scrollOnTop = () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+    if (!activeFileEl) return scrollOnTop();
+
+    const currenPosition = window.scrollY;
+    const lowestPosition = document.body.scrollHeight - window.innerHeight;
+    if (currenPosition === lowestPosition) return scrollOnActive(activeFileEl);
+
     const positionY = activeFileEl?.getBoundingClientRect().y;
-    const isVisible = window.innerHeight > positionY;
-    isVisible ? scrollOnTop() : scrollOnActive();
+    const isVisible = positionY < window.innerHeight;
+    isVisible ? scrollOnTop() : scrollOnActive(activeFileEl);
   };
 
   const scrollCluster = () => {
     const activeClusterEl = document.getElementById('active-cluster');
-    const scrollOnActive = () => {
-      activeClusterEl?.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    };
-    const scrollOnTop = () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+    if (!activeClusterEl) return scrollOnTop();
+
+    const currenPosition = window.scrollY;
+    const lowestPosition = document.body.scrollHeight - window.innerHeight;
+    if (currenPosition === lowestPosition)
+      return scrollOnActive(activeClusterEl);
+
     const positionY = activeClusterEl?.getBoundingClientRect().y;
-    const isVisible = window.innerHeight > positionY;
-    isVisible ? scrollOnTop() : scrollOnActive();
+    const isVisible = positionY < window.innerHeight;
+    isVisible ? scrollOnTop() : scrollOnActive(activeClusterEl);
   };
 
   const scrollElement = () => {
     const activeElementEl = document.getElementById('active-element');
-    const scrollOnActive = () => {
-      activeElementEl?.scrollIntoView({
-        block: 'center',
-        behavior: 'smooth',
-      });
-    };
-    const scrollOnTop = () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+    if (!activeElementEl) return scrollOnTop();
+
+    const currenPosition = window.scrollY;
+    const lowestPosition = document.body.scrollHeight - window.innerHeight;
+    if (currenPosition === lowestPosition)
+      return scrollOnActive(activeElementEl);
+
     const positionY = activeElementEl?.getBoundingClientRect().y;
-    const isVisible = window.innerHeight > positionY;
-    isVisible ? scrollOnTop() : scrollOnActive();
+    const isVisible = positionY < window.innerHeight;
+    isVisible ? scrollOnTop() : scrollOnActive(activeElementEl);
   };
 
   const handleClick = () => {
@@ -70,20 +79,15 @@ const Header = ({ $height, barW, setBarW }) => {
     if (currenPosition === lowestPosition) {
       barW !== '18%' ? setBarW('18%') : setBarW('45%');
     }
-    window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: 'smooth',
-    });
+    scrollOnBottom();
   };
 
   const handleScroll = () => {
     if (pathname.includes('/cluster')) {
-      scrollCluster();
-      // navigate(`/element/${ac?._id}`, { replace: true });
+      scrollCluster(); // navigate(`/element/${ac?._id}`, { replace: true });
     }
     if (pathname.includes('/element')) {
-      scrollElement();
-      // navigate('/cluster', { replace: true });
+      scrollElement(); // navigate('/cluster', { replace: true });
     }
     if (pathname.includes('/gdrive')) {
       scrollGdrive();

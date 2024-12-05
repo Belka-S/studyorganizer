@@ -6,7 +6,7 @@ const markAsRead = (message, nextMessage) => {
   document.querySelectorAll('button').forEach(el => {
     if (
       el.innerText.trim().replaceAll(',`', ';') === message.text.trim() ||
-      (!el.innerText.includes(' ') &&
+      (el.innerText.includes(' ') &&
         el.innerText
           .trim()
           .replaceAll('...', '__')
