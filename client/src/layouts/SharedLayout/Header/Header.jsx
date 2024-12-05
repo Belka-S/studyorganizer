@@ -35,6 +35,18 @@ const Header = ({ $height, barW, setBarW }) => {
     isVisible ? scrollOnTop() : scrollOnActive();
   };
 
+  const handleClick = () => {
+    const currenPosition = window.scrollY;
+    const lowestPosition = document.body.scrollHeight - window.innerHeight;
+    if (currenPosition === lowestPosition) {
+      barW !== '18%' ? setBarW('18%') : setBarW('45%');
+    }
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth',
+    });
+  };
+
   const handleNavigate = () => {
     if (pathname.includes('/cluster')) {
       navigate(`/element/${ac?._id}`, { replace: true });
@@ -63,9 +75,7 @@ const Header = ({ $height, barW, setBarW }) => {
   return (
     <StyledHeader $height={$height}>
       <FlexWrap $w={barW > '45%' ? barW : '45%'} $p={`0 ${s} 0 0`} $ai="center">
-        <LogoBtn
-          onClick={() => (barW !== '18%' ? setBarW('18%') : setBarW('45%'))}
-        >
+        <LogoBtn onClick={handleClick}>
           <Logo />
         </LogoBtn>
         <Nav>
