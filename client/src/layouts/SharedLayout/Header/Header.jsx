@@ -36,12 +36,8 @@ const Header = ({ $height, barW, setBarW }) => {
     const activeFileEl = document.getElementById('active-file');
     if (!activeFileEl) return scrollOnTop();
 
-    const currenPosition = window.scrollY;
-    const lowestPosition = document.body.scrollHeight - window.innerHeight;
-    if (currenPosition === lowestPosition) return scrollOnActive(activeFileEl);
-
     const positionY = activeFileEl?.getBoundingClientRect().y;
-    const isVisible = positionY < window.innerHeight;
+    const isVisible = positionY < window.innerHeight && positionY > 0;
     isVisible ? scrollOnTop() : scrollOnActive(activeFileEl);
   };
 
@@ -49,13 +45,8 @@ const Header = ({ $height, barW, setBarW }) => {
     const activeClusterEl = document.getElementById('active-cluster');
     if (!activeClusterEl) return scrollOnTop();
 
-    const currenPosition = window.scrollY;
-    const lowestPosition = document.body.scrollHeight - window.innerHeight;
-    if (currenPosition === lowestPosition)
-      return scrollOnActive(activeClusterEl);
-
     const positionY = activeClusterEl?.getBoundingClientRect().y;
-    const isVisible = positionY < window.innerHeight;
+    const isVisible = positionY < window.innerHeight && positionY > 0;
     isVisible ? scrollOnTop() : scrollOnActive(activeClusterEl);
   };
 
@@ -63,13 +54,8 @@ const Header = ({ $height, barW, setBarW }) => {
     const activeElementEl = document.getElementById('active-element');
     if (!activeElementEl) return scrollOnTop();
 
-    const currenPosition = window.scrollY;
-    const lowestPosition = document.body.scrollHeight - window.innerHeight;
-    if (currenPosition === lowestPosition)
-      return scrollOnActive(activeElementEl);
-
     const positionY = activeElementEl?.getBoundingClientRect().y;
-    const isVisible = positionY < window.innerHeight;
+    const isVisible = positionY < window.innerHeight && positionY > 0;
     isVisible ? scrollOnTop() : scrollOnActive(activeElementEl);
   };
 
