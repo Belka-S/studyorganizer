@@ -64,8 +64,8 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
   };
 
   const speakCaption = () => {
-    const captionText = caption.includes('(')
-      ? caption.substring(0, caption.indexOf('('))
+    const captionText = caption.includes('[')
+      ? caption.substring(0, caption.indexOf('['))
       : caption;
 
     const msg = speakText({
