@@ -1,6 +1,6 @@
 import { themes } from 'styles/themes';
 
-const { white, background } = themes.colors;
+const { white, black, background } = themes.colors;
 
 const markAsRead = (message, nextMessage) => {
   document.querySelectorAll('button').forEach(el => {
@@ -14,22 +14,35 @@ const markAsRead = (message, nextMessage) => {
           .replaceAll(',`', ';')
           .includes(message.text + nextMessage))
     ) {
+      el.style.color = black;
+      el.style.fontSize = '32px';
       const activeEl = el.closest('li');
       const prevActiveEl = activeEl?.previousElementSibling;
+      const prePrevActiveEl = prevActiveEl?.previousElementSibling;
 
-      el.style.fontSize = '30px';
       if (el.nextElementSibling && el.nextElementSibling.nextElementSibling) {
-        el.nextElementSibling.nextElementSibling.style.alignItems = 'center';
+        el.parentElement.style.display = 'block';
+        el.nextElementSibling.style.display = 'none';
+        el.nextElementSibling.nextElementSibling.style.display = 'none';
       }
       if (prevActiveEl) {
         activeEl.style.backgroundColor = null;
-        // activeEl.querySelector('button').style.fontSize = null;
-        // activeEl.querySelectorAll('button')[1].style.alignItems = null;
         prevActiveEl.style.backgroundColor = null;
+        prevActiveEl.querySelector('button').style.color = null;
         prevActiveEl.querySelector('button').style.fontSize = null;
-        prevActiveEl.querySelectorAll('button')[1].style.alignItems = null;
+        prevActiveEl.querySelectorAll('button')[1].style.display = null;
+        prevActiveEl.querySelectorAll('div')[1].style.display = 'grid';
+        prevActiveEl.querySelectorAll('div')[2].style.display = null;
       }
-
+      if (prePrevActiveEl) {
+        activeEl.style.backgroundColor = null;
+        prePrevActiveEl.style.backgroundColor = null;
+        prevActiveEl.querySelector('button').style.color = null;
+        prePrevActiveEl.querySelector('button').style.fontSize = null;
+        prePrevActiveEl.querySelectorAll('button')[1].style.display = null;
+        prePrevActiveEl.querySelectorAll('div')[1].style.display = 'grid';
+        prePrevActiveEl.querySelectorAll('div')[2].style.display = null;
+      }
       const scrollOnActive = () => {
         activeEl?.scrollIntoView({
           block: 'center',

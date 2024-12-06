@@ -86,12 +86,7 @@ export const SpeakBtn = styled.button`
   border-radius: ${indents.xs};
   color: ${colors.black};
   transition: background-color 250ms;
-  overflow-x: auto;
-
-  &:hover,
-  &:focus {
-    background-color: ${colors.background};
-  }
+  /* overflow-x: auto; */
 `;
 
 const baseAudioStyle = css`

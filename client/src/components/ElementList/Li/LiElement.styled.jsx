@@ -15,6 +15,7 @@ const baseLiStyle = css`
   align-items: center;
   grid-template-columns: 1fr 25fr 1fr;
 
+  border: 1px solid transparent;
   background-color: ${({ liColor }) => liColor};
   border-radius: ${indents.xs};
   font-size: 22px;
@@ -25,12 +26,28 @@ export const Li = styled.li`
   transition: box-shadow 250ms, border-color 250ms;
 
   &#active-element {
-    border: 1px solid ${colors.accent};
+    border-color: ${colors.border};
+    background-color: ${colors.background};
     box-shadow: ${shadows.back};
+
+    &:hover {
+      border-color: ${colors.accent};
+    }
+    & div button {
+      transition: color 250ms;
+      color: ${colors.smokeBlack};
+    }
+  }
+
+  & div button {
+    transition: color 250ms;
+    &:hover {
+      color: ${colors.smokeBlack};
+    }
   }
 
   &:hover {
-    border-color: ${colors.border};
+    border-color: ${colors.accent};
     box-shadow: ${shadows.back};
   }
 

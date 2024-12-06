@@ -38,7 +38,7 @@ const Header = ({ $height, barW, setBarW }) => {
 
     const positionY = activeFileEl?.getBoundingClientRect().y;
     const isVisible = positionY < window.innerHeight && positionY > 0;
-    isVisible ? scrollOnTop() : scrollOnActive(activeFileEl);
+    isVisible ? scrollOnBottom() : scrollOnActive(activeFileEl);
   };
 
   const scrollCluster = () => {
@@ -47,7 +47,7 @@ const Header = ({ $height, barW, setBarW }) => {
 
     const positionY = activeClusterEl?.getBoundingClientRect().y;
     const isVisible = positionY < window.innerHeight && positionY > 0;
-    isVisible ? scrollOnTop() : scrollOnActive(activeClusterEl);
+    isVisible ? scrollOnBottom() : scrollOnActive(activeClusterEl);
   };
 
   const scrollElement = () => {
@@ -56,16 +56,16 @@ const Header = ({ $height, barW, setBarW }) => {
 
     const positionY = activeElementEl?.getBoundingClientRect().y;
     const isVisible = positionY < window.innerHeight && positionY > 0;
-    isVisible ? scrollOnTop() : scrollOnActive(activeElementEl);
+    isVisible ? scrollOnBottom() : scrollOnActive(activeElementEl);
   };
 
   const handleClick = () => {
     const currenPosition = window.scrollY;
-    const lowestPosition = document.body.scrollHeight - window.innerHeight;
-    if (currenPosition === lowestPosition) {
+    // const lowestPosition = document.body.scrollHeight - window.innerHeight;
+    if (currenPosition === 0) {
       barW !== '18%' ? setBarW('18%') : setBarW('45%');
     }
-    scrollOnBottom();
+    scrollOnTop();
   };
 
   const handleScroll = () => {
