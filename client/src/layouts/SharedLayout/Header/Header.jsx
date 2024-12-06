@@ -17,7 +17,6 @@ const { s } = themes.indents;
 
 const Header = ({ $height, barW, setBarW }) => {
   const { pathname } = useLocation();
-  // const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
   const { activeCluster: ac } = useClusters();
   const { activeFile: af } = useGdrive();
@@ -34,8 +33,10 @@ const Header = ({ $height, barW, setBarW }) => {
 
   const scrollGdrive = () => {
     const activeFileEl = document.getElementById('active-file');
-    if (!activeFileEl) return scrollOnTop();
-
+    if (!activeFileEl) {
+      window.scrollY === 0 ? scrollOnBottom() : scrollOnTop();
+      return;
+    }
     const positionY = activeFileEl?.getBoundingClientRect().y;
     const isVisible = positionY < window.innerHeight && positionY > 0;
     isVisible ? scrollOnBottom() : scrollOnActive(activeFileEl);
@@ -43,8 +44,10 @@ const Header = ({ $height, barW, setBarW }) => {
 
   const scrollCluster = () => {
     const activeClusterEl = document.getElementById('active-cluster');
-    if (!activeClusterEl) return scrollOnTop();
-
+    if (!activeClusterEl) {
+      window.scrollY === 0 ? scrollOnBottom() : scrollOnTop();
+      return;
+    }
     const positionY = activeClusterEl?.getBoundingClientRect().y;
     const isVisible = positionY < window.innerHeight && positionY > 0;
     isVisible ? scrollOnBottom() : scrollOnActive(activeClusterEl);
@@ -52,16 +55,17 @@ const Header = ({ $height, barW, setBarW }) => {
 
   const scrollElement = () => {
     const activeElementEl = document.getElementById('active-element');
-    if (!activeElementEl) return scrollOnTop();
-
+    if (!activeElementEl) {
+      window.scrollY === 0 ? scrollOnBottom() : scrollOnTop();
+      return;
+    }
     const positionY = activeElementEl?.getBoundingClientRect().y;
     const isVisible = positionY < window.innerHeight && positionY > 0;
     isVisible ? scrollOnBottom() : scrollOnActive(activeElementEl);
   };
 
   const handleClick = () => {
-    const currenPosition = window.scrollY;
-    // const lowestPosition = document.body.scrollHeight - window.innerHeight;
+    const currenPosition = window.scrollY; // const lowestPosition = document.body.scrollHeight - window.innerHeight;
     if (currenPosition === 0) {
       barW !== '18%' ? setBarW('18%') : setBarW('45%');
     }
