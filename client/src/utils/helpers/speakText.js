@@ -59,16 +59,24 @@ const markAsRead = (message, nextMessage) => {
 
 export const speakText = ({ text, lang, rate = 1, divider, setLiColor }) => {
   const speech = window.speechSynthesis;
+  // devide message on parts
   const messageParts = text.split(divider).reduce((acc, el, i, arr) => {
-    if (el.trim().split(' ').length <= 4 && el.endsWith(',')) {
+    const currentElLength = el.trim().split(' ').length;
+    const nextElLength = arr[i + 1]?.trim().split(' ').length;
+    if (
+      el.endsWith(',') &&
+      (currentElLength <= 4 ||
+        nextElLength <= 4 ||
+        currentElLength + nextElLength < 12)
+    ) {
       arr.splice(i + 1, 1, el + arr[i + 1]);
     } else {
       acc.push(el);
     }
     return acc;
   }, []);
-  let currentIndex = 0;
 
+  let currentIndex = 0;
   const message = new SpeechSynthesisUtterance();
   const voices = speech.getVoices().filter(el => el.lang.includes(lang));
   if (!voices[0]) {
