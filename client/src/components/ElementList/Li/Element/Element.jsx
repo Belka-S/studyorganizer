@@ -42,11 +42,8 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
         .replaceAll(`6.${divider}`, '6.')
         .replaceAll(`7.${divider}`, '7.')
         .replaceAll(`8.${divider}`, '8.')
-        .replaceAll(`9.${divider}`, '9.')
-
-        .replaceAll(`,${divider} oder?`, ', oder?')
-        .replaceAll(`,${divider} bitte.`, ', bitte.')
-        .replaceAll(`,${divider} danke.`, ', danke.');
+        .replaceAll(`9.${divider}`, '9.');
+      // .replaceAll(`,${divider} oder?`, ', oder?') // .replaceAll(`,${divider} bitte.`, ', bitte.')  // .replaceAll(`,${divider} danke.`, ', danke.');
     } else {
       textString = element.trim() + divider;
     }

@@ -67,7 +67,7 @@ export const speakText = ({ text, lang, rate = 1, divider, setLiColor }) => {
       el.endsWith(',') &&
       (currentElLength <= 4 ||
         nextElLength <= 4 ||
-        currentElLength + nextElLength < 12)
+        currentElLength + nextElLength <= 12)
     ) {
       arr.splice(i + 1, 1, el + arr[i + 1]);
     } else {
