@@ -120,7 +120,9 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
 
     for (let i = 0; i < playList.length; i += 1) {
       const { element, caption, lang } = playList[i];
-      textString += element + `@±@${lang}` + caption + divider;
+      if (!element.startsWith('[')) {
+        textString += element + `@±@${lang}` + caption + divider;
+      }
     }
 
     const msg = speakTranslation({
