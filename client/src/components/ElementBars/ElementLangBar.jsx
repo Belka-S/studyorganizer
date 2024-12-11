@@ -128,7 +128,7 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
       divider,
       text: textString,
       lang: ac.lang,
-      rate: ac.rate,
+      rate: user.rate,
     });
 
     e.target.blur();

@@ -57,7 +57,7 @@ const markAsRead = (message, nextMessage) => {
   });
 };
 
-export const speakText = ({ text, lang, rate = 1, divider, setLiColor }) => {
+export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
   const speech = window.speechSynthesis;
   // devide message on parts
   const messageParts = text.split(divider).reduce((acc, el, i, arr) => {
@@ -79,11 +79,15 @@ export const speakText = ({ text, lang, rate = 1, divider, setLiColor }) => {
   let currentIndex = 0;
   const message = new SpeechSynthesisUtterance();
   const voices = speech.getVoices().filter(el => el.lang.includes(lang));
-  if (!voices[0]) {
-    return `No ${lang.toUpperCase()} voice available`;
-  }
 
-  message.voice = voices[0];
+  if (!voices[0]) return `No ${lang.toUpperCase()} voice available`;
+  if (lang === 'en' && voices[1]) {
+    message.voice = voices[1];
+  } else if (lang === 'de' && voices[0]) {
+    message.voice = voices[0];
+  } else {
+    message.voice = voices[0];
+  }
   message.volume = 1; // 0 to 1
   message.rate = rate; // 0.1 to 10
   message.text = messageParts[0];
@@ -131,20 +135,28 @@ export const speakTranslation = ({
   // message
   const message = new SpeechSynthesisUtterance();
   const voices = speech.getVoices().filter(el => el.lang.includes(lang));
-  if (!voices[0]) {
-    return `No ${lang.toUpperCase()} voice available`;
+  if (!voices[0]) return `No ${lang.toUpperCase()} voice available`;
+  if (lang === 'en' && voices[1]) {
+    message.voice = voices[1];
+  } else if (lang === 'de' && voices[0]) {
+    message.voice = voices[0];
+  } else {
+    message.voice = voices[0];
   }
-  message.voice = voices[0];
   message.rate = rate;
   message.text = currentMsg.split('@±@')[0];
   // translation
   const translation = new SpeechSynthesisUtterance();
   const voicesT = speech.getVoices().filter(el => el.lang.includes(transLang));
-  if (!voicesT[0]) {
-    return `No ${lang.toUpperCase()} voice available`;
+  if (!voicesT[0]) return `No ${lang.toUpperCase()} voice available`;
+  if (transLang === 'en' && voicesT[1]) {
+    translation.voice = voicesT[1];
+  } else if (transLang === 'de' && voicesT[0]) {
+    translation.voice = voicesT[0];
+  } else {
+    translation.voice = voicesT[0];
   }
-  translation.voice = voicesT[0];
-  translation.rate = 1;
+  translation.rate = rate;
   translation.text = currentMsg.split('@±@')[1].substring(2);
   // divide message + translation on parts
   message.onend = () => {
@@ -156,7 +168,13 @@ export const speakTranslation = ({
       const voicesT = speech
         .getVoices()
         .filter(el => el.lang.includes(transLang));
-      translation.voice = voicesT[0];
+      if (transLang === 'en' && voicesT[1]) {
+        translation.voice = voicesT[1];
+      } else if (transLang === 'de' && voicesT[0]) {
+        translation.voice = voicesT[0];
+      } else {
+        translation.voice = voicesT[0];
+      }
       message.text = currentMsg.split('@±@')[0];
       translation.text = currentMsg.split('@±@')[1].substring(2);
 

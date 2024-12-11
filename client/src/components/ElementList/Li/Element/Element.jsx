@@ -2,11 +2,12 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 
 import { getMediaLink, speakText } from 'utils/helpers';
-import { useClusters } from 'utils/hooks';
+import { useAuth, useClusters } from 'utils/hooks';
 
 import { GridWrap, Divider, SpeakBtn, Iframe, Audio } from './Element.styled';
 
 const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
+  const { user } = useAuth();
   const { activeCluster } = useClusters();
   const { element, caption } = el;
 
@@ -69,7 +70,7 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
       setLiColor,
       text: captionText,
       lang: el.lang,
-      rate: el.rate,
+      rate: user.rate,
     });
     msg && toast.error(msg);
   };
