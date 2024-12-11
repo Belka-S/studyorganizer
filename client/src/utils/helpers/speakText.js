@@ -81,8 +81,8 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
   const voices = speech.getVoices().filter(el => el.lang.includes(lang));
 
   if (!voices[0]) return `No ${lang.toUpperCase()} voice available`;
-  if (lang === 'en' && voices[1]) {
-    message.voice = voices[1];
+  if (lang === 'en' && voices[7]) {
+    message.voice = voices[7];
   } else if (lang === 'de' && voices[0]) {
     message.voice = voices[0];
   } else {
@@ -149,8 +149,8 @@ export const speakTranslation = ({
   const translation = new SpeechSynthesisUtterance();
   const voicesT = speech.getVoices().filter(el => el.lang.includes(transLang));
   if (!voicesT[0]) return `No ${lang.toUpperCase()} voice available`;
-  if (transLang === 'en' && voicesT[1]) {
-    translation.voice = voicesT[1];
+  if (transLang === 'en' && voicesT[7]) {
+    translation.voice = voicesT[7];
   } else if (transLang === 'de' && voicesT[0]) {
     translation.voice = voicesT[0];
   } else {
@@ -168,8 +168,8 @@ export const speakTranslation = ({
       const voicesT = speech
         .getVoices()
         .filter(el => el.lang.includes(transLang));
-      if (transLang === 'en' && voicesT[1]) {
-        translation.voice = voicesT[1];
+      if (transLang === 'en' && voicesT[7]) {
+        translation.voice = voicesT[7];
       } else if (transLang === 'de' && voicesT[0]) {
         translation.voice = voicesT[0];
       } else {
@@ -181,7 +181,7 @@ export const speakTranslation = ({
       setTimeout(() => {
         speech.speak(translation);
         speech.speak(message);
-      }, messageParts[currentIndex - 1].length * 80);
+      }, messageParts[currentIndex - 1].length * 50);
     }
   };
 
