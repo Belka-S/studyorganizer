@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { TiStar } from 'react-icons/ti';
-import { FaCheck } from 'react-icons/fa';
+import { FaCheck, FaExternalLinkAlt } from 'react-icons/fa';
 import { FiEdit3, FiTrash2 } from 'react-icons/fi';
 import { MdOutlineTextIncrease } from 'react-icons/md';
 
@@ -14,6 +14,7 @@ import { updateElementThunk } from 'store/element/elementThunks';
 import { setElementTrash, setActiveElement } from 'store/element/elementSlice';
 
 import Element from './Element/Element';
+import ElEditForm from './Element/ElEditForm';
 import {
   Li,
   LabelFavorite,
@@ -21,9 +22,18 @@ import {
   TrashBtn,
   EditBtn,
 } from './LiElement.styled';
-import ElEditForm from './Element/ElEditForm';
+import { TranslateBtn } from './Element/Element.styled';
 
-const LiElement = ({ el, sortByDate, setSortByDate, liColor, setLiColor }) => {
+const LiElement = ({
+  el,
+  index,
+  length,
+  sortByDate,
+  setSortByDate,
+  translateAll,
+  liColor,
+  setLiColor,
+}) => {
   const dispatch = useDispatch();
   const { elementTrash, activeElement } = useElements();
   const [isForm, setIsForm] = useState(false);
@@ -98,6 +108,12 @@ const LiElement = ({ el, sortByDate, setSortByDate, liColor, setLiColor }) => {
           />
           <FaCheck size="15px" />
         </LabelChecked>
+
+        {isForm && length === index + 1 && (
+          <TranslateBtn onClick={translateAll}>
+            <FaExternalLinkAlt size="16px" />
+          </TranslateBtn>
+        )}
       </FlexWrap>
 
       {isForm && (
@@ -140,8 +156,11 @@ export default LiElement;
 
 LiElement.propTypes = {
   el: PropTypes.object,
+  index: PropTypes.string,
+  length: PropTypes.string,
   sortByDate: PropTypes.bool,
   setSortByDate: PropTypes.func,
+  translateAll: PropTypes.func,
   liColor: PropTypes.string,
   setLiColor: PropTypes.func,
 };

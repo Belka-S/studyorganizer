@@ -60,6 +60,7 @@ export const Li = styled.li`
 // input label
 
 const baseLabelStyle = css`
+  min-height: 19px;
   width: 100%;
   display: flex;
   align-items: center;

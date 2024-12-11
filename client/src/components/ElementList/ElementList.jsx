@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { useClusters, useElements } from 'utils/hooks';
-import { fetchElementsThunk } from 'store/element/elementThunks';
+import { useAuth, useClusters, useElements } from 'utils/hooks';
+import { translateText } from 'utils/helpers';
+import {
+  fetchElementsThunk,
+  updateElementThunk,
+} from 'store/element/elementThunks';
 import ElementLangBar from 'components/ElementBars/ElementLangBar';
 import { themes } from 'styles/themes';
 
@@ -13,6 +17,7 @@ const { white } = themes.colors;
 
 const ElementList = () => {
   const dispatch = useDispatch();
+  const { user } = useAuth();
   const { activeCluster } = useClusters();
   const { allElements, elementTrash, elementFilter } = useElements();
 
@@ -65,14 +70,32 @@ const ElementList = () => {
         : (a, b) => a.createdAt.localeCompare(b.createdAt),
     );
 
+  const translateAll = async () => {
+    const lang = user.lang;
+    let counter = 0;
+    await filtredElements.forEach(async el => {
+      if (counter > 1) return;
+      const { _id, element } = el;
+      if (!element.startsWith('[') || lang !== el.lang) {
+        const translation = { from: activeCluster.lang, to: lang };
+        const caption = await translateText(element, translation);
+        dispatch(updateElementThunk({ _id, lang, caption }));
+        counter = counter + 1;
+      }
+    });
+  };
+
   return (
     <List>
-      {filtredElements.map(element => (
+      {filtredElements.map((element, index, arr) => (
         <LiElement
           key={element._id}
           el={element}
+          index={index}
+          length={arr.length}
           sortByDate={sortByDate}
           setSortByDate={setSortByDate}
+          translateAll={translateAll}
           liColor={liColor}
           setLiColor={setLiColor}
         />
