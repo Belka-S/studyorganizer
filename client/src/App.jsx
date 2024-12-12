@@ -32,10 +32,9 @@ const App = () => {
       {!(isRefreshing || isLoading) && (
         <Routes>
           <Route path="/" element={<SharedLayout />}>
-            <Route index element={<SigninPage />} />
             <Route element={<PublicRoutes />}>
+              <Route index element={<SigninPage />} />
               <Route path="signup" element={<SignupPage />} />
-              <Route path="signin" element={<SigninPage />} />
               <Route path="reset" element={<ForgotPage />} />
               <Route path="google" element={<GooglePage />} />
             </Route>
