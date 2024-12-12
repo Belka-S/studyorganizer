@@ -123,10 +123,9 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
 
       if (!element.startsWith('[')) {
         textString +=
-          setPauseDivider(element, divider) + `@±@${lang}` + caption + divider;
+          setPauseDivider(element, '') + `@±@${lang}` + caption + divider;
       }
     }
-
     const msg = speakTranslation({
       setLiColor,
       divider,

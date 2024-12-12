@@ -174,6 +174,7 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
     currentIndex += 1;
     if (currentIndex < messageParts.length) {
       const currentMsg = messageParts[currentIndex];
+      console.log('currentMsg: ', currentMsg);
       const transLang = currentMsg.split('@±@')[1].substring(0, 2);
       const voicesT = speech
         .getVoices()
@@ -186,7 +187,7 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
         translation.voice = voicesT[0];
       }
       message.text = currentMsg.split('@±@')[0];
-      translation.text = currentMsg.split('@±@')[1].substring(2);
+      translation.text = currentMsg.split('@±@')[1]?.substring(2);
 
       setTimeout(() => {
         speech.speak(translation);
