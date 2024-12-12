@@ -36,13 +36,16 @@ export const Li = styled.li`
     & div button {
       transition: color 250ms;
       color: ${colors.smokeBlack};
+      &:hover {
+        color: ${colors.hovered};
+      }
     }
   }
 
   & div button {
     transition: color 250ms;
     &:hover {
-      color: ${colors.smokeBlack};
+      color: ${colors.hovered};
     }
   }
 

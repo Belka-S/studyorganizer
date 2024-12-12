@@ -19,17 +19,30 @@ const markAsRead = (message, nextMessage) => {
       const activeEl = el.closest('li');
       const prevActiveEl = activeEl?.previousElementSibling;
       const prePrevActiveEl = prevActiveEl?.previousElementSibling;
-
+      // element styles
       if (el.nextElementSibling && el.nextElementSibling.nextElementSibling) {
         el.parentElement.style.display = 'block';
         el.nextElementSibling.style.display = 'none';
         el.nextElementSibling.nextElementSibling.style.display = 'none';
       }
+      // caption styles
+      if (
+        el.previousElementSibling &&
+        el.previousElementSibling.previousElementSibling
+      ) {
+        el.parentElement.style.display = 'block';
+        el.previousElementSibling.style.display = 'none';
+        el.previousElementSibling.previousElementSibling.style.display = 'none';
+      }
+      // restore styles
       if (prevActiveEl) {
         activeEl.style.backgroundColor = null;
         prevActiveEl.style.backgroundColor = null;
-        prevActiveEl.querySelector('button').style.color = null;
-        prevActiveEl.querySelector('button').style.fontSize = null;
+        prevActiveEl.querySelectorAll('button')[0].style.color = null;
+        prevActiveEl.querySelectorAll('button')[0].style.fontSize = null;
+        prevActiveEl.querySelectorAll('button')[0].style.display = null;
+        prevActiveEl.querySelectorAll('button')[1].style.color = null;
+        prevActiveEl.querySelectorAll('button')[1].style.fontSize = null;
         prevActiveEl.querySelectorAll('button')[1].style.display = null;
         prevActiveEl.querySelectorAll('div')[1].style.display = 'grid';
         prevActiveEl.querySelectorAll('div')[2].style.display = null;
@@ -79,6 +92,7 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
   let currentIndex = 0;
   const message = new SpeechSynthesisUtterance();
   const voices = speech.getVoices().filter(el => el.lang.includes(lang));
+  const timeout = lang.includes('de') ? 120 : 80;
 
   if (!voices[0]) return `No ${lang.toUpperCase()} voice available`;
   if (lang === 'en' && voices[4]) {
@@ -105,7 +119,7 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
 
       setTimeout(() => {
         speech.speak(message);
-      }, messageParts[currentIndex - 1].length * 120);
+      }, messageParts[currentIndex - 1].length * timeout);
     }
     if (currentIndex === messageParts.length) {
       setLiColor(white);

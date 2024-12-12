@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import GdriveSearchBar from 'components/GdriveBars/GdriveSearchBar';
@@ -20,6 +21,10 @@ const Header = ({ $height, barW, setBarW }) => {
   const { isLoggedIn } = useAuth();
   const { activeCluster: ac } = useClusters();
   const { activeFile: af } = useGdrive();
+
+  useEffect(() => {
+    isLoggedIn ? setBarW('18%') : setBarW('45%');
+  }, [isLoggedIn, setBarW]);
 
   const scrollOnTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });

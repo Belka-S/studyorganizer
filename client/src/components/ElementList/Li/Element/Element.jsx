@@ -11,29 +11,29 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
   const { activeCluster } = useClusters();
   const { element, caption } = el;
 
-  const speakElement = e => {
+  const divider = '$*@';
+  const getTextString = (text, divider) => {
     let textString = '';
-    const divider = '$*@';
-
+    if (!divider) return text;
     if (
-      element.trim().endsWith('.') ||
-      element.trim().endsWith('!') ||
-      element.trim().endsWith('?') ||
-      element.endsWith('"')
+      text.trim().endsWith('.') ||
+      text.trim().endsWith('!') ||
+      text.trim().endsWith('?') ||
+      text.endsWith('"')
     ) {
-      textString = element
+      textString = text
         .trim()
-
+        // dividers
         .replaceAll(',`', ';')
         .replaceAll(' `', ` ${divider}`)
-
+        // punctuation
         .replaceAll('...', `__${divider}`)
         .replaceAll('.', `.${divider}`)
         .replaceAll(',', `,${divider}`)
         .replaceAll('!', `!${divider}`)
         .replaceAll('?', `?${divider}`)
         .replaceAll(':', `:${divider}`)
-
+        // numbers
         .replaceAll(`0.${divider}`, '0.')
         .replaceAll(`1.${divider}`, '1.')
         .replaceAll(`2.${divider}`, '2.')
@@ -43,35 +43,38 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
         .replaceAll(`6.${divider}`, '6.')
         .replaceAll(`7.${divider}`, '7.')
         .replaceAll(`8.${divider}`, '8.')
-        .replaceAll(`9.${divider}`, '9.');
-      // .replaceAll(`,${divider} oder?`, ', oder?') // .replaceAll(`,${divider} bitte.`, ', bitte.')  // .replaceAll(`,${divider} danke.`, ', danke.');
+        .replaceAll(`9.${divider}`, '9.')
+        // abbreviations
+        .replaceAll(`Mr.${divider}`, 'mister')
+        .replaceAll(`Ms.${divider}`, 'miss')
+        .replaceAll(`Mrs.${divider}`, 'missis');
     } else {
-      textString = element.trim() + divider;
+      textString = text.trim() + divider;
     }
-
+    return !textString.includes('[')
+      ? textString
+      : textString.substring(0, textString.indexOf('['));
+  };
+  const speakElement = e => {
     const msg = speakText({
       setLiColor,
       divider,
-      text: textString,
+      text: getTextString(element, divider),
       lang: activeCluster.lang,
       rate: activeCluster.rate,
     });
-
     e.target.blur();
     msg && toast.error(msg);
   };
-
-  const speakCaption = () => {
-    const captionText = caption.includes('[')
-      ? caption.substring(0, caption.indexOf('['))
-      : caption;
-
+  const speakCaption = e => {
     const msg = speakText({
       setLiColor,
-      text: captionText,
+      divider,
+      text: getTextString(caption, divider),
       lang: el.lang,
       rate: user.rate,
     });
+    e.target.blur();
     msg && toast.error(msg);
   };
 
