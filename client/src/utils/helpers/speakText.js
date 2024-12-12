@@ -10,8 +10,8 @@ const markAsRead = (message, nextMessage) => {
         el.innerText
           .trim()
           .replaceAll('...', '__')
-          .replaceAll(' `', ' ')
           .replaceAll(',`', ';')
+          .replaceAll(' `', ' ')
           .includes(nextMessage ? message.text + nextMessage : message.text))
     ) {
       const activeEl = el.closest('li');
@@ -174,7 +174,7 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
     currentIndex += 1;
     if (currentIndex < messageParts.length) {
       const currentMsg = messageParts[currentIndex];
-      console.log('currentMsg: ', currentMsg);
+      // console.log('currentMsg: ', currentMsg);
       const transLang = currentMsg.split('@±@')[1].substring(0, 2);
       const voicesT = speech
         .getVoices()

@@ -72,7 +72,7 @@ const ElementEditForm = ({ el, article, isForm, setIsForm }) => {
 
   const onSubmit = data => {
     const lang = user.lang;
-    let element = data.element.trim();
+    let element = data.element.split(/\s+/).join(' ').trim();
     let caption = data.caption.trim();
     if (element.endsWith(',')) {
       element = element.substring(0, element.length - 1);
