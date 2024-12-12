@@ -49,6 +49,8 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
     formData.append('rate', value);
     dispatch(updateUserThunk(formData));
   };
+  const setPauseDivider = (text, divider) =>
+    text.replaceAll(',`', ';').replaceAll(' `', ` ${divider}`);
 
   const playFiltred = e => {
     setLiColor(background);
@@ -67,17 +69,15 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
         element.endsWith('?') ||
         element.endsWith('"')
       ) {
-        textString += element
-          .replaceAll(',`', ';')
-          .replaceAll(' `', ` ${divider}`)
-
+        textString += setPauseDivider(element, divider)
+          // punctuation
           .replaceAll('...', `__${divider}`)
           .replaceAll('.', `.${divider}`)
           .replaceAll(',', `,${divider}`)
           .replaceAll('!', `!${divider}`)
           .replaceAll('?', `?${divider}`)
           .replaceAll(':', `:${divider}`)
-
+          // numbers
           .replaceAll(`0.${divider}`, '0.')
           .replaceAll(`1.${divider}`, '1.')
           .replaceAll(`2.${divider}`, '2.')
@@ -88,10 +88,10 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
           .replaceAll(`7.${divider}`, '7.')
           .replaceAll(`8.${divider}`, '8.')
           .replaceAll(`9.${divider}`, '9.')
-
-          .replaceAll(`,${divider} oder?`, ', oder?')
-          .replaceAll(`,${divider} bitte.`, ', bitte.')
-          .replaceAll(`,${divider} danke.`, ', danke.');
+          // abbreviations
+          .replaceAll(`Mr.${divider}`, 'mister')
+          .replaceAll(`Ms.${divider}`, 'miss')
+          .replaceAll(`Mrs.${divider}`, 'missis');
       } else if (!element.startsWith('[')) {
         textString += element.replaceAll('.', divider) + divider;
       }
@@ -120,8 +120,10 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
 
     for (let i = 0; i < playList.length; i += 1) {
       const { element, caption, lang } = playList[i];
+
       if (!element.startsWith('[')) {
-        textString += element + `@±@${lang}` + caption + divider;
+        textString +=
+          setPauseDivider(element, divider) + `@±@${lang}` + caption + divider;
       }
     }
 

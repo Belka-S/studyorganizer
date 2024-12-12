@@ -12,20 +12,22 @@ const markAsRead = (message, nextMessage) => {
           .replaceAll('...', '__')
           .replaceAll(' `', ' ')
           .replaceAll(',`', ';')
-          .includes(message.text + nextMessage))
+          .includes(nextMessage ? message.text + nextMessage : message.text))
     ) {
-      el.style.color = black;
-      el.style.fontSize = '32px';
       const activeEl = el.closest('li');
       const prevActiveEl = activeEl?.previousElementSibling;
       const prePrevActiveEl = prevActiveEl?.previousElementSibling;
-      // element styles
-      if (el.nextElementSibling && el.nextElementSibling.nextElementSibling) {
-        el.parentElement.style.display = 'block';
-        el.nextElementSibling.style.display = 'none';
-        el.nextElementSibling.nextElementSibling.style.display = 'none';
+      if (message.text) {
+        el.style.color = black; // console.log('markAsRead: ', message.text);
+        el.style.fontSize = '32px';
+        // set element styles
+        if (el.nextElementSibling && el.nextElementSibling.nextElementSibling) {
+          el.parentElement.style.display = 'block';
+          el.nextElementSibling.style.display = 'none';
+          el.nextElementSibling.nextElementSibling.style.display = 'none';
+        }
       }
-      // caption styles
+      // set caption styles
       if (
         el.previousElementSibling &&
         el.previousElementSibling.previousElementSibling
@@ -134,13 +136,7 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
   }
 };
 
-export const speakTranslation = ({
-  text,
-  lang,
-  rate = 1,
-  divider,
-  setLiColor,
-}) => {
+export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
   const speech = window.speechSynthesis;
   const messageParts = text.split(divider);
   let currentIndex = 0;
@@ -174,7 +170,7 @@ export const speakTranslation = ({
   translation.text = currentMsg.split('@±@')[1].substring(2);
   // divide message + translation on parts
   message.onend = () => {
-    markAsRead(message);
+    markAsRead(message); // console.log('onend: ', message.text);
     currentIndex += 1;
     if (currentIndex < messageParts.length) {
       const currentMsg = messageParts[currentIndex];
