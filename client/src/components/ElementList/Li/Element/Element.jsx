@@ -25,7 +25,11 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
         .trim()
         // dividers
         .replaceAll(',`', ';')
-        .replaceAll(' `', ` ${divider}`)
+        .replaceAll(' `', `${divider} `)
+        // abbreviations
+        .replaceAll('Mr.', 'mister')
+        .replaceAll('Ms.', 'miss')
+        .replaceAll('Mrs.', 'missis')
         // punctuation
         .replaceAll('...', `__${divider}`)
         .replaceAll('.', `.${divider}`)
@@ -43,11 +47,7 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
         .replaceAll(`6.${divider}`, '6.')
         .replaceAll(`7.${divider}`, '7.')
         .replaceAll(`8.${divider}`, '8.')
-        .replaceAll(`9.${divider}`, '9.')
-        // abbreviations
-        .replaceAll(`Mr.${divider}`, 'mister')
-        .replaceAll(`Ms.${divider}`, 'miss')
-        .replaceAll(`Mrs.${divider}`, 'missis');
+        .replaceAll(`9.${divider}`, '9.');
     } else {
       textString = text.trim() + divider;
     }

@@ -50,7 +50,7 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
     dispatch(updateUserThunk(formData));
   };
   const setPauseDivider = (text, divider) =>
-    text.replaceAll(',`', ';').replaceAll(' `', ` ${divider}`);
+    text.replaceAll(',`', ';').replaceAll(' `', `${divider} `);
 
   const playFiltred = e => {
     setLiColor(background);
@@ -70,6 +70,10 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
         element.endsWith('"')
       ) {
         textString += setPauseDivider(element, divider)
+          // abbreviations
+          .replaceAll('Mr.', 'mister')
+          .replaceAll('Ms.', 'miss')
+          .replaceAll('Mrs.', 'missis')
           // punctuation
           .replaceAll('...', `__${divider}`)
           .replaceAll('.', `.${divider}`)
@@ -87,11 +91,7 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
           .replaceAll(`6.${divider}`, '6.')
           .replaceAll(`7.${divider}`, '7.')
           .replaceAll(`8.${divider}`, '8.')
-          .replaceAll(`9.${divider}`, '9.')
-          // abbreviations
-          .replaceAll(`Mr.${divider}`, 'mister')
-          .replaceAll(`Ms.${divider}`, 'miss')
-          .replaceAll(`Mrs.${divider}`, 'missis');
+          .replaceAll(`9.${divider}`, '9.');
       } else if (!element.startsWith('[')) {
         textString += element.replaceAll('.', divider) + divider;
       }

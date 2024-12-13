@@ -1,39 +1,38 @@
 import { themes } from 'styles/themes';
 
-const { white, black, lightYellow, background } = themes.colors;
+const { white, black, smokeBlack, lightYellow, background } = themes.colors;
 
-const markAsRead = (message, nextMessage) => {
+const markAsRead = (currentMessage, nextMessage) => {
   document.querySelectorAll('button').forEach(el => {
-    // console.log(message.text);
+    const elText = el.innerText
+      .trim()
+      .replaceAll('...', '__')
+      .replaceAll(',`', ';')
+      .replaceAll('`', '')
+      .replaceAll('Mr.', 'mister')
+      .replaceAll('Ms.', 'miss')
+      .replaceAll('Mrs.', 'missis');
     if (
-      el.innerText.trim().replaceAll(',`', ';') === message.text.trim() ||
-      (message.text.includes(' ') &&
-        el.innerText
-          .trim()
-          .replaceAll('...', '__')
-          .replaceAll(',`', ';')
-          .replaceAll(' `', ' ')
-          .replaceAll('Mr.', 'mister')
-          .replaceAll('Ms.', 'miss')
-          .replaceAll('Mrs.', 'missis')
-          .includes(nextMessage ? message.text + nextMessage : message.text))
+      elText.endsWith(currentMessage) ||
+      elText.includes(currentMessage + nextMessage)
     ) {
       const activeEl = el.closest('li'); // console.log('activeEl: ', activeEl);
       const prevActiveEl = activeEl?.previousElementSibling;
       const prePrevActiveEl = prevActiveEl?.previousElementSibling;
-      if (message.text) {
-        el.style.color = black; // console.log('markAsRead: ', message.text);
+      if (activeEl?.innerText.includes(currentMessage)) {
+        el.style.color = black; // console.log('markAsRead: ', currentMessage);
         el.style.fontSize = '32px';
-
         // set lightened text
-        if (message && message.text.startsWith(' ') && nextMessage) {
+        if (currentMessage?.startsWith(' ') || nextMessage?.startsWith(' ')) {
           el.style.display = 'inline';
-          const lightenedText = `<span style="background-color: ${lightYellow}; border-radius: 3px;">${message.text} </span>`;
+          const lightenedEl = `<span style="color: ${smokeBlack}; background-color: ${lightYellow}; border-radius: 4px;">${currentMessage} </span>`;
           el.innerHTML = el.innerText
+            .replaceAll(',`', ';')
+            .replaceAll(' `', ' ')
             .replaceAll('Mr.', 'mister')
             .replaceAll('Ms.', 'miss')
             .replaceAll('Mrs.', 'missis')
-            .replace(message.text, lightenedText);
+            .replace(currentMessage, lightenedEl);
         }
         // set element styles
         if (el.nextElementSibling && el.nextElementSibling.nextElementSibling) {
@@ -89,7 +88,7 @@ const markAsRead = (message, nextMessage) => {
           behavior: 'smooth',
         });
       };
-      if (message.text) {
+      if (currentMessage) {
         activeEl.style.backgroundColor = white;
         scrollOnActive();
       }
@@ -139,7 +138,7 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
   message.onend = () => {
     setLiColor(background); // console.log('onend: ', message.text);
     if (messageParts.length !== 1) {
-      markAsRead(message, messageParts[currentIndex + 1]);
+      markAsRead(message.text, messageParts[currentIndex + 1]);
     }
     currentIndex += 1;
     if (currentIndex < messageParts.length) {
@@ -196,7 +195,7 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
   translation.text = currentMsg.split('@±@')[1].substring(2);
   // divide message + translation on parts
   message.onend = () => {
-    markAsRead(message); // console.log('onend: ', message.text);
+    markAsRead(message.text); // console.log('onend: ', message.text);
     currentIndex += 1;
     if (currentIndex < messageParts.length) {
       const currentMsg = messageParts[currentIndex];
