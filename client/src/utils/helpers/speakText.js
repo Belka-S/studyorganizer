@@ -1,9 +1,10 @@
 import { themes } from 'styles/themes';
 
-const { white, black, background } = themes.colors;
+const { white, black, lightYellow, background } = themes.colors;
 
 const markAsRead = (message, nextMessage) => {
   document.querySelectorAll('button').forEach(el => {
+    // console.log(message.text);
     if (
       el.innerText.trim().replaceAll(',`', ';') === message.text.trim() ||
       (message.text.includes(' ') &&
@@ -12,49 +13,73 @@ const markAsRead = (message, nextMessage) => {
           .replaceAll('...', '__')
           .replaceAll(',`', ';')
           .replaceAll(' `', ' ')
+          .replaceAll('Mr.', 'mister')
+          .replaceAll('Ms.', 'miss')
+          .replaceAll('Mrs.', 'missis')
           .includes(nextMessage ? message.text + nextMessage : message.text))
     ) {
-      const activeEl = el.closest('li');
+      const activeEl = el.closest('li'); // console.log('activeEl: ', activeEl);
       const prevActiveEl = activeEl?.previousElementSibling;
       const prePrevActiveEl = prevActiveEl?.previousElementSibling;
       if (message.text) {
         el.style.color = black; // console.log('markAsRead: ', message.text);
         el.style.fontSize = '32px';
+
+        // set lightened text
+        if (message && message.text.startsWith(' ') && nextMessage) {
+          el.style.display = 'inline';
+          const lightenedText = `<span style="background-color: ${lightYellow}; border-radius: 3px;">${message.text} </span>`;
+          el.innerHTML = el.innerText
+            .replaceAll('Mr.', 'mister')
+            .replaceAll('Ms.', 'miss')
+            .replaceAll('Mrs.', 'missis')
+            .replace(message.text, lightenedText);
+        }
         // set element styles
         if (el.nextElementSibling && el.nextElementSibling.nextElementSibling) {
           el.parentElement.style.display = 'block';
           el.nextElementSibling.style.display = 'none';
           el.nextElementSibling.nextElementSibling.style.display = 'none';
         }
-      }
-      // set caption styles
-      if (
-        el.previousElementSibling &&
-        el.previousElementSibling.previousElementSibling
-      ) {
-        el.parentElement.style.display = 'block';
-        el.previousElementSibling.style.display = 'none';
-        el.previousElementSibling.previousElementSibling.style.display = 'none';
+        // set caption styles
+        if (
+          el.previousElementSibling &&
+          el.previousElementSibling.previousElementSibling
+        ) {
+          el.parentElement.style.display = 'block';
+          el.previousElementSibling.style.display = 'none';
+          el.previousElementSibling.previousElementSibling.style.display =
+            'none';
+        }
       }
       // restore styles
       if (prevActiveEl) {
-        activeEl.style.backgroundColor = null;
         prevActiveEl.style.backgroundColor = null;
         prevActiveEl.querySelectorAll('button')[0].style.color = null;
         prevActiveEl.querySelectorAll('button')[0].style.fontSize = null;
         prevActiveEl.querySelectorAll('button')[0].style.display = null;
+        prevActiveEl.querySelectorAll('button')[0].innerHTML =
+          prevActiveEl.querySelectorAll('button')[0].innerText;
         prevActiveEl.querySelectorAll('button')[1].style.color = null;
         prevActiveEl.querySelectorAll('button')[1].style.fontSize = null;
         prevActiveEl.querySelectorAll('button')[1].style.display = null;
+        prevActiveEl.querySelectorAll('button')[1].innerHTML =
+          prevActiveEl.querySelectorAll('button')[1].innerText;
         prevActiveEl.querySelectorAll('div')[1].style.display = 'grid';
         prevActiveEl.querySelectorAll('div')[2].style.display = null;
       }
       if (prePrevActiveEl) {
-        activeEl.style.backgroundColor = null;
         prePrevActiveEl.style.backgroundColor = null;
-        prevActiveEl.querySelector('button').style.color = null;
-        prePrevActiveEl.querySelector('button').style.fontSize = null;
+        prePrevActiveEl.querySelectorAll('button')[0].style.color = null;
+        prePrevActiveEl.querySelectorAll('button')[0].style.fontSize = null;
+        prePrevActiveEl.querySelectorAll('button')[0].style.display = null;
+        prePrevActiveEl.querySelectorAll('button')[0].innerHTML =
+          prePrevActiveEl.querySelectorAll('button')[0].innerText;
+        prePrevActiveEl.querySelectorAll('button')[1].style.color = null;
+        prePrevActiveEl.querySelectorAll('button')[1].style.fontSize = null;
         prePrevActiveEl.querySelectorAll('button')[1].style.display = null;
+        prePrevActiveEl.querySelectorAll('button')[1].innerHTML =
+          prePrevActiveEl.querySelectorAll('button')[1].innerText;
         prePrevActiveEl.querySelectorAll('div')[1].style.display = 'grid';
         prePrevActiveEl.querySelectorAll('div')[2].style.display = null;
       }
@@ -68,6 +93,7 @@ const markAsRead = (message, nextMessage) => {
         activeEl.style.backgroundColor = white;
         scrollOnActive();
       }
+      return activeEl;
     }
   });
 };
@@ -111,7 +137,7 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
 
   // divide message on parts
   message.onend = () => {
-    setLiColor(background);
+    setLiColor(background); // console.log('onend: ', message.text);
     if (messageParts.length !== 1) {
       markAsRead(message, messageParts[currentIndex + 1]);
     }
@@ -174,7 +200,6 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
     currentIndex += 1;
     if (currentIndex < messageParts.length) {
       const currentMsg = messageParts[currentIndex];
-      // console.log('currentMsg: ', currentMsg);
       const transLang = currentMsg.split('@±@')[1].substring(0, 2);
       const voicesT = speech
         .getVoices()

@@ -9,6 +9,7 @@ export const themes = Object.freeze({
     smokeBlack: '#0a0a0a',
     white: '#FFFFFF',
     yellow: '#f3cf00',
+    lightYellow: '#fff7c7',
 
     accent: '#2374ef',
     hovered: '#1f68d7',
