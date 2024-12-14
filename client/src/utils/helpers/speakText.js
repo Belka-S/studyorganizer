@@ -59,7 +59,7 @@ const markAsRead = (current, next) => {
         prevActiveEl.querySelectorAll('button')[1].style.display = null;
         prevActiveEl.querySelectorAll('button')[1].innerHTML =
           prevActiveEl.querySelectorAll('button')[1].innerText;
-        prevActiveEl.querySelectorAll('div')[1].style.display = 'grid';
+        prevActiveEl.querySelectorAll('div')[1].style.display = null;
         prevActiveEl.querySelectorAll('div')[2].style.display = null;
       }
       if (prePrevActiveEl) {
@@ -74,7 +74,7 @@ const markAsRead = (current, next) => {
         prePrevActiveEl.querySelectorAll('button')[1].style.display = null;
         prePrevActiveEl.querySelectorAll('button')[1].innerHTML =
           prePrevActiveEl.querySelectorAll('button')[1].innerText;
-        prePrevActiveEl.querySelectorAll('div')[1].style.display = 'grid';
+        prePrevActiveEl.querySelectorAll('div')[1].style.display = null;
         prePrevActiveEl.querySelectorAll('div')[2].style.display = null;
       }
       const scrollOnActive = () => {
@@ -90,6 +90,14 @@ const markAsRead = (current, next) => {
       return activeEl;
     }
   });
+};
+
+const refreshPlaylist = () => {
+  const elementList = document.querySelector('ul');
+  const styledBtn = elementList.querySelectorAll('button');
+  styledBtn.forEach(el => el.removeAttribute('style'));
+  const styledDiv = elementList.querySelectorAll('div');
+  styledDiv.forEach(el => el.removeAttribute('style'));
 };
 
 export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
@@ -131,8 +139,10 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
 
   // divide message on parts
   message.onend = () => {
-    setLiColor(background); // console.log('onend: ', message.text);
-    if (messageParts.length !== 1) {
+    setLiColor(background);
+    if (currentIndex === messageParts.length - 1) {
+      refreshPlaylist();
+    } else if (messageParts.length !== 1) {
       markAsRead(message.text, messageParts[currentIndex + 1]);
     }
     currentIndex += 1;
@@ -158,7 +168,8 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
 
 export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
   const speech = window.speechSynthesis;
-  const messageParts = text.split(divider);
+  const messageParts = text.split(divider); // .substring(0, text.length - divider.length)
+
   let currentIndex = 0;
   const currentMsg = messageParts[currentIndex];
   const transLang = currentMsg.split('@±@')[1].substring(0, 2);
@@ -190,11 +201,11 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
   translation.text = currentMsg.split('@±@')[1].substring(2);
   // divide message + translation on parts
   message.onend = () => {
-    markAsRead(message.text); // console.log('onend: ', message.text);
+    markAsRead(message.text);
     currentIndex += 1;
     if (currentIndex < messageParts.length) {
       const currentMsg = messageParts[currentIndex];
-      const transLang = currentMsg.split('@±@')[1].substring(0, 2);
+      const transLang = currentMsg.split('@±@')[1]?.substring(0, 2);
       const voicesT = speech
         .getVoices()
         .filter(el => el.lang.includes(transLang));
@@ -212,6 +223,10 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
         speech.speak(translation);
         speech.speak(message);
       }, messageParts[currentIndex - 1].length * 50);
+    }
+    if (currentIndex === messageParts.length) {
+      setLiColor(white);
+      refreshPlaylist();
     }
   };
 
