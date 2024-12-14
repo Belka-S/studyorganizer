@@ -220,7 +220,7 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
       translation.text = currentMsg.split('@±@')[1]?.substring(2);
 
       setTimeout(() => {
-        speech.speak(translation);
+        if (currentIndex < messageParts.length - 1) speech.speak(translation);
         speech.speak(message);
       }, messageParts[currentIndex - 1].length * 50);
     }
