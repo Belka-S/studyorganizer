@@ -18,7 +18,6 @@ export const Button = styled.div`
     transition: stroke 250ms;
     stroke: ${colors.placeholder};
     /* stroke: ${({ $colored }) => $colored && colors.yellow}; */
-
     @keyframes refresh-spin {
       from {
         transform: rotate(0deg);

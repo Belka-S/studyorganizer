@@ -1,27 +1,18 @@
-import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import { FiRefreshCcw } from 'react-icons/fi';
-
-import { setActiveElement } from 'store/element/elementSlice';
 
 import { Button } from './RefreshBtn.styled';
 
-const RefreshBtn = () => {
-  const dispatch = useDispatch();
-
-  const refreshPlaylist = () => {
-    const styled = document.querySelectorAll(
-      'button[style="font-size: 32px;"]',
-    );
-
-    styled.forEach(el => el.removeAttribute('style'));
-    dispatch(setActiveElement(null));
-  };
-
+const RefreshBtn = ({ onClick }) => {
   return (
-    <Button onClick={refreshPlaylist}>
+    <Button onClick={onClick}>
       <FiRefreshCcw size="26px" />
     </Button>
   );
 };
 
 export default RefreshBtn;
+
+RefreshBtn.propTypes = {
+  onClick: PropTypes.func,
+};

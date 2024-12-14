@@ -49,27 +49,22 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
     formData.append('rate', value);
     dispatch(updateUserThunk(formData));
   };
-  const setPauseDivider = (text, divider) =>
-    text.replaceAll(',`', ';').replaceAll(' `', `${divider} `);
 
-  const playFiltred = e => {
-    setLiColor(background);
+  // playList
+  const setPauseDivider = (string, divider) =>
+    string.replaceAll(',`', ';').replaceAll(' `', `${divider} `);
+
+  const getTextString = ({ text, playList, divider }) => {
     let textString = '';
-    const divider = '$*@';
-    const index = filtredElements.findIndex(
-      item => item.element === activeElement,
-    );
-    const playList = filtredElements.splice(index === -1 ? 0 : index);
-
     for (let i = 0; i < playList.length; i += 1) {
-      const { element } = playList[i];
+      const part = playList[i][text];
       if (
-        element.endsWith('.') ||
-        element.endsWith('!') ||
-        element.endsWith('?') ||
-        element.endsWith('"')
+        part.endsWith('.') ||
+        part.endsWith('!') ||
+        part.endsWith('?') ||
+        part.endsWith('"')
       ) {
-        textString += setPauseDivider(element, divider)
+        textString += setPauseDivider(part, divider)
           // abbreviations
           .replaceAll('Mr.', 'mister')
           .replaceAll('Ms.', 'miss')
@@ -92,17 +87,47 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
           .replaceAll(`7.${divider}`, '7.')
           .replaceAll(`8.${divider}`, '8.')
           .replaceAll(`9.${divider}`, '9.');
-      } else if (!element.startsWith('[')) {
-        textString += element.replaceAll('.', divider) + divider;
+      } else if (!playList[i].element.startsWith('[')) {
+        textString += part.replaceAll('.', divider) + divider;
       }
     }
+    return textString;
+  };
+
+  const playElements = e => {
+    setLiColor(background);
+    const index = filtredElements.findIndex(
+      item => item.element === activeElement,
+    );
+    const playList = filtredElements.splice(index === -1 ? 0 : index);
+    const divider = '$*@';
 
     const msg = speakText({
       setLiColor,
       divider,
-      text: textString,
+      text: getTextString({ text: 'element', playList, divider }),
       lang: ac.lang,
       rate: ac.rate,
+    });
+
+    e.target.blur();
+    msg && toast.error(msg);
+  };
+
+  const playCaptions = e => {
+    setLiColor(background);
+    const index = filtredElements.findIndex(
+      item => item.element === activeElement,
+    );
+    const playList = filtredElements.splice(index === -1 ? 0 : index);
+    const divider = '$*@';
+
+    const msg = speakText({
+      setLiColor,
+      divider,
+      text: getTextString({ text: 'caption', playList, divider }),
+      lang: user.lang,
+      rate: user.rate,
     });
 
     e.target.blur();
@@ -151,7 +176,7 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
       />
       <Select
         options={rateValues}
-        defaultValue={rateValues.find(el => el.value == ac?.rate)}
+        defaultValue={rateValues.find(el => el.value === ac?.rate)}
         onChange={setClusterRate}
         placeholder="Rate..."
         $ol={backgroundHoverd}
@@ -159,14 +184,14 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
         $bh={borderLight}
       />
 
-      <Button onClick={playFiltred} $s="m" $bs={button}>
-        play
+      <Button onClick={playElements} $s="m" $bs={button}>
+        {ac?.lang.at(0).toUpperCase() + ac?.lang.substring(1)}
       </Button>
 
-      <RefreshBtn />
+      <RefreshBtn onClick={playTranslated} />
 
-      <Button onClick={playTranslated} $s="m" $bs={button}>
-        all
+      <Button onClick={playCaptions} $s="m" $bs={button}>
+        {user.lang.at(0).toUpperCase() + user.lang.substring(1)}
       </Button>
 
       <Select
@@ -179,7 +204,7 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
       />
       <Select
         options={rateValues}
-        defaultValue={rateValues.find(el => el.value == user.rate)}
+        defaultValue={rateValues.find(el => el.value === user.rate)}
         onChange={setUserRate}
         $ol={backgroundHoverd}
         $b={white}

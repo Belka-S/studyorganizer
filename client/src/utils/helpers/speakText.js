@@ -2,37 +2,32 @@ import { themes } from 'styles/themes';
 
 const { white, black, smokeBlack, lightYellow, background } = themes.colors;
 
-const markAsRead = (currentMessage, nextMessage) => {
-  document.querySelectorAll('button').forEach(el => {
-    const elText = el.innerText
-      .trim()
-      .replaceAll('...', '__')
-      .replaceAll(',`', ';')
-      .replaceAll('`', '')
-      .replaceAll('Mr.', 'mister')
-      .replaceAll('Ms.', 'miss')
-      .replaceAll('Mrs.', 'missis');
-    if (
-      elText.endsWith(currentMessage) ||
-      elText.includes(currentMessage + nextMessage)
-    ) {
-      const activeEl = el.closest('li'); // console.log('activeEl: ', activeEl);
+const markAsRead = (current, next) => {
+  const normalizeMessage = message =>
+    message
+      ?.replaceAll('__', '...')
+      .replaceAll('missis', 'Mrs.')
+      .replaceAll('miss', 'Ms.')
+      .replaceAll('mister', 'Mr.');
+  const currentMsg = normalizeMessage(current);
+  const nextMsg = normalizeMessage(next);
+
+  const elementList = document.querySelector('ul');
+  elementList.querySelectorAll('button').forEach(el => {
+    const elText = el.innerText.replaceAll(',`', ';').replaceAll('`', '');
+
+    if (elText.endsWith(currentMsg) || elText.includes(currentMsg + nextMsg)) {
+      const activeEl = el.closest('li');
       const prevActiveEl = activeEl?.previousElementSibling;
       const prePrevActiveEl = prevActiveEl?.previousElementSibling;
-      if (activeEl?.innerText.includes(currentMessage)) {
-        el.style.color = black; // console.log('markAsRead: ', currentMessage);
+      if (activeEl?.innerText.includes(currentMsg)) {
+        el.style.color = black;
         el.style.fontSize = '32px';
         // set lightened text
-        if (currentMessage?.startsWith(' ') || nextMessage?.startsWith(' ')) {
+        if (currentMsg?.startsWith(' ') || nextMsg?.startsWith(' ')) {
           el.style.display = 'inline';
-          const lightenedEl = `<span style="color: ${smokeBlack}; background-color: ${lightYellow}; border-radius: 4px;">${currentMessage} </span>`;
-          el.innerHTML = el.innerText
-            .replaceAll(',`', ';')
-            .replaceAll(' `', ' ')
-            .replaceAll('Mr.', 'mister')
-            .replaceAll('Ms.', 'miss')
-            .replaceAll('Mrs.', 'missis')
-            .replace(currentMessage, lightenedEl);
+          const lightenedEl = `<span style="color: ${smokeBlack}; background-color: ${lightYellow}; border-radius: 4px;">${currentMsg} </span>`;
+          el.innerHTML = elText.replace(currentMsg, lightenedEl);
         }
         // set element styles
         if (el.nextElementSibling && el.nextElementSibling.nextElementSibling) {
@@ -88,7 +83,7 @@ const markAsRead = (currentMessage, nextMessage) => {
           behavior: 'smooth',
         });
       };
-      if (currentMessage) {
+      if (currentMsg) {
         activeEl.style.backgroundColor = white;
         scrollOnActive();
       }
