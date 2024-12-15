@@ -43,7 +43,9 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
     }
     return maxLang;
   };
-  const captionLang = getLanguage(filtredElements);
+  const captionLang = filtredElements.length
+    ? getLanguage(filtredElements)
+    : user.lang;
 
   const setClusterLang = ({ value }) => {
     dispatch(updateClusterThunk({ _id: ac._id, lang: value }))
@@ -214,7 +216,7 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
       <RefreshBtn onClick={playTranslated} />
 
       <Button onClick={playCaptions} $s="m" $bs={button}>
-        {captionLang.at(0).toUpperCase() + captionLang.substring(1)}
+        {captionLang?.at(0).toUpperCase() + captionLang?.substring(1)}
       </Button>
 
       <Select
