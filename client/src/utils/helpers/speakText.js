@@ -8,7 +8,14 @@ const markAsRead = (current, next) => {
       ?.replaceAll('__', '...')
       .replaceAll('missis', 'Mrs.')
       .replaceAll('miss', 'Ms.')
-      .replaceAll('mister', 'Mr.');
+      .replaceAll('mister', 'Mr.')
+      .replaceAll('@±@de', '')
+      .replaceAll('@±@en', '')
+      .replaceAll('@±@uk', '')
+      .replaceAll('@±@ru', '')
+      .replaceAll('@±@sp', '')
+      .replaceAll('@±@fr', '')
+      .replaceAll('@±@it', '');
   const currentMsg = normalizeMessage(current);
   const nextMsg = normalizeMessage(next);
 
@@ -107,22 +114,29 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
     const currentElLength = el.trim().split(' ').length;
     const nextElLength = arr[i + 1]?.trim().split(' ').length;
     if (
-      el.endsWith(',') &&
+      (el.endsWith(',') || el.includes(',@±@')) &&
       (currentElLength <= 4 ||
         nextElLength <= 4 ||
         currentElLength + nextElLength <= 12)
     ) {
-      arr.splice(i + 1, 1, el + arr[i + 1]);
+      arr.splice(i + 1, 1, el.substring(0, el.length - 5) + arr[i + 1]);
     } else {
       acc.push(el);
     }
     return acc;
   }, []);
-  console.log(messageParts);
 
   let currentIndex = 0;
   const message = new SpeechSynthesisUtterance();
-  const voices = speech.getVoices().filter(el => el.lang.includes(lang));
+  message.volume = 1; // 0 to 1
+  message.rate = rate; // 0.1 to 10
+  message.text = messageParts[0].split('@±@')[0];
+  const firstLangIdx = text.indexOf('@±@') + 3;
+  let messageLang = !text.includes('@±@')
+    ? lang
+    : text.substring(firstLangIdx, firstLangIdx + 2);
+  // message.pitch = 1; // 0 to 2
+  const voices = speech.getVoices().filter(el => el.lang.includes(messageLang));
   const timeout = lang.includes('de') ? 120 : 80;
 
   if (!voices[0]) return `No ${lang.toUpperCase()} voice available`;
@@ -133,10 +147,6 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
   } else {
     message.voice = voices[0];
   }
-  message.volume = 1; // 0 to 1
-  message.rate = rate; // 0.1 to 10
-  message.text = messageParts[0];
-  // message.pitch = 1; // 0 to 2
 
   // divide message on parts
   message.onend = () => {
@@ -148,7 +158,20 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
     }
     currentIndex += 1;
     if (currentIndex < messageParts.length) {
-      message.text = messageParts[currentIndex];
+      message.text = messageParts[currentIndex].split('@±@')[0];
+      if (messageParts[currentIndex].split('@±@')[1]) {
+        messageLang = messageParts[currentIndex].split('@±@')[1];
+      }
+      const voices = speech
+        .getVoices()
+        .filter(el => el.lang.includes(messageLang));
+      if (messageLang === 'en' && voices[4]) {
+        message.voice = voices[4];
+      } else if (messageLang === 'de' && voices[0]) {
+        message.voice = voices[0];
+      } else {
+        message.voice = voices[0];
+      }
 
       setTimeout(() => {
         speech.speak(message);

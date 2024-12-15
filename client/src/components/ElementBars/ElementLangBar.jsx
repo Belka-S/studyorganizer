@@ -11,6 +11,7 @@ import { useAuth, useClusters, useElements } from 'utils/hooks';
 import { updateUserThunk } from 'store/auth/authThunks';
 import { updateClusterThunk } from 'store/cluster/clusterThunks';
 import { setActiveCluster } from 'store/cluster/clusterSlice';
+import { fetchElementsThunk } from 'store/element/elementThunks';
 import { languageCodes, rateValues } from 'utils/constants';
 import { speakText, speakTranslation } from 'utils/helpers';
 import { themes } from 'styles/themes';
@@ -62,7 +63,7 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
   const setUserLang = ({ value }) => {
     const formData = new FormData();
     formData.append('lang', value);
-    dispatch(updateUserThunk(formData));
+    dispatch(updateUserThunk(formData)).then(dispatch(fetchElementsThunk()));
   };
 
   const setUserRate = ({ value }) => {
@@ -78,17 +79,19 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
   const getTextString = ({ text, playList, divider }) => {
     let textString = '';
     for (let i = 0; i < playList.length; i += 1) {
-      const part = playList[i][text];
-      const captionLang = playList[i].lang;
-      if (captionLang) {
-        textString += `${playList[i].lang}@±@`;
-      }
+      let part = playList[i][text];
+      // text === 'caption'
+      //   ? playList[i][text] + `@±@${playList[i].lang}`
+
       if (
         part.endsWith('.') ||
         part.endsWith('!') ||
         part.endsWith('?') ||
         part.endsWith('"')
       ) {
+        // if (text === 'caption') {
+        //   part = `${part}@±@${playList[i].lang}`;
+        // }
         textString += setPauseDivider(part, divider)
           // abbreviations
           .replaceAll('Mr.', 'mister')
@@ -111,11 +114,23 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
           .replaceAll(`6.${divider}`, '6.')
           .replaceAll(`7.${divider}`, '7.')
           .replaceAll(`8.${divider}`, '8.')
-          .replaceAll(`9.${divider}`, '9.');
+          .replaceAll(`9.${divider}`, '9.')
+          // define language
+          .replaceAll(
+            `${divider}`,
+            text === 'caption'
+              ? `@±@${playList[i].lang}${divider}`
+              : `${divider}`,
+          );
       } else if (!playList[i].element.startsWith('[')) {
+        if (text === 'caption') {
+          part = `${part}@±@${playList[i].lang}`;
+        }
         textString += part.replaceAll('.', divider) + divider;
       }
     }
+
+    // console.log('textString: ', textString);
     return textString;
   };
 
@@ -159,7 +174,7 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
     msg && toast.error(msg);
   };
 
-  const playTranslated = e => {
+  const playAll = e => {
     setLiColor(background);
     let textString = '';
     const divider = '$*@';
@@ -170,7 +185,6 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
 
     for (let i = 0; i < playList.length; i += 1) {
       const { element, caption, lang } = playList[i];
-
       if (!element.startsWith('[')) {
         textString +=
           setPauseDivider(element, '') + `@±@${lang}` + caption + divider;
@@ -213,7 +227,7 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
         {ac?.lang.at(0).toUpperCase() + ac?.lang.substring(1)}
       </Button>
 
-      <RefreshBtn onClick={playTranslated} />
+      <RefreshBtn onClick={playAll} />
 
       <Button onClick={playCaptions} $s="m" $bs={button}>
         {captionLang?.at(0).toUpperCase() + captionLang?.substring(1)}
