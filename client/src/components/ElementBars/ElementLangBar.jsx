@@ -26,6 +26,25 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
   const { activeCluster: ac } = useClusters();
   const { activeElement } = useElements();
 
+  const getLanguage = arr => {
+    if (!arr.length) return;
+    let maxLang = '';
+    let counter = 0;
+    const langObj = arr.reduce((acc, el) => {
+      if (!acc[el.lang]) acc[el.lang] = 0;
+      acc[el.lang] += 1;
+      return acc;
+    }, {});
+    for (const key in langObj) {
+      if (langObj[key] > counter) {
+        counter = langObj[key];
+        maxLang = key;
+      }
+    }
+    return maxLang;
+  };
+  const captionLang = getLanguage(filtredElements);
+
   const setClusterLang = ({ value }) => {
     dispatch(updateClusterThunk({ _id: ac._id, lang: value }))
       .unwrap()
@@ -51,13 +70,17 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
   };
 
   // playList
-  const setPauseDivider = (string, divider) =>
-    string.replaceAll(',`', ';').replaceAll(' `', `${divider} `);
+  const setPauseDivider = (text, divider) =>
+    text.replaceAll(',`', ';').replaceAll(' `', `${divider} `);
 
   const getTextString = ({ text, playList, divider }) => {
     let textString = '';
     for (let i = 0; i < playList.length; i += 1) {
       const part = playList[i][text];
+      const captionLang = playList[i].lang;
+      if (captionLang) {
+        textString += `${playList[i].lang}@±@`;
+      }
       if (
         part.endsWith('.') ||
         part.endsWith('!') ||
@@ -96,11 +119,11 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
 
   const playElements = e => {
     setLiColor(background);
+    const divider = '$*@';
     const index = filtredElements.findIndex(
       item => item.element === activeElement,
     );
     const playList = filtredElements.splice(index === -1 ? 0 : index);
-    const divider = '$*@';
 
     const msg = speakText({
       setLiColor,
@@ -115,12 +138,12 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
   };
 
   const playCaptions = e => {
+    const divider = '$*@';
     setLiColor(background);
     const index = filtredElements.findIndex(
       item => item.element === activeElement,
     );
     const playList = filtredElements.splice(index === -1 ? 0 : index);
-    const divider = '$*@';
 
     const msg = speakText({
       setLiColor,
@@ -191,7 +214,7 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
       <RefreshBtn onClick={playTranslated} />
 
       <Button onClick={playCaptions} $s="m" $bs={button}>
-        {user.lang.at(0).toUpperCase() + user.lang.substring(1)}
+        {captionLang.at(0).toUpperCase() + captionLang.substring(1)}
       </Button>
 
       <Select

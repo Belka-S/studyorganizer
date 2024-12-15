@@ -83,7 +83,7 @@ const markAsRead = (current, next) => {
           behavior: 'smooth',
         });
       };
-      if (currentMsg) {
+      if (currentMsg && !currentMsg.startsWith(' ')) {
         activeEl.style.backgroundColor = white;
         scrollOnActive();
       }
@@ -118,6 +118,7 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
     }
     return acc;
   }, []);
+  console.log(messageParts);
 
   let currentIndex = 0;
   const message = new SpeechSynthesisUtterance();
@@ -126,7 +127,7 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
 
   if (!voices[0]) return `No ${lang.toUpperCase()} voice available`;
   if (lang === 'en' && voices[4]) {
-    message.voice = voices[4]; // 1 - man, 7 -woman
+    message.voice = voices[4]; // 1 - man, 7 - woman
   } else if (lang === 'de' && voices[0]) {
     message.voice = voices[0];
   } else {
@@ -177,8 +178,8 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
   const message = new SpeechSynthesisUtterance();
   const voices = speech.getVoices().filter(el => el.lang.includes(lang));
   if (!voices[0]) return `No ${lang.toUpperCase()} voice available`;
-  if (lang === 'en' && voices[1]) {
-    message.voice = voices[1];
+  if (lang === 'en' && voices[4]) {
+    message.voice = voices[4];
   } else if (lang === 'de' && voices[0]) {
     message.voice = voices[0];
   } else {
