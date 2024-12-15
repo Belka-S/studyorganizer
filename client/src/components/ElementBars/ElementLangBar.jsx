@@ -215,7 +215,7 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
       />
       <Select
         options={rateValues}
-        defaultValue={rateValues.find(el => el.value === ac?.rate)}
+        defaultValue={rateValues.find(el => el.value == ac?.rate)}
         onChange={setClusterRate}
         placeholder="Rate..."
         $ol={backgroundHoverd}
@@ -237,14 +237,16 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
         options={languageCodes}
         defaultValue={languageCodes.find(el => el.value === user.lang)}
         onChange={setUserLang}
+        placeholder="Language..."
         $ol={backgroundHoverd}
         $b={white}
         $bh={borderLight}
       />
       <Select
         options={rateValues}
-        defaultValue={rateValues.find(el => el.value === user.rate)}
+        defaultValue={rateValues.find(el => el.value == user.rate)}
         onChange={setUserRate}
+        placeholder="Rate..."
         $ol={backgroundHoverd}
         $b={white}
         $bh={borderLight}
