@@ -6,6 +6,7 @@ const markAsRead = (current, next) => {
   const normalizeMessage = message =>
     message
       ?.replaceAll('__', '...')
+      .replaceAll(';', ',')
       .replaceAll('missis', 'Mrs.')
       .replaceAll('miss', 'Ms.')
       .replaceAll('mister', 'Mr.')
@@ -21,7 +22,7 @@ const markAsRead = (current, next) => {
 
   const elementList = document.querySelector('ul');
   elementList.querySelectorAll('button').forEach(el => {
-    const elText = el.innerText.replaceAll(',`', ';').replaceAll('`', '');
+    const elText = el.innerText.replaceAll('`', '');
 
     if (elText.endsWith(currentMsg) || elText.includes(currentMsg + nextMsg)) {
       const activeEl = el.closest('li');
@@ -102,7 +103,10 @@ const markAsRead = (current, next) => {
 const refreshPlaylist = () => {
   const elementList = document.querySelector('ul');
   const styledBtn = elementList.querySelectorAll('button');
-  styledBtn.forEach(el => el.removeAttribute('style'));
+  styledBtn.forEach(el => {
+    el.removeAttribute('style');
+    if (el.innerText) el.innerHTML = el.innerText;
+  });
   const styledDiv = elementList.querySelectorAll('div');
   styledDiv.forEach(el => el.removeAttribute('style'));
 };
