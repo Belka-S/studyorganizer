@@ -123,14 +123,11 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
         ? el.substring(0, el.length - 5) + arr[i + 1]
         : el + arr[i + 1];
       arr.splice(i + 1, 1, unitedEl);
-      // arr.splice(i + 1, 1, el.substring(0, el.length - 5) + arr[i + 1]);
-      // arr.splice(i + 1, 1, el + arr[i + 1]);
     } else {
       acc.push(el);
     }
     return acc;
   }, []);
-  // console.log('messageParts: ', messageParts);
 
   let currentIndex = 0;
   const message = new SpeechSynthesisUtterance();
