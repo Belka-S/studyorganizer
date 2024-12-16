@@ -108,7 +108,6 @@ const refreshPlaylist = () => {
 };
 
 export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
-  console.log('text: ', text);
   const speech = window.speechSynthesis;
   // devide message on parts
   const messageParts = text.split(divider).reduce((acc, el, i, arr) => {
