@@ -7,7 +7,10 @@ import { SiGoogletranslate } from 'react-icons/si';
 
 import { translateText } from 'utils/helpers';
 import { useAuth, useClusters } from 'utils/hooks';
-import { updateElementThunk } from 'store/element/elementThunks';
+import {
+  updateElementThunk,
+  fetchElementsThunk,
+} from 'store/element/elementThunks';
 
 import {
   Form,
@@ -77,14 +80,17 @@ const ElementEditForm = ({ el, article, isForm, setIsForm }) => {
     if (element.endsWith(',')) {
       element = element.substring(0, element.length - 1);
     }
-    if (element.includes(' ·')) {
-      element = element.replaceAll(' ·', ',');
+    if (element.includes('·')) {
+      element = element.replaceAll(' ·', ',').replaceAll('·', ',');
     }
     if (caption.endsWith(',')) {
       caption = caption.substring(0, caption.length - 1);
     }
 
-    dispatch(updateElementThunk({ _id, lang, element, caption }));
+    dispatch(updateElementThunk({ _id, lang, element, caption })).then(
+      dispatch(fetchElementsThunk()),
+    );
+
     setIsForm(false);
   };
 

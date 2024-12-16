@@ -11,7 +11,6 @@ import { useAuth, useClusters, useElements } from 'utils/hooks';
 import { updateUserThunk } from 'store/auth/authThunks';
 import { updateClusterThunk } from 'store/cluster/clusterThunks';
 import { setActiveCluster } from 'store/cluster/clusterSlice';
-import { fetchElementsThunk } from 'store/element/elementThunks';
 import { languageCodes, rateValues } from 'utils/constants';
 import { speakText, speakTranslation } from 'utils/helpers';
 import { themes } from 'styles/themes';
@@ -63,7 +62,7 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
   const setUserLang = ({ value }) => {
     const formData = new FormData();
     formData.append('lang', value);
-    dispatch(updateUserThunk(formData)); // .then(dispatch(fetchElementsThunk()));
+    dispatch(updateUserThunk(formData));
   };
 
   const setUserRate = ({ value }) => {
