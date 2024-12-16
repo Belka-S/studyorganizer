@@ -108,6 +108,7 @@ const refreshPlaylist = () => {
 };
 
 export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
+  console.log('text: ', text);
   const speech = window.speechSynthesis;
   // devide message on parts
   const messageParts = text.split(divider).reduce((acc, el, i, arr) => {
@@ -119,12 +120,18 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
         nextElLength <= 4 ||
         currentElLength + nextElLength <= 12)
     ) {
-      arr.splice(i + 1, 1, el.substring(0, el.length - 5) + arr[i + 1]);
+      const unitedEl = el.includes(',@±@')
+        ? el.substring(0, el.length - 5) + arr[i + 1]
+        : el + arr[i + 1];
+      arr.splice(i + 1, 1, unitedEl);
+      // arr.splice(i + 1, 1, el.substring(0, el.length - 5) + arr[i + 1]);
+      // arr.splice(i + 1, 1, el + arr[i + 1]);
     } else {
       acc.push(el);
     }
     return acc;
   }, []);
+  // console.log('messageParts: ', messageParts);
 
   let currentIndex = 0;
   const message = new SpeechSynthesisUtterance();

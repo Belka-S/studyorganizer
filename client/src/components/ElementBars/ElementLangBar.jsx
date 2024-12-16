@@ -63,7 +63,7 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
   const setUserLang = ({ value }) => {
     const formData = new FormData();
     formData.append('lang', value);
-    dispatch(updateUserThunk(formData)).then(dispatch(fetchElementsThunk()));
+    dispatch(updateUserThunk(formData)); // .then(dispatch(fetchElementsThunk()));
   };
 
   const setUserRate = ({ value }) => {
