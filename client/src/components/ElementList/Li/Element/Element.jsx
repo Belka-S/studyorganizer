@@ -1,12 +1,17 @@
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 
+import { useDispatch } from 'react-redux';
+
 import { getMediaLink, speakText } from 'utils/helpers';
 import { useAuth, useClusters } from 'utils/hooks';
+import { setActiveElement } from 'store/element/elementSlice';
+import { updateClusterThunk } from 'store/cluster/clusterThunks';
 
 import { GridWrap, Divider, SpeakBtn, Iframe, Audio } from './Element.styled';
 
 const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
+  const dispatch = useDispatch();
   const { user } = useAuth();
   const { activeCluster } = useClusters();
   const { element, caption } = el;
@@ -84,7 +89,15 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
       ? toast.success('Below is Recent')
       : toast.success('Above is Recent');
 
-    e.stopImmediatePropagation();
+    e.stopPropagation();
+  };
+
+  const handleSetActiveElement = e => {
+    const { _id } = activeCluster;
+    dispatch(setActiveElement(el));
+    if (e.currentTarget.closest('li').id !== 'active-element') {
+      dispatch(updateClusterThunk({ _id, activeEl: el._id }));
+    }
   };
 
   const isAudio = caption.endsWith('mp3');
@@ -92,7 +105,7 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
   const isBtn = !isAudio && !isIframe;
 
   return (
-    <GridWrap>
+    <GridWrap onClick={handleSetActiveElement}>
       <SpeakBtn onClick={speakElement}>{element}</SpeakBtn>
 
       <Divider onClick={handleSort} />

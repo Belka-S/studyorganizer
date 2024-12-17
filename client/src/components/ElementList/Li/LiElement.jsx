@@ -9,10 +9,9 @@ import { FiEdit3, FiTrash2 } from 'react-icons/fi';
 import { MdOutlineTextIncrease } from 'react-icons/md';
 
 import FlexWrap from 'components/shared/FlexWrap/FlexWrap';
-import { useElements, useClusters } from 'utils/hooks';
+import { useElements } from 'utils/hooks';
 import { updateElementThunk } from 'store/element/elementThunks';
-import { setElementTrash, setActiveElement } from 'store/element/elementSlice';
-import { updateClusterThunk } from 'store/cluster/clusterThunks';
+import { setElementTrash } from 'store/element/elementSlice';
 
 import Element from './Element/Element';
 import ElEditForm from './Element/ElEditForm';
@@ -36,7 +35,6 @@ const LiElement = ({
   setLiColor,
 }) => {
   const dispatch = useDispatch();
-  const { activeCluster } = useClusters();
   const { elementTrash, activeElement } = useElements();
 
   const [isForm, setIsForm] = useState(false);
@@ -72,22 +70,10 @@ const LiElement = ({
     if (article === 'das ') setArticle('');
   };
 
-  const handleSetActiveElement = e => {
-    const { _id } = activeCluster;
-    dispatch(setActiveElement(el));
-    if (e.currentTarget.id !== 'active-element') {
-      dispatch(updateClusterThunk({ _id, activeEl: el._id }));
-    }
-  };
-
   const isActive = _id === activeElement?._id;
 
   return (
-    <Li
-      id={isActive ? 'active-element' : null}
-      onClick={handleSetActiveElement}
-      liColor={liColor}
-    >
+    <Li id={isActive ? 'active-element' : null} liColor={liColor}>
       <FlexWrap $h="100%" $p="0" $fd="column">
         <LabelFavorite $hovered={favorite}>
           <input
