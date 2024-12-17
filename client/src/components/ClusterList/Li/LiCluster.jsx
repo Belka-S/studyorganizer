@@ -53,13 +53,13 @@ const LiCluster = ({ el, sortByDate, setSortByDate }) => {
     dispatch(updateClusterThunk({ _id, favorite: !favorite }));
   };
 
-  const handleLink = () => {
+  const handleLink = async () => {
     dispatch(setActiveCluster(el));
     if (el?._id === activeCluster?._id) {
       navigate(`/element/${_id}`, { replace: true });
     }
     if (el.activeEl) {
-      const activeEl = allElements.find(({ _id }) => _id === el.activeEl);
+      const activeEl = await allElements.find(({ _id }) => _id === el.activeEl);
       dispatch(setActiveElement(activeEl));
     }
   };
@@ -83,10 +83,10 @@ const LiCluster = ({ el, sortByDate, setSortByDate }) => {
     dispatch(updateClusterThunk({ _id, checked: !checked }));
   };
 
-  const active = _id === activeCluster?._id;
+  const isActive = _id === activeCluster?._id;
 
   return (
-    <Li id={active ? 'active-cluster' : null} $active={active}>
+    <Li id={isActive ? 'active-cluster' : null} $active={isActive}>
       <LabelFavorite $hovered={favorite}>
         <input
           type="checkbox"
