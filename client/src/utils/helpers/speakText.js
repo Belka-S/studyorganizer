@@ -22,9 +22,13 @@ const markAsRead = (current, next) => {
 
   const elementList = document.querySelector('ul');
   elementList.querySelectorAll('button').forEach(el => {
-    const elText = el.innerText.replaceAll('`', '');
-
-    if (elText.endsWith(currentMsg) || elText.includes(currentMsg + nextMsg)) {
+    if (el.innerText) {
+      el.innerText = el.innerText.replaceAll('`', '');
+    }
+    if (
+      el.innerText.endsWith(currentMsg) ||
+      el.innerText.includes(currentMsg + nextMsg)
+    ) {
       const activeEl = el.closest('li');
       const prevActiveEl = activeEl?.previousElementSibling;
       const prePrevActiveEl = prevActiveEl?.previousElementSibling;
@@ -35,7 +39,7 @@ const markAsRead = (current, next) => {
         if (currentMsg?.startsWith(' ') || nextMsg?.startsWith(' ')) {
           el.style.display = 'inline';
           const lightenedEl = `<span style="color: ${smokeBlack}; background-color: ${lightYellow}; border-radius: 4px;">${currentMsg} </span>`;
-          el.innerHTML = elText.replace(currentMsg, lightenedEl);
+          el.innerHTML = el.innerText.replace(currentMsg, lightenedEl);
         }
         // set element styles
         if (el.nextElementSibling && el.nextElementSibling.nextElementSibling) {
