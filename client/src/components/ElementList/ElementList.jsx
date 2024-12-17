@@ -30,14 +30,23 @@ const ElementList = () => {
   const [sortByDate, setSortByDate] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchElementsThunk());
-  }, [dispatch]);
-
-  // useEffect(() => {
-  //   const activeDomEl = document.getElementById('active-element');
-  //   const scrollOnActive = () => { activeDomEl?.scrollIntoView({ block: 'center', behavior: 'smooth' }); };
-  //   scrollOnActive();
-  // }, [activeCluster.activeEl]);
+    dispatch(fetchElementsThunk())
+      .unwrap()
+      .then(({ result }) => {
+        if (!activeCluster || !activeCluster.activeEl) return;
+        const activeEl = result.elements.find(
+          ({ _id }) => _id === activeCluster.activeEl,
+        );
+        dispatch(setActiveElement(activeEl));
+      })
+      .then(() => {
+        const activeDomEl = document.getElementById('active-element');
+        const scrollOnActive = () => {
+          activeDomEl?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        };
+        scrollOnActive();
+      });
+  }, []);
 
   const activeClusterElements = allElements
     .filter(el => el.cluster === activeCluster?._id)
@@ -91,17 +100,6 @@ const ElementList = () => {
       }
     });
   };
-
-  useEffect(() => {
-    (async () => {
-      if (!activeCluster || !activeCluster.activeEl) return;
-      const activeEl = await filtredElements.find(
-        ({ _id }) => _id === activeCluster.activeEl,
-      );
-      console.log('activeEl: ', await activeEl);
-      dispatch(setActiveElement(await activeEl));
-    })();
-  }, []);
 
   return (
     <List>
