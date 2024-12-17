@@ -59,8 +59,8 @@ const LiCluster = ({ el, sortByDate, setSortByDate }) => {
       navigate(`/element/${_id}`, { replace: true });
     }
     if (el.activeEl) {
-      const element = allElements.find(({ _id }) => _id === el.activeEl);
-      dispatch(setActiveElement(element));
+      const activeEl = allElements.find(({ _id }) => _id === el.activeEl);
+      dispatch(setActiveElement(activeEl));
     }
   };
 

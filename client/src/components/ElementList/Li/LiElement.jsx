@@ -38,12 +38,11 @@ const LiElement = ({
   const dispatch = useDispatch();
   const { activeCluster } = useClusters();
   const { elementTrash, activeElement } = useElements();
+
   const [isForm, setIsForm] = useState(false);
 
-  const { _id, element, favorite, checked } = el;
+  const { _id, favorite, checked } = el;
   const isInTrash = elementTrash.find(el => el._id === _id);
-
-  const active = element === activeElement;
 
   const [article, setArticle] = useState('');
 
@@ -75,7 +74,7 @@ const LiElement = ({
 
   const handleSetActiveElement = e => {
     const { _id } = activeCluster;
-    dispatch(setActiveElement(element));
+    dispatch(setActiveElement(el));
     if (e.currentTarget.id !== 'active-element') {
       dispatch(updateClusterThunk({ _id, activeEl: el._id }));
     }
@@ -83,7 +82,7 @@ const LiElement = ({
 
   return (
     <Li
-      id={active ? 'active-element' : null}
+      id={_id === activeElement._id ? 'active-element' : null}
       onClick={handleSetActiveElement}
       liColor={liColor}
     >
