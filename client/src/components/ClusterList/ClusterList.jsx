@@ -29,9 +29,9 @@ const ClusterList = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    const activeFileEl = document.getElementById('active-cluster');
+    const activeDomEl = document.getElementById('active-cluster');
     const scrollOnActive = () => {
-      activeFileEl?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      activeDomEl?.scrollIntoView({ block: 'center', behavior: 'smooth' });
     };
     scrollOnActive();
   }, []);

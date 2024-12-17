@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { TiStar } from 'react-icons/ti';
@@ -80,9 +80,11 @@ const LiElement = ({
     }
   };
 
+  const isActive = _id === activeElement?._id;
+
   return (
     <Li
-      id={_id === activeElement?._id ? 'active-element' : null}
+      id={isActive ? 'active-element' : null}
       onClick={handleSetActiveElement}
       liColor={liColor}
     >

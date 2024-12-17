@@ -7,6 +7,7 @@ import {
   fetchElementsThunk,
   updateElementThunk,
 } from 'store/element/elementThunks';
+import { setActiveElement } from 'store/element/elementSlice';
 import ElementLangBar from 'components/ElementBars/ElementLangBar';
 import { themes } from 'styles/themes';
 
@@ -33,12 +34,22 @@ const ElementList = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    const activeFileEl = document.getElementById('active-element');
-    const scrollOnActive = () => {
-      activeFileEl?.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    };
-    scrollOnActive();
+    (async () => {
+      if (!activeCluster || !activeCluster.activeEl) return;
+      const activeEl = await filtredElements.find(
+        ({ _id }) => _id === activeCluster.activeEl,
+      );
+      dispatch(setActiveElement(activeEl));
+    })();
   }, []);
+
+  // useEffect(() => {
+  //   const activeDomEl = document.getElementById('active-element');
+  //   const scrollOnActive = () => {
+  //     activeDomEl?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  //   };
+  //   scrollOnActive();
+  // }, [activeCluster.activeEl]);
 
   const activeClusterElements = allElements
     .filter(el => el.cluster === activeCluster?._id)
