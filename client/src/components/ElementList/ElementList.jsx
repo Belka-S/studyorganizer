@@ -98,7 +98,8 @@ const ElementList = () => {
       const activeEl = await filtredElements.find(
         ({ _id }) => _id === activeCluster.activeEl,
       );
-      dispatch(setActiveElement(activeEl));
+      console.log('activeEl: ', await activeEl);
+      dispatch(setActiveElement(await activeEl));
     })();
   }, []);
 
