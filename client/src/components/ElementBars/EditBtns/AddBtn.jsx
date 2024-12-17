@@ -8,7 +8,6 @@ import { readClipboard, writeClipboard, translateText } from 'utils/helpers';
 import { addElementThunk } from 'store/element/elementThunks';
 import { useAuth, useClusters } from 'utils/hooks';
 import { themes } from 'styles/themes';
-// import { setActiveElement } from 'store/element/elementSlice';
 const { button } = themes.shadows;
 
 const AddBtn = () => {
@@ -51,7 +50,7 @@ const AddBtn = () => {
           ? { element: '[]', caption, cluster: _id }
           : { element, caption, cluster: _id, favorite: true };
 
-      dispatch(addElementThunk(payload)); // dispatch(setActiveElement(element));
+      dispatch(addElementThunk(payload));
       e.target.blur();
     } catch (err) {
       e.target.blur();

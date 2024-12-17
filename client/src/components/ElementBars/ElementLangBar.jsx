@@ -24,7 +24,7 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
   const dispatch = useDispatch();
   const { user } = useAuth();
   const { activeCluster: ac } = useClusters();
-  const { activeElement } = useElements();
+  const { activeElement: ae } = useElements();
 
   const getLanguage = arr => {
     if (!arr.length) return;
@@ -130,7 +130,7 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
     setLiColor(background);
     const divider = '$*@';
     const index = filtredElements.findIndex(
-      item => item.element === activeElement,
+      item => item.element === ae.element,
     );
     const playList = filtredElements.splice(index === -1 ? 0 : index);
 
@@ -150,7 +150,7 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
     const divider = '$*@';
     setLiColor(background);
     const index = filtredElements.findIndex(
-      item => item.element === activeElement,
+      item => item.element === ae.element,
     );
     const playList = filtredElements.splice(index === -1 ? 0 : index);
 
@@ -171,7 +171,7 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
     let textString = '';
     const divider = '$*@';
     const index = filtredElements.findIndex(
-      item => item.element === activeElement,
+      item => item.element === ae.element,
     );
     const playList = filtredElements.splice(index === -1 ? 0 : index);
 
