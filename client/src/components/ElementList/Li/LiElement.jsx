@@ -43,7 +43,7 @@ const LiElement = ({
   const { _id, element, favorite, checked } = el;
   const isInTrash = elementTrash.find(el => el._id === _id);
 
-  const active = element === activeElement || _id === activeCluster.activeEl;
+  const active = element === activeElement;
 
   const [article, setArticle] = useState('');
 
