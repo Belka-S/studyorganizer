@@ -79,8 +79,6 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
     let textString = '';
     for (let i = 0; i < playList.length; i += 1) {
       let part = playList[i][text];
-      // text === 'caption'
-      //   ? playList[i][text] + `@±@${playList[i].lang}`
 
       if (
         part.endsWith('.') ||
@@ -88,9 +86,6 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
         part.endsWith('?') ||
         part.endsWith('"')
       ) {
-        // if (text === 'caption') {
-        //   part = `${part}@±@${playList[i].lang}`;
-        // }
         textString += setPauseDivider(part, divider)
           // abbreviations
           .replaceAll('Mr.', 'mister')
@@ -128,8 +123,6 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
         textString += part.replaceAll('.', divider) + divider;
       }
     }
-
-    // console.log('textString: ', textString);
     return textString;
   };
 

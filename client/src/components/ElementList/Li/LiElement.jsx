@@ -9,9 +9,10 @@ import { FiEdit3, FiTrash2 } from 'react-icons/fi';
 import { MdOutlineTextIncrease } from 'react-icons/md';
 
 import FlexWrap from 'components/shared/FlexWrap/FlexWrap';
-import { useElements } from 'utils/hooks';
+import { useElements, useClusters } from 'utils/hooks';
 import { updateElementThunk } from 'store/element/elementThunks';
 import { setElementTrash, setActiveElement } from 'store/element/elementSlice';
+import { updateClusterThunk } from 'store/cluster/clusterThunks';
 
 import Element from './Element/Element';
 import ElEditForm from './Element/ElEditForm';
@@ -35,26 +36,16 @@ const LiElement = ({
   setLiColor,
 }) => {
   const dispatch = useDispatch();
+  const { activeCluster } = useClusters();
   const { elementTrash, activeElement } = useElements();
   const [isForm, setIsForm] = useState(false);
 
   const { _id, element, favorite, checked } = el;
   const isInTrash = elementTrash.find(el => el._id === _id);
 
-  const active = element === activeElement;
+  const active = element === activeElement || _id === activeCluster.activeEl;
 
   const [article, setArticle] = useState('');
-
-  useEffect(() => {
-    const activeElementEl = document.getElementById('active-element');
-    const scrollOnActive = () => {
-      activeElementEl?.scrollIntoView({
-        block: 'center',
-        behavior: 'smooth',
-      });
-    };
-    scrollOnActive();
-  }, []);
 
   const handleFavorite = () => {
     dispatch(updateElementThunk({ _id, favorite: !favorite }));
@@ -82,10 +73,18 @@ const LiElement = ({
     if (article === 'das ') setArticle('');
   };
 
+  const handleSetActiveElement = e => {
+    const { _id } = activeCluster;
+    dispatch(setActiveElement(element));
+    if (e.currentTarget.id !== 'active-element') {
+      dispatch(updateClusterThunk({ _id, activeEl: el._id }));
+    }
+  };
+
   return (
     <Li
       id={active ? 'active-element' : null}
-      onClick={() => dispatch(setActiveElement(element))}
+      onClick={handleSetActiveElement}
       liColor={liColor}
     >
       <FlexWrap $h="100%" $p="0" $fd="column">

@@ -32,6 +32,14 @@ const ElementList = () => {
     dispatch(fetchElementsThunk());
   }, [dispatch]);
 
+  useEffect(() => {
+    const activeFileEl = document.getElementById('active-element');
+    const scrollOnActive = () => {
+      activeFileEl?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    };
+    scrollOnActive();
+  }, []);
+
   const activeClusterElements = allElements
     .filter(el => el.cluster === activeCluster?._id)
     .sort((a, b) => a.createdAt.localeCompare(b.createdAt));

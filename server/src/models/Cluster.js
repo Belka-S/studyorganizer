@@ -15,6 +15,7 @@ const clusterSchema = new Schema(
     rate: { type: String, default: 0.5 },
     favorite: { type: Boolean, default: false },
     checked: { type: Boolean, default: false },
+    activeEl: { type: Schema.Types.ObjectId, ref: 'Element' },
 
     owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },

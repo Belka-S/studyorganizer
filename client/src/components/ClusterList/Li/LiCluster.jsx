@@ -11,6 +11,7 @@ import { FiEdit3, FiTrash2 } from 'react-icons/fi';
 import { useClusters, useElements } from 'utils/hooks';
 import { getDate } from 'utils/helpers';
 import { setActiveCluster, setClusterTrash } from 'store/cluster/clusterSlice';
+import { setActiveElement } from 'store/element/elementSlice';
 import { updateClusterThunk } from 'store/cluster/clusterThunks';
 import Modal from 'components/shared/Modal/Modal';
 import EditClusterForm from 'components/ClusterForms/ClusterEditForm';
@@ -56,6 +57,10 @@ const LiCluster = ({ el, sortByDate, setSortByDate }) => {
     dispatch(setActiveCluster(el));
     if (el?._id === activeCluster?._id) {
       navigate(`/element/${_id}`, { replace: true });
+    }
+    if (el.activeEl) {
+      const element = allElements.find(({ _id }) => _id === el.activeEl);
+      dispatch(setActiveElement(element));
     }
   };
 

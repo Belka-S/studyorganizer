@@ -106,13 +106,16 @@ const markAsRead = (current, next) => {
 
 const refreshPlaylist = () => {
   const elementList = document.querySelector('ul');
+
+  const styledLi = elementList.querySelectorAll('li');
+  styledLi.forEach(el => el.removeAttribute('style'));
+  const styledDiv = elementList.querySelectorAll('div');
+  styledDiv.forEach(el => el.removeAttribute('style'));
   const styledBtn = elementList.querySelectorAll('button');
   styledBtn.forEach(el => {
     el.removeAttribute('style');
     if (el.innerText) el.innerHTML = el.innerText;
   });
-  const styledDiv = elementList.querySelectorAll('div');
-  styledDiv.forEach(el => el.removeAttribute('style'));
 };
 
 export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
