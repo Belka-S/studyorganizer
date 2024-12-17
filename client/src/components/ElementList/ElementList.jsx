@@ -33,21 +33,9 @@ const ElementList = () => {
     dispatch(fetchElementsThunk());
   }, [dispatch]);
 
-  useEffect(() => {
-    (async () => {
-      if (!activeCluster || !activeCluster.activeEl) return;
-      const activeEl = await filtredElements.find(
-        ({ _id }) => _id === activeCluster.activeEl,
-      );
-      dispatch(setActiveElement(activeEl));
-    })();
-  }, []);
-
   // useEffect(() => {
   //   const activeDomEl = document.getElementById('active-element');
-  //   const scrollOnActive = () => {
-  //     activeDomEl?.scrollIntoView({ block: 'center', behavior: 'smooth' });
-  //   };
+  //   const scrollOnActive = () => { activeDomEl?.scrollIntoView({ block: 'center', behavior: 'smooth' }); };
   //   scrollOnActive();
   // }, [activeCluster.activeEl]);
 
@@ -103,6 +91,16 @@ const ElementList = () => {
       }
     });
   };
+
+  useEffect(() => {
+    (async () => {
+      if (!activeCluster || !activeCluster.activeEl) return;
+      const activeEl = await filtredElements.find(
+        ({ _id }) => _id === activeCluster.activeEl,
+      );
+      dispatch(setActiveElement(activeEl));
+    })();
+  }, []);
 
   return (
     <List>
