@@ -82,7 +82,7 @@ const LiElement = ({
 
   return (
     <Li
-      id={_id === activeElement._id ? 'active-element' : null}
+      id={_id === activeElement?._id ? 'active-element' : null}
       onClick={handleSetActiveElement}
       liColor={liColor}
     >
