@@ -24,12 +24,19 @@ const ClustersSearchBar = () => {
   }, [dispatch, selectValue]);
 
   const getOptions = selectValue => {
-    const options = [
+    let options = [
       ...baseOptions,
       ...clusterGroups
         .map(el => ({ value: el.clusterGroup, label: el.clusterGroup }))
         .sort((a, b) => a.value.localeCompare(b.value)),
     ];
+
+    if (selectValue.includes('favorite')) {
+      options = options.filter(el => el.value !== 'unfavorite');
+    }
+    if (selectValue.includes('unfavorite')) {
+      options = options.filter(el => el.value !== 'favorite');
+    }
     if (selectValue.includes('checked')) {
       return options.filter(el => el.value !== 'unchecked');
     }
@@ -38,9 +45,8 @@ const ClustersSearchBar = () => {
     }
     if (selectValue.includes('recent')) {
       return options.filter(el => el.value !== 'trash');
-    } else {
-      return options;
     }
+    return options;
   };
 
   const defaultValue = getOptions(selectValue).filter(el => {

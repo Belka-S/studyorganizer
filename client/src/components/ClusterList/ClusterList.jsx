@@ -68,17 +68,27 @@ const ClusterList = () => {
       const allFiltred =
         group.toLowerCase().includes(clusterFilter) ||
         title.toLowerCase().includes(clusterFilter);
-      // filter + favorite
-      const filtredFavorite = clusterSelect.includes('favorite')
-        ? allFiltred && favorite === true
-        : allFiltred;
-      // filter + favorite + checked
-      if (clusterSelect.some(el => ['checked', 'unchecked'].includes(el))) {
-        return clusterSelect.includes('checked')
-          ? filtredFavorite && checked === true
-          : filtredFavorite && checked === false;
-      }
-      return filtredFavorite;
+      // favorite
+      const getFavorite = () => {
+        if (clusterSelect.some(op => ['favorite', 'unfavorite'].includes(op))) {
+          return clusterSelect.includes('favorite')
+            ? allFiltred && favorite === true
+            : allFiltred && favorite === false;
+        } else {
+          return allFiltred;
+        }
+      };
+      // checked
+      const getCheckedFavorite = () => {
+        if (clusterSelect.some(op => ['checked', 'unchecked'].includes(op))) {
+          return clusterSelect.includes('checked')
+            ? getFavorite() && checked === true
+            : getFavorite() && checked === false;
+        } else {
+          return getFavorite();
+        }
+      };
+      return getCheckedFavorite();
     })
     .sort(
       sortByDate
