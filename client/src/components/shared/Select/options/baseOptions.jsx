@@ -1,4 +1,4 @@
-import { FaStar, FaCheckCircle } from 'react-icons/fa';
+import { FaStar, FaRegStar, FaCheckCircle } from 'react-icons/fa';
 import { FiTrash2 } from 'react-icons/fi';
 import { ImRadioUnchecked } from 'react-icons/im';
 import { CgSandClock } from 'react-icons/cg';
@@ -19,6 +19,14 @@ export const baseOptions = [
     label: (
       <Div>
         <FaStar size="18px" /> <span>Fav</span>
+      </Div>
+    ),
+  },
+  {
+    value: 'unfavorite',
+    label: (
+      <Div>
+        <FaRegStar size="18px" /> <span>UnFav</span>
       </Div>
     ),
   },

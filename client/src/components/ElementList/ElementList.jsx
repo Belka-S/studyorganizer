@@ -72,17 +72,27 @@ const ElementList = () => {
         element.toLowerCase().replace('·', '').includes(elementFilter) ||
         element.toLowerCase().includes(elementFilter) ||
         caption.toLowerCase().includes(elementFilter);
-      // filter + favorite
-      const filtredFavorite = elementSelect.includes('favorite')
-        ? allFiltred && favorite === true
-        : allFiltred;
-      // filter + favorite + checked
-      if (elementSelect.some(el => ['checked', 'unchecked'].includes(el))) {
-        return elementSelect.includes('checked')
-          ? filtredFavorite && checked === true
-          : filtredFavorite && checked === false;
-      }
-      return filtredFavorite;
+      // favorite
+      const getFavorite = () => {
+        if (elementSelect.some(op => ['favorite', 'unfavorite'].includes(op))) {
+          return elementSelect.includes('favorite')
+            ? allFiltred && favorite === true
+            : allFiltred && favorite === false;
+        } else {
+          return allFiltred;
+        }
+      };
+      // checked
+      const getCheckedFavorite = () => {
+        if (elementSelect.some(op => ['checked', 'unchecked'].includes(op))) {
+          return elementSelect.includes('checked')
+            ? getFavorite() && checked === true
+            : getFavorite() && checked === false;
+        } else {
+          return getFavorite();
+        }
+      };
+      return getCheckedFavorite();
     })
     .sort(
       sortByDate

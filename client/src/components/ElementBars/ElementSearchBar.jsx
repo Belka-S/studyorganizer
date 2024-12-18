@@ -29,6 +29,12 @@ const ElementSearchBar = () => {
     }
     if (selectValue.includes('unchecked')) {
       return options.filter(el => el.value !== 'checked');
+    }
+    if (selectValue.includes('favorite')) {
+      return options.filter(el => el.value !== 'unfavorite');
+    }
+    if (selectValue.includes('unfavorite')) {
+      return options.filter(el => el.value !== 'favorite');
     } else {
       return options;
     }
