@@ -58,7 +58,7 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
     }
     return !textString.includes('[')
       ? textString
-      : textString.substring(0, textString.indexOf('['));
+      : textString.substring(0, textString.indexOf('[')) + divider;
   };
   const speakElement = e => {
     const msg = speakText({

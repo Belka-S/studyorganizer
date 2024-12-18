@@ -158,10 +158,9 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
       setLiColor,
       divider,
       text: getTextString({ text: 'caption', playList, divider }),
-      lang: user.lang,
+      lang: captionLang,
       rate: user.rate,
     });
-
     e.target.blur();
     msg && toast.error(msg);
   };
