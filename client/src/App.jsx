@@ -10,7 +10,7 @@ import Toast from 'components/shared/Toast/Toast';
 import OvalLoader from 'components/shared/Loader/OvalLoader';
 import SharedLayout from 'layouts/SharedLayout/SharedLayout';
 
-import HomePage from 'pages/HomePage';
+// import HomePage from 'pages/HomePage';
 import GooglePage from 'pages/GooglePage';
 const SignupPage = lazy(() => import('pages/SignupPage'));
 const SigninPage = lazy(() => import('pages/SigninPage'));

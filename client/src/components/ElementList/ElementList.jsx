@@ -9,6 +9,7 @@ import {
 } from 'store/element/elementThunks';
 import { setActiveElement } from 'store/element/elementSlice';
 import ElementLangBar from 'components/ElementBars/ElementLangBar';
+import OvalLoader from 'components/shared/Loader/OvalLoader';
 import { themes } from 'styles/themes';
 
 import LiElement from './Li/LiElement';
@@ -28,6 +29,7 @@ const ElementList = () => {
   elementSelect = !elementSelect ? [] : elementSelect;
 
   const [sortByDate, setSortByDate] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(true);
 
   useEffect(() => {
     dispatch(fetchElementsThunk())
@@ -45,7 +47,9 @@ const ElementList = () => {
           activeDomEl?.scrollIntoView({ block: 'center', behavior: 'smooth' });
         };
         scrollOnActive();
+        setIsScrolling(false);
       });
+    // .finally(setIsScrolling(false));
   }, []);
 
   const activeClusterElements = allElements
@@ -102,26 +106,30 @@ const ElementList = () => {
   };
 
   return (
-    <List>
-      {filtredElements.map((element, index, arr) => (
-        <LiElement
-          key={element._id}
-          el={element}
-          index={index}
-          length={arr.length}
-          sortByDate={sortByDate}
-          setSortByDate={setSortByDate}
-          translateAll={translateAll}
-          liColor={liColor}
+    <>
+      <List>
+        {filtredElements.map((element, index, arr) => (
+          <LiElement
+            key={element._id}
+            el={element}
+            index={index}
+            length={arr.length}
+            sortByDate={sortByDate}
+            setSortByDate={setSortByDate}
+            translateAll={translateAll}
+            liColor={liColor}
+            setLiColor={setLiColor}
+          />
+        ))}
+
+        <ElementLangBar
+          filtredElements={filtredElements}
           setLiColor={setLiColor}
         />
-      ))}
+      </List>
 
-      <ElementLangBar
-        filtredElements={filtredElements}
-        setLiColor={setLiColor}
-      />
-    </List>
+      {isScrolling && <OvalLoader />}
+    </>
   );
 };
 
