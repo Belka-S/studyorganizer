@@ -26,6 +26,7 @@ const markAsRead = (current, next) => {
       el.innerText = el.innerText.replaceAll('`', '');
     }
     if (
+      el.innerText.startsWith(currentMsg) ||
       el.innerText.endsWith(currentMsg) ||
       el.innerText.includes(currentMsg + nextMsg)
     ) {

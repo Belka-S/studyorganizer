@@ -118,9 +118,12 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
           );
       } else if (!playList[i].element.startsWith('[')) {
         if (text === 'caption') {
+          if (part.includes(' [')) {
+            part = part.substring(0, part.indexOf(' ['));
+          }
           part = `${part}@±@${playList[i].lang}`;
         }
-        textString += part.replaceAll('.', divider) + divider;
+        textString += part + divider;
       }
     }
     return textString;
@@ -177,8 +180,11 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
     for (let i = 0; i < playList.length; i += 1) {
       const { element, caption, lang } = playList[i];
       if (!element.startsWith('[')) {
-        textString +=
-          setPauseDivider(element, '') + `@±@${lang}` + caption + divider;
+        const normalElement = setPauseDivider(element, '');
+        const normalCaption = caption.includes(' [')
+          ? caption.substring(0, caption.indexOf(' ['))
+          : caption;
+        textString += normalElement + `@±@${lang}` + normalCaption + divider;
       }
     }
     const msg = speakTranslation({

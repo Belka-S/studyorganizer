@@ -95,7 +95,6 @@ const ClusterList = () => {
         ? (a, b) => b.createdAt.localeCompare(a.createdAt)
         : (a, b) => a.title.localeCompare(b.title),
     );
-
   // groups filter+selector
   const clusterGroups = Array.from(
     new Set(filtredClusters.map(el => el.group)),
