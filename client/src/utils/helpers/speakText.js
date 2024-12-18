@@ -118,7 +118,7 @@ const refreshPlaylist = () => {
   });
 };
 
-export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
+export const speakText = async ({ text, lang, rate, divider, setLiColor }) => {
   const speech = window.speechSynthesis;
   // devide message on parts
   const messageParts = text.split(divider).reduce((acc, el, i, arr) => {
@@ -150,7 +150,9 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
     ? lang
     : text.substring(firstLangIdx, firstLangIdx + 2);
   // message.pitch = 1; // 0 to 2
-  const voices = speech.getVoices().filter(el => el.lang.includes(messageLang));
+  const voices = await speech
+    .getVoices()
+    .filter(el => el.lang.includes(messageLang));
   const timeout = lang.includes('de') ? 120 : 80;
 
   if (!voices[0]) return `No ${lang.toUpperCase()} voice available`;
@@ -163,7 +165,7 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
   }
 
   // divide message on parts
-  message.onend = () => {
+  message.onend = async () => {
     setLiColor(background);
     if (currentIndex === messageParts.length - 1) {
       refreshPlaylist();
@@ -176,7 +178,7 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
       if (messageParts[currentIndex].split('@±@')[1]) {
         messageLang = messageParts[currentIndex].split('@±@')[1];
       }
-      const voices = speech
+      const voices = await speech
         .getVoices()
         .filter(el => el.lang.includes(messageLang));
       if (messageLang === 'en' && voices[4]) {
@@ -204,7 +206,13 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
   }
 };
 
-export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
+export const speakTranslation = async ({
+  text,
+  lang,
+  rate,
+  divider,
+  setLiColor,
+}) => {
   const speech = window.speechSynthesis;
   const messageParts = text.split(divider); // .substring(0, text.length - divider.length)
 
@@ -213,7 +221,7 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
   const transLang = currentMsg.split('@±@')[1].substring(0, 2);
   // message
   const message = new SpeechSynthesisUtterance();
-  const voices = speech.getVoices().filter(el => el.lang.includes(lang));
+  const voices = await speech.getVoices().filter(el => el.lang.includes(lang));
   if (!voices[0]) return `No ${lang.toUpperCase()} voice available`;
   if (lang === 'en' && voices[4]) {
     message.voice = voices[4];
@@ -226,7 +234,9 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
   message.text = currentMsg.split('@±@')[0];
   // translation
   const translation = new SpeechSynthesisUtterance();
-  const voicesT = speech.getVoices().filter(el => el.lang.includes(transLang));
+  const voicesT = await speech
+    .getVoices()
+    .filter(el => el.lang.includes(transLang));
   if (!voicesT[0]) return `No ${lang.toUpperCase()} voice available`;
   if (transLang === 'en' && voicesT[4]) {
     translation.voice = voicesT[4];
@@ -238,13 +248,13 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
   translation.rate = rate;
   translation.text = currentMsg.split('@±@')[1].substring(2);
   // divide message + translation on parts
-  message.onend = () => {
+  message.onend = async () => {
     markAsRead(message.text);
     currentIndex += 1;
     if (currentIndex < messageParts.length) {
       const currentMsg = messageParts[currentIndex];
       const transLang = currentMsg.split('@±@')[1]?.substring(0, 2);
-      const voicesT = speech
+      const voicesT = await speech
         .getVoices()
         .filter(el => el.lang.includes(transLang));
       if (transLang === 'en' && voicesT[4]) {

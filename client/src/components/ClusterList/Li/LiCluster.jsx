@@ -49,15 +49,18 @@ const LiCluster = ({ el, sortByDate, setSortByDate }) => {
 
   const elementCount = allElements.filter(el => el.cluster === _id).length;
 
+  const handleSetActive = () => {
+    dispatch(setActiveCluster(el));
+  };
+
   const handleFavorite = () => {
     dispatch(updateClusterThunk({ _id, favorite: !favorite }));
   };
 
-  const handleLink = () => {
-    dispatch(setActiveCluster(el));
-    if (el?._id === activeCluster?._id) {
-      navigate(`/element/${_id}`, { replace: true });
-    }
+  const handleClusterNavigate = () => {
+    // if (el?._id === activeCluster?._id) {
+    navigate(`/element/${_id}`, { replace: true });
+    // }
   };
 
   const handleSort = () => {
@@ -82,7 +85,11 @@ const LiCluster = ({ el, sortByDate, setSortByDate }) => {
   const isActive = _id === activeCluster?._id;
 
   return (
-    <Li id={isActive ? 'active-cluster' : null} $active={isActive}>
+    <Li
+      id={isActive ? 'active-cluster' : null}
+      $active={isActive}
+      onClick={handleSetActive}
+    >
       <LabelFavorite $hovered={favorite}>
         <input
           type="checkbox"
@@ -93,7 +100,7 @@ const LiCluster = ({ el, sortByDate, setSortByDate }) => {
         <TiStar size="20px" />
       </LabelFavorite>
 
-      <TitleLink onClick={handleLink}>{title}</TitleLink>
+      <TitleLink onClick={handleClusterNavigate}>{title}</TitleLink>
 
       <ClusterLink href={cluster} target="_blank" rel="noopener noreferrer">
         {trim(cluster)}
