@@ -81,7 +81,7 @@ const ElementEditForm = ({ el, article, isForm, setIsForm }) => {
       element = element.substring(0, element.length - 1);
     }
     if (element.includes('·')) {
-      element = element.replaceAll(' ·', ',').replaceAll('·', ',');
+      element = element.replaceAll(' ·', ',').replaceAll('· ', ', ');
     }
     if (caption.endsWith(',')) {
       caption = caption.substring(0, caption.length - 1);
