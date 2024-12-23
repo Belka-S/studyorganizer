@@ -10,8 +10,12 @@ const thunkArr = [
 ];
 const fn = type => thunkArr.map(el => el[type]);
 
-const handleFetchElements = (_, action) => {
-  return action.payload.result.elements;
+const handleFetchElements = (state, action) => {
+  const { elements } = action.payload.result;
+  const data = [...elements, ...state];
+  const key = '_id';
+  const uniue = [...new Map(data.map(item => [item[key], item])).values()];
+  return uniue;
 };
 
 const handleAddElement = (state, action) => {

@@ -2,8 +2,9 @@ import { apiClient } from './apiClient';
 
 // Elements
 
-export const fetchElements = async () => {
-  const { data } = await apiClient.get('/elements');
+export const fetchElements = async params => {
+  const { cluster } = params;
+  const { data } = await apiClient.get(`/elements?cluster=${cluster}`);
   return data;
 };
 

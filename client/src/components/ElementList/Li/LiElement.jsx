@@ -73,7 +73,7 @@ const LiElement = ({
   const isActive = _id === activeElement?._id;
 
   return (
-    <Li id={isActive ? 'active-element' : null} liColor={liColor}>
+    <Li id={isActive ? 'active-element' : null} licolor={liColor}>
       <FlexWrap $h="100%" $p="0" $fd="column">
         <LabelFavorite $hovered={favorite}>
           <input
@@ -142,8 +142,8 @@ export default LiElement;
 
 LiElement.propTypes = {
   el: PropTypes.object,
-  index: PropTypes.string,
-  length: PropTypes.string,
+  index: PropTypes.number,
+  length: PropTypes.number,
   sortByDate: PropTypes.bool,
   setSortByDate: PropTypes.func,
   translateAll: PropTypes.func,

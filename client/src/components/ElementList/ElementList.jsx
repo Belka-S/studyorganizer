@@ -32,10 +32,11 @@ const ElementList = () => {
   const [isScrolling, setIsScrolling] = useState(true);
 
   useEffect(() => {
-    dispatch(fetchElementsThunk())
+    if (!activeCluster) return;
+    dispatch(fetchElementsThunk({ cluster: activeCluster._id }))
       .unwrap()
       .then(({ result }) => {
-        if (!activeCluster || !activeCluster.activeEl) return;
+        if (!activeCluster.activeEl) return;
         const activeEl = result.elements.find(
           ({ _id }) => _id === activeCluster.activeEl,
         );
@@ -44,12 +45,14 @@ const ElementList = () => {
       .then(() => {
         const activeDomEl = document.getElementById('active-element');
         const scrollOnActive = () => {
-          activeDomEl?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+          activeDomEl?.scrollIntoView({
+            block: 'center',
+            behavior: 'smooth',
+          });
         };
         scrollOnActive();
         setIsScrolling(false);
       });
-    // .finally(setIsScrolling(false));
   }, []);
 
   const activeClusterElements = allElements
