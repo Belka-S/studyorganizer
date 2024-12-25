@@ -23,7 +23,9 @@ const ElementSearchBar = () => {
   }, [dispatch, selectValue]);
 
   const getOptions = selectValue => {
-    let options = baseOptions.filter(el => el.value !== 'recent');
+    let options = baseOptions.filter(
+      el => !['recent', 'gdrive', 'ungdrive'].includes(el.value),
+    );
 
     if (selectValue.includes('favorite')) {
       options = options.filter(el => el.value !== 'unfavorite');

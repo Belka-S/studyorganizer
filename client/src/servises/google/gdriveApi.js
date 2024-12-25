@@ -7,7 +7,7 @@ export const listFiles = async () => {
     orderBy: 'folder', // name, folder, recency, modifiedTime,
     fields:
       'files(id, name, parents, mimeType, fullFileExtension, webViewLink, webContentLink, createdTime, shared, starred, trashed)',
-    // q: 'shared = true',
+    q: 'not mimeType contains "audio/"',
   });
   return result;
 };

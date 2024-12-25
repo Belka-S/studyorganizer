@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { Fragment, useEffect, useState } from 'react';
 
-import { useGdrive } from 'utils/hooks';
+import { useClusters, useGdrive } from 'utils/hooks';
 import { setGdriveFolders } from 'store/gdrive/gdriveSlice';
 
 import LiFolder from './Li/LiFolder';
@@ -10,6 +10,7 @@ import { List } from './GdriveList.styled';
 
 const GdriveList = () => {
   const dispatch = useDispatch();
+  const { allClusters } = useClusters();
   const { gdriveFiles, gdriveFolders } = useGdrive();
   const { gdriveTrash, gdriveSelect, gdriveFilter } = useGdrive();
 
@@ -54,44 +55,61 @@ const GdriveList = () => {
   }, [dispatch, gdriveFiles]);
 
   // G-Drive trash/filter/favorite files
-  const isInTrash = gdriveSelect.includes('trash');
-
   const getFiles = () => {
     const trashId = gdriveTrash.map(el => el.id);
-
-    return isInTrash
+    return gdriveSelect.includes('trash')
       ? gdriveFiles.filter(el => trashId.includes(el.id))
       : gdriveFiles;
   };
-
   // filtred files
   const filtredFiles = getFiles()
-    .filter(({ name, mimeType, parents }) => {
-      const allFiles = !mimeType.includes('folder') && parents;
+    .filter(({ id, name, mimeType, parents }) => {
+      const isFile = !mimeType.includes('folder') && parents;
       const allFiltred = name.toLowerCase().includes(gdriveFilter);
+      // selected folders
+      const isInFolder = () => {
+        const selectedFolders = gdriveSelect.filter(
+          el => !['trash', 'gdrive', 'ungdrive'].includes(el),
+        );
+        if (!parents || !parents[0]) return false;
+        if (selectedFolders.length === 0) {
+          return gdriveFolders;
+        } else {
+          return gdriveFolders
+            .reduce((acc, el) => {
+              if (selectedFolders.includes(el.name)) {
+                acc.push(el);
+              }
+              return acc;
+            }, [])
+            .some(el => el.id === parents[0]);
+        }
+      };
+      // is in Clusters
+      const isFavorite = () => {
+        if (
+          gdriveSelect.some(op => ['trash', 'gdrive', 'ungdrive'].includes(op))
+        ) {
+          return gdriveSelect.includes('gdrive')
+            ? allFiltred && allClusters.some(el => el.gdriveId === id)
+            : allFiltred && !allClusters.some(el => el.gdriveId === id);
+        } else {
+          return allFiltred;
+        }
+      };
 
-      return allFiles && allFiltred;
+      return isFile && isInFolder() && isFavorite();
     })
     .sort(
       sortByDate
         ? (a, b) => b.createdTime.localeCompare(a.createdTime)
         : (a, b) => a.name.localeCompare(b.name),
     );
-
-  // const isInClusters = allClusters.some(el => el.gdriveId === id);
-
-  // filtred folders
-  let filtredFolders = !gdriveSelect[0] || isInTrash ? gdriveFolders : [];
-  for (let i = 0; i < gdriveSelect.length; i += 1) {
-    filtredFolders = [
-      ...filtredFolders,
-      ...gdriveFolders.filter(el => el.name === gdriveSelect[i]),
-    ];
-  }
+  console.log('gdriveFolders: ', gdriveFolders);
 
   return (
     <List>
-      {filtredFolders.map(folder => {
+      {gdriveFolders.map(folder => {
         const filesInFolder = filtredFiles.filter(
           file => file.parents[0] === folder.id,
         );

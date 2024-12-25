@@ -6,14 +6,9 @@ import Select from 'components/shared/Select/Select';
 import Filter from 'components/shared/Filter/Filter';
 import { baseOptions } from 'components/shared/Select/options/baseOptions';
 import { useGdrive } from 'utils/hooks';
-import { setElementFilter } from 'store/element/elementSlice';
-import { selectElementFilter } from 'store/element/elementSelectors';
 import { setGdriveFilter, setGdriveSelect } from 'store/gdrive/gdriveSlice';
 import { themes } from 'styles/themes';
-import {
-  selectGdriveFilter,
-  selectGdriveSelect,
-} from 'store/gdrive/gdriveSelectors';
+import { selectGdriveFilter } from 'store/gdrive/gdriveSelectors';
 
 const { backgroundHoverd: ol, white: b, borderLight: bh } = themes.colors;
 const { s, m } = themes.indents;
@@ -28,18 +23,25 @@ const GdriveSearchBar = () => {
   }, [dispatch, selectValue]);
 
   const getOptions = () => {
-    const options = [
-      ...baseOptions.filter(el => el.value === 'trash'),
+    let options = [
+      ...baseOptions.filter(el =>
+        ['trash', 'gdrive', 'ungdrive'].includes(el.value),
+      ),
       ...gdriveFolders.map(el => ({ value: el.name, label: el.name })),
     ];
+    if (selectValue.includes('gdrive')) {
+      options = options.filter(el => el.value !== 'ungdrive');
+    }
+    if (selectValue.includes('ungdrive')) {
+      options = options.filter(el => el.value !== 'gdrive');
+    }
     if (selectValue.includes('trash')) {
       return options.filter(el => el.value === 'trash');
     }
     if (!selectValue.includes('trash') && selectValue.length > 0) {
       return options.filter(el => el.value !== 'trash');
-    } else {
-      return options;
     }
+    return options;
   };
 
   const defaultValue = getOptions().filter(el => {

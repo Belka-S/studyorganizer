@@ -25,7 +25,9 @@ const ClustersSearchBar = () => {
 
   const getOptions = selectValue => {
     let options = [
-      ...baseOptions,
+      ...baseOptions.filter(
+        el => !['recent', 'gdrive', 'ungdrive'].includes(el.value),
+      ),
       ...clusterGroups
         .map(el => ({ value: el.clusterGroup, label: el.clusterGroup }))
         .sort((a, b) => a.value.localeCompare(b.value)),
