@@ -68,11 +68,11 @@ const GdriveList = () => {
       const allFiltred = name.toLowerCase().includes(gdriveFilter);
       // selected folders
       const isInFolder = () => {
-        const selectedFolders = gdriveSelect.filter(
+        const selectedFolders = gdriveSelect?.filter(
           el => !['trash', 'gdrive', 'ungdrive'].includes(el),
         );
         if (!parents || !parents[0]) return false;
-        if (selectedFolders.length === 0) {
+        if (selectedFolders.length === 0 || !selectedFolders) {
           return gdriveFolders;
         } else {
           return gdriveFolders
@@ -88,6 +88,7 @@ const GdriveList = () => {
       // is in Clusters
       const isFavorite = () => {
         if (
+          gdriveSelect &&
           gdriveSelect.some(op => ['trash', 'gdrive', 'ungdrive'].includes(op))
         ) {
           return gdriveSelect.includes('gdrive')
