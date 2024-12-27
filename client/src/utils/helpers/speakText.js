@@ -28,7 +28,8 @@ const markAsRead = (current, next) => {
     if (
       el.innerText.startsWith(currentMsg) ||
       el.innerText.endsWith(currentMsg) ||
-      el.innerText.includes(currentMsg + nextMsg)
+      (currentMsg.split(' ').length > 1 &&
+        el.innerText.includes(currentMsg + nextMsg))
     ) {
       const activeEl = el.closest('li');
       const prevActiveEl = activeEl?.previousElementSibling;
