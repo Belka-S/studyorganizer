@@ -41,7 +41,7 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
         .replaceAll(',', `,${divider}`)
         .replaceAll('!', `!${divider}`)
         .replaceAll('?', `?${divider}`)
-        .replaceAll(':', `:${divider}`)
+        .replaceAll(': ', `:${divider} `)
         // numbers
         .replaceAll(`0.${divider}`, '0.')
         .replaceAll(`1.${divider}`, '1.')
