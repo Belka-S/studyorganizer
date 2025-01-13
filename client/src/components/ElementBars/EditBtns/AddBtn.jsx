@@ -40,6 +40,7 @@ const AddBtn = () => {
       .replaceAll('\n', ' ')
       .trim();
 
+    console.log('element: ', element);
     const translation = { from: activeCluster.lang, to: user.lang };
     const caption = await translateText(element, translation);
     const { _id } = activeCluster;
@@ -48,7 +49,7 @@ const AddBtn = () => {
         element.split(/\s+/).length !== 1
           ? { element, caption, cluster: _id, checked: true }
           : element.includes('https://')
-          ? { element: '[]', caption, cluster: _id }
+          ? { element: '[]', caption: element, cluster: _id }
           : { element, caption, cluster: _id, favorite: true };
 
       dispatch(addElementThunk(payload));

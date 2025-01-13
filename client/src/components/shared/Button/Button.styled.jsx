@@ -53,7 +53,7 @@ const smallStyles = css`
   padding: 2px 8px;
   border-radius: 8px;
   font-size: 12px;
-  @media screen and (width > ${breakpoints.tablet}) {
+  @media screen and (width > ${breakpoints.mobile}) {
     min-width: 80px;
     padding: 4px 12px;
     border-radius: 12px;
@@ -65,7 +65,7 @@ const mediumStyles = css`
   padding: 4px 12px;
   border-radius: 14px;
   font-size: 14px;
-  @media screen and (width > ${breakpoints.tablet}) {
+  @media screen and (width > ${breakpoints.mobile}) {
     /* min-width: 100px; */
     padding: 8px 16px;
     border-radius: 18px;
@@ -77,7 +77,7 @@ const largeStyles = css`
   padding: 6px 16px;
   border-radius: 20px;
   font-size: 14px;
-  @media screen and (width > ${breakpoints.tablet}) {
+  @media screen and (width > ${breakpoints.mobile}) {
     min-width: 120px;
     padding: 12px 20px;
     border-radius: 24px;
