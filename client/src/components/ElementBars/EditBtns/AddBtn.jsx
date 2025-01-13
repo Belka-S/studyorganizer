@@ -40,7 +40,6 @@ const AddBtn = () => {
       .replaceAll('\n', ' ')
       .trim();
 
-    console.log('element: ', element);
     const translation = { from: activeCluster.lang, to: user.lang };
     const caption = await translateText(element, translation);
     const { _id } = activeCluster;
