@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useInView } from 'react-intersection-observer';
 
 import { useAuth, useClusters, useElements } from 'utils/hooks';
 import { translateText } from 'utils/helpers';
@@ -9,6 +10,7 @@ import {
 } from 'store/element/elementThunks';
 import { setActiveElement } from 'store/element/elementSlice';
 import ElementLangBar from 'components/ElementBars/ElementLangBar';
+import ElementEditBar from 'components/ElementBars/ElementEditBar';
 import OvalLoader from 'components/shared/Loader/OvalLoader';
 import { themes } from 'styles/themes';
 
@@ -19,6 +21,10 @@ const { white } = themes.colors;
 
 const ElementList = () => {
   const dispatch = useDispatch();
+  const { ref, inView, entry } = useInView({
+    initialInView: true,
+    rootMargin: '0px 0px -30px 0px',
+  });
   const { user } = useAuth();
   const { activeCluster } = useClusters();
   const { allElements, elementTrash, elementFilter } = useElements();
@@ -118,6 +124,11 @@ const ElementList = () => {
     });
   };
 
+  const isScrollable =
+    window.innerHeight <
+    entry?.target.getBoundingClientRect().y +
+      entry?.target.getBoundingClientRect().height * 1.5;
+
   return (
     <>
       <List>
@@ -135,10 +146,13 @@ const ElementList = () => {
           />
         ))}
 
-        <ElementLangBar
-          filtredElements={filtredElements}
-          setLiColor={setLiColor}
-        />
+        <div ref={ref}>
+          <ElementLangBar
+            filtredElements={filtredElements}
+            setLiColor={setLiColor}
+          />
+          {(!inView || !isScrollable) && <ElementEditBar />}
+        </div>
       </List>
 
       {isScrolling && <OvalLoader />}

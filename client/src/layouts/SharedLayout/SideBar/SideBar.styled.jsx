@@ -14,9 +14,7 @@ export const SideBarDiv = styled.div`
   ${({ $side }) => `padding-${$side}: ${indents.m}`};
   ${({ $side }) => `${$side}: 0`};
   top: ${({ $offY }) => $offY};
-
-  z-index: 100;
-
+  /* z-index: 100; */
   display: flex;
   flex-direction: column;
   align-items: center;

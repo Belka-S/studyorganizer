@@ -22,6 +22,7 @@ const { button } = themes.shadows;
 
 const ElementLangBar = ({ filtredElements, setLiColor }) => {
   const dispatch = useDispatch();
+
   const { user } = useAuth();
   const { activeCluster: ac } = useClusters();
   const { activeElement: ae } = useElements();
@@ -199,16 +200,8 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
     msg && toast.error(msg);
   };
 
-  //
-
   return (
-    <GridWrap
-      className="element-lang-bar"
-      $m="0"
-      $cg="8px"
-      $ai="center"
-      $gtc="2fr 2fr 1fr .3fr 1fr 2fr 2fr"
-    >
+    <GridWrap $m="0" $cg="8px" $ai="center" $gtc="2fr 2fr 1fr .3fr 1fr 2fr 2fr">
       <Select
         options={languageCodes}
         defaultValue={languageCodes.find(el => el.value === ac?.lang)}
