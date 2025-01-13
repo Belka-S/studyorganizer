@@ -199,8 +199,16 @@ const ElementLangBar = ({ filtredElements, setLiColor }) => {
     msg && toast.error(msg);
   };
 
+  //
+
   return (
-    <GridWrap $m="0" $cg="8px" $ai="center" $gtc="2fr 2fr 1fr .3fr 1fr 2fr 2fr">
+    <GridWrap
+      className="element-lang-bar"
+      $m="0"
+      $cg="8px"
+      $ai="center"
+      $gtc="2fr 2fr 1fr .3fr 1fr 2fr 2fr"
+    >
       <Select
         options={languageCodes}
         defaultValue={languageCodes.find(el => el.value === ac?.lang)}

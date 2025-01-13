@@ -106,7 +106,6 @@ const GdriveList = () => {
         ? (a, b) => b.createdTime.localeCompare(a.createdTime)
         : (a, b) => a.name.localeCompare(b.name),
     );
-  console.log('gdriveFolders: ', gdriveFolders);
 
   return (
     <List>

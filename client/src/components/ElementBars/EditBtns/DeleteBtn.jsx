@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import { HiX } from 'react-icons/hi';
 
 import Button from 'components/shared/Button/Button';
 import { useElements } from 'utils/hooks';
@@ -28,8 +29,8 @@ const DeleteBtn = () => {
   };
 
   return (
-    <Button onClick={emptyTrash} $s="m" $bs={button}>
-      delete
+    <Button onClick={emptyTrash} $s="m" $round={true} $bs={button}>
+      <HiX size={16} />
     </Button>
   );
 };

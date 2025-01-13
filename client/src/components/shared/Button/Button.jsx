@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { TransparentBtn } from './Button.styled';
 
 const Button = ({
+  $round,
   $w,
   $h,
   $s,
@@ -15,6 +16,7 @@ const Button = ({
 }) => {
   return (
     <TransparentBtn
+      $round={$round}
       $w={$w}
       $h={$h}
       $s={$s}
@@ -32,6 +34,7 @@ const Button = ({
 export default Button;
 
 Button.propTypes = {
+  $round: PropTypes.bool,
   $w: PropTypes.string,
   $h: PropTypes.string,
   $s: PropTypes.string,

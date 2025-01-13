@@ -7,6 +7,9 @@ const { colors, breakpoints } = themes;
 // Base styles
 const baseStyles = css`
   position: relative;
+  aspect-ratio: ${({ $round }) => $round && '1 / 1'};
+  min-width: ${({ $round }) => $round && '45px !important'};
+  border-radius: ${({ $round }) => $round && '50% !important'};
   max-width: ${({ $w }) => $w};
   height: ${({ $h }) => $h};
   display: flex;

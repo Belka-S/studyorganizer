@@ -23,7 +23,7 @@ const Header = ({ $height, barW, setBarW }) => {
   const { activeFile: af } = useGdrive();
 
   useEffect(() => {
-    isLoggedIn ? setBarW('18%') : setBarW('45%');
+    isLoggedIn ? setBarW(`${s}`) : setBarW('45%');
   }, [isLoggedIn, setBarW]);
 
   const scrollOnTop = () => {
@@ -72,7 +72,7 @@ const Header = ({ $height, barW, setBarW }) => {
   const handleClick = () => {
     const currenPosition = window.scrollY; // const lowestPosition = document.body.scrollHeight - window.innerHeight;
     if (currenPosition === 0) {
-      barW !== '18%' ? setBarW('18%') : setBarW('45%');
+      barW !== '45%' ? setBarW('45%') : setBarW(`${s}`);
     }
     scrollOnTop();
   };

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import { FiPlus } from 'react-icons/fi';
 
 import Button from 'components/shared/Button/Button';
 import { readClipboard, writeClipboard, translateText } from 'utils/helpers';
@@ -59,8 +60,8 @@ const AddBtn = () => {
   };
 
   return (
-    <Button onClick={addElement} $s="m" $bs={button}>
-      add
+    <Button onClick={addElement} $s="m" $round={true} $bs={button}>
+      <FiPlus size={18} />
     </Button>
   );
 };

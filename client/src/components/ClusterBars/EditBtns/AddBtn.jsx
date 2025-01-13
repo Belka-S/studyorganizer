@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
+import { FiPlus } from 'react-icons/fi';
 
 import Button from 'components/shared/Button/Button';
 import { clusterSchema } from 'utils/validation';
@@ -33,8 +34,8 @@ const AddBtn = ({ setClipboardText, setIsModal }) => {
     }
   };
   return (
-    <Button onClick={addCluster} $s="m" $bs={button}>
-      add
+    <Button onClick={addCluster} $s="m" $round={true} $bs={button}>
+      <FiPlus size={18} />
     </Button>
   );
 };
