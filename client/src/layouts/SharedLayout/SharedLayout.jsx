@@ -17,11 +17,9 @@ const SharedLayout = () => {
   return (
     <>
       <Header $height={xl} barW={barW} setBarW={setBarW} />
-
-      <SideBar $side="left" $width={barW} $height={barH} $offY={xl} />
-
       <GridWrap $gtc={`${barW}  calc(100% - ${barW})`} $cg="0">
         <div style={{ height: barH }}></div>
+        <SideBar $side="left" $width={barW} $height={barH} $offY={xl} />
         <Suspense fallback={<OvalLoader />}>
           <Outlet />
         </Suspense>

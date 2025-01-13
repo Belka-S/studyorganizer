@@ -19,11 +19,11 @@ export const FlexDiv = styled.div`
   background-color: transparent;
 
   @media screen and (width >= ${breakpoints.mobile}) {
-    max-width: ${breakpoints.mobile};
+    max-width: 100%; // max-width: ${breakpoints.mobile};
   }
 
   @media screen and (width >= ${breakpoints.tablet}) {
-    max-width: ${breakpoints.tablet};
+    max-width: 100%; // max-width: ${breakpoints.tablet};
     padding: ${({ $p = '0 24px' }) => $p};
   }
 
