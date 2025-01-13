@@ -4,6 +4,7 @@ import { GridDiv } from './GridWrap.styled';
 
 const GridWrap = ({
   className,
+  $ref,
   $w,
   $h,
   $m,
@@ -22,6 +23,7 @@ const GridWrap = ({
   return (
     <GridDiv
       className={className}
+      ref={$ref}
       $w={$w}
       $h={$h}
       $m={$m}
@@ -45,6 +47,7 @@ export default GridWrap;
 
 GridWrap.propTypes = {
   className: PropTypes.string,
+  $ref: PropTypes.element,
   $w: PropTypes.string,
   $h: PropTypes.string,
   $m: PropTypes.string,

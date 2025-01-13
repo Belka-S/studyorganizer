@@ -61,12 +61,12 @@ const smallStyles = css`
   }
 `;
 const mediumStyles = css`
-  min-width: 80px;
+  /* min-width: 80px; */
   padding: 4px 12px;
   border-radius: 14px;
   font-size: 14px;
   @media screen and (width > ${breakpoints.tablet}) {
-    min-width: 100px;
+    /* min-width: 100px; */
     padding: 8px 16px;
     border-radius: 18px;
     font-size: 16px;
