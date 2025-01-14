@@ -154,7 +154,7 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
     : text.substring(firstLangIdx, firstLangIdx + 2);
   // message.pitch = 1; // 0 to 2
   const voices = speech.getVoices().filter(el => el.lang.includes(messageLang));
-  const timeout = lang.includes('de') ? 120 : 80;
+  const timeout = lang.includes('de') ? 120 : 100;
 
   if (!voices[0]) return `No ${lang.toUpperCase()} voice available`;
   if (lang === 'en' && voices[4]) {
@@ -164,15 +164,18 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
   } else {
     message.voice = voices[0];
   }
-
-  // divide message on parts
-  message.onend = () => {
+  // mark current message
+  message.onstart = () => {
     setLiColor(background);
     if (currentIndex === messageParts.length - 1) {
+      setLiColor(white);
       refreshPlaylist();
     } else if (messageParts.length !== 1) {
       markAsRead(message.text, messageParts[currentIndex + 1]);
     }
+  };
+  // divide message on parts
+  message.onend = () => {
     currentIndex += 1;
     if (currentIndex < messageParts.length) {
       message.text = messageParts[currentIndex].split('@±@')[0];
@@ -193,9 +196,6 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
       setTimeout(() => {
         speech.speak(message);
       }, messageParts[currentIndex - 1].length * timeout);
-    }
-    if (currentIndex === messageParts.length) {
-      setLiColor(white);
     }
   };
 
@@ -241,9 +241,16 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
   }
   translation.rate = rate;
   translation.text = currentMsg.split('@±@')[1].substring(2);
+  // mark current message
+  message.onstart = () => {
+    markAsRead(message.text);
+    if (currentIndex === messageParts.length - 1) {
+      setLiColor(white);
+      refreshPlaylist();
+    }
+  };
   // divide message + translation on parts
   message.onend = () => {
-    markAsRead(message.text);
     currentIndex += 1;
     if (currentIndex < messageParts.length) {
       const currentMsg = messageParts[currentIndex];
@@ -262,13 +269,11 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
       translation.text = currentMsg.split('@±@')[1]?.substring(2);
 
       setTimeout(() => {
-        if (currentIndex < messageParts.length - 1) speech.speak(translation);
+        if (currentIndex < messageParts.length - 1) {
+          speech.speak(translation);
+        }
         speech.speak(message);
-      }, messageParts[currentIndex - 1].length * 50);
-    }
-    if (currentIndex === messageParts.length) {
-      setLiColor(white);
-      refreshPlaylist();
+      }, messageParts[currentIndex - 1].length * 100);
     }
   };
 
