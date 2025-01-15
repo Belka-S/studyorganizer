@@ -12,7 +12,7 @@ const { xl } = themes.indents;
 const barH = `calc(100vh - ${xl})`;
 
 const SharedLayout = () => {
-  const [barW, setBarW] = useState('45%');
+  const [barW, setBarW] = useState('0%');
 
   return (
     <>
