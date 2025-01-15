@@ -52,7 +52,7 @@ const ElementSearchBar = () => {
       $m={`0 ${s} 0 0 `}
       $cg={s}
       $ai="center"
-      $gtc="11fr 10fr"
+      $gtc="1fr calc(51% - 36px)"
     >
       <Select
         isMulti
