@@ -2,7 +2,7 @@ import { ToastContainer } from './Toast.styled';
 
 const Toast = () => (
   <ToastContainer
-    position="top-right"
+    position="bottom-right"
     autoClose={1000}
     hideProgressBar={false}
     newestOnTop={false}

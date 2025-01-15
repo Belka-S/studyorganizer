@@ -6,7 +6,6 @@ import {
   fetchGroupsThunk,
 } from 'store/cluster/clusterThunks';
 import { useClusters, useElements } from 'utils/hooks';
-// import { fetchElementsThunk } from 'store/element/elementThunks';
 
 import LiGroup from './Li/LiGroup';
 import LiCluster from './Li/LiCluster';
@@ -25,7 +24,6 @@ const ClusterList = () => {
   useEffect(() => {
     dispatch(fetchClustersThunk());
     dispatch(fetchGroupsThunk());
-    // dispatch(fetchElementsThunk());
   }, [dispatch]);
 
   useEffect(() => {

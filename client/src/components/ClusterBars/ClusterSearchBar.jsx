@@ -5,7 +5,7 @@ import GridWrap from 'components/shared/GridWrap/GridWrap';
 import Filter from 'components/shared/Filter/Filter';
 import Select from 'components/shared/Select/Select';
 import { baseOptions } from 'components/shared/Select/options/baseOptions';
-import { useClusters } from 'utils/hooks';
+import { useAuth, useClusters } from 'utils/hooks';
 import { selectClusterFilter } from 'store/cluster/clusterSelectors';
 import { setClusterFilter, setClusterSelect } from 'store/cluster/clusterSlice';
 import { themes } from 'styles/themes';
@@ -15,13 +15,15 @@ const { backgroundHoverd: ol, white: b, borderLight: bh } = themes.colors;
 
 const ClustersSearchBar = () => {
   const dispatch = useDispatch();
+  const { user } = useAuth();
   const { clusterGroups, clusterSelect } = useClusters();
-
-  const [selectValue, setSelectValue] = useState(clusterSelect);
+  const [selectValue, setSelectValue] = useState(() => user?.select);
 
   useEffect(() => {
     dispatch(setClusterSelect(selectValue));
   }, [dispatch, selectValue]);
+
+  if (clusterGroups.length === 0) return;
 
   const getOptions = selectValue => {
     let options = [
@@ -32,7 +34,6 @@ const ClustersSearchBar = () => {
         .map(el => ({ value: el.clusterGroup, label: el.clusterGroup }))
         .sort((a, b) => a.value.localeCompare(b.value)),
     ];
-
     if (selectValue.includes('favorite')) {
       options = options.filter(el => el.value !== 'unfavorite');
     }
@@ -60,7 +61,10 @@ const ClustersSearchBar = () => {
       <Filter selector={selectClusterFilter} reducer={setClusterFilter} />
       <Select
         isMulti
-        onChange={data => setSelectValue(data ? data.map(el => el.value) : '')}
+        onChange={data => {
+          setSelectValue(data ? data.map(el => el.value) : '');
+          // dispatch(updateUserThunk({ select: selectValue }));
+        }}
         defaultValue={defaultValue}
         isClearable={selectValue}
         options={getOptions(selectValue)}

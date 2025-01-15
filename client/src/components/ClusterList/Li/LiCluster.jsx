@@ -13,6 +13,7 @@ import { useClusters, useElements } from 'utils/hooks';
 import { getDate } from 'utils/helpers';
 import { setActiveCluster, setClusterTrash } from 'store/cluster/clusterSlice';
 import { updateClusterThunk } from 'store/cluster/clusterThunks';
+import { updateUserThunk } from 'store/auth/authThunks';
 import Modal from 'components/shared/Modal/Modal';
 import EditClusterForm from 'components/ClusterForms/ClusterEditForm';
 
@@ -31,7 +32,7 @@ import {
 const LiCluster = ({ el, sortByDate, setSortByDate }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { activeCluster, clusterTrash } = useClusters();
+  const { activeCluster, clusterTrash, clusterSelect } = useClusters();
   const { allElements } = useElements();
   const [isModal, setIsModal] = useState(false);
 
@@ -58,9 +59,8 @@ const LiCluster = ({ el, sortByDate, setSortByDate }) => {
   };
 
   const handleClusterNavigate = () => {
-    // if (el?._id === activeCluster?._id) {
+    // dispatch(updateUserThunk({ select: clusterSelect }));
     navigate(`/element/${_id}`, { replace: true });
-    // }
   };
 
   const handleSort = () => {

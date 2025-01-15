@@ -25,7 +25,8 @@ const userSchema = new Schema(
     birthday: { type: String, default: '' },
     about: { type: String, default: '' },
     lang: { type: String, default: 'en' },
-    rate: { type: String, default: 0.75 },
+    rate: { type: String, default: 0.6 },
+    select: { type: Array, default: [] },
 
     role: { type: String, enum: roleList, default: 'user' },
   },

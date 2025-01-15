@@ -36,7 +36,7 @@ export const defaultStyles = ({
   control: (styles, state) => {
     return {
       ...styles,
-      minWidth: '100px',
+      minWidth: '60px',
       borderRadius: `${$br}`,
       outline: state.isFocused ? `1px solid ${$ol}` : 'none',
       borderColor: state.isFocused ? `${$bf}` : `${$b}`,
