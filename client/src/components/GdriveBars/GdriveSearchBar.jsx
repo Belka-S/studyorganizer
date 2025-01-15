@@ -49,8 +49,7 @@ const GdriveSearchBar = () => {
   });
 
   return (
-    <GridWrap $w="100%" $m={`0 ${s} 0 0 `} $cg={s} $ai="center" $gtc="1fr 2fr">
-      <Filter selector={selectGdriveFilter} reducer={setGdriveFilter} />
+    <GridWrap $w="100%" $m={`0 ${s} 0 0 `} $cg={s} $ai="center" $gtc="2fr 1fr">
       <Select
         isMulti
         onChange={data => setSelectValue(data ? data.map(el => el.value) : '')}
@@ -62,6 +61,7 @@ const GdriveSearchBar = () => {
         $bh={bh}
         $br={m}
       />
+      <Filter selector={selectGdriveFilter} reducer={setGdriveFilter} />
     </GridWrap>
   );
 };

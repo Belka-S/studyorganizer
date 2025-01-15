@@ -57,13 +57,11 @@ const ClustersSearchBar = () => {
   });
 
   return (
-    <GridWrap $w="100%" $m={`0 ${s} 0 0 `} $cg={s} $ai="center" $gtc="1fr 2fr">
-      <Filter selector={selectClusterFilter} reducer={setClusterFilter} />
+    <GridWrap $w="100%" $m={`0 ${s} 0 0 `} $cg={s} $ai="center" $gtc="2fr 1fr">
       <Select
         isMulti
         onChange={data => {
-          setSelectValue(data ? data.map(el => el.value) : '');
-          // dispatch(updateUserThunk({ select: selectValue }));
+          setSelectValue(data ? data.map(el => el.value) : ''); // dispatch(updateUserThunk({ select: selectValue }));
         }}
         defaultValue={defaultValue}
         isClearable={selectValue}
@@ -73,6 +71,7 @@ const ClustersSearchBar = () => {
         $bh={bh}
         $br={m}
       />
+      <Filter selector={selectClusterFilter} reducer={setClusterFilter} />
     </GridWrap>
   );
 };

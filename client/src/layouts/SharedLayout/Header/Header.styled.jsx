@@ -24,7 +24,7 @@ export const Nav = styled.nav`
 
   & a {
     padding: 2px 0;
-    margin-right: ${indents.m};
+    margin-right: ${indents.s};
     border-radius: ${indents.xs};
     text-decoration: none;
     white-space: nowrap;

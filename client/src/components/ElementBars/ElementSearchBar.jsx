@@ -47,8 +47,13 @@ const ElementSearchBar = () => {
   });
 
   return (
-    <GridWrap $w="100%" $m={`0 ${s} 0 0 `} $cg={s} $ai="center" $gtc="1fr 2fr">
-      <Filter selector={selectElementFilter} reducer={setElementFilter} />
+    <GridWrap
+      $w="100%"
+      $m={`0 ${s} 0 0 `}
+      $cg={s}
+      $ai="center"
+      $gtc="11fr 10fr"
+    >
       <Select
         isMulti
         onChange={data => setSelectValue(data ? data.map(el => el.value) : '')}
@@ -60,6 +65,7 @@ const ElementSearchBar = () => {
         $bh={bh}
         $br={m}
       />
+      <Filter selector={selectElementFilter} reducer={setElementFilter} />
     </GridWrap>
   );
 };

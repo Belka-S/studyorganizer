@@ -131,7 +131,7 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
       (el.endsWith(',') || el.includes(',@±@')) &&
       (currentElLength <= 3 ||
         nextElLength <= 3 ||
-        currentElLength + nextElLength <= 12)
+        currentElLength + nextElLength <= 11)
     ) {
       const unitedEl = el.includes(',@±@')
         ? el.substring(0, el.length - 5) + arr[i + 1]
