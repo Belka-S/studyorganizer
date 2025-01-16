@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 
 import { useClusters, useElements } from 'utils/hooks';
@@ -10,7 +11,7 @@ import DeleteBtn from './EditBtns/DeleteBtn';
 
 const { m } = themes.indents;
 
-const ElementEditBar = () => {
+const ElementEditBar = ({ className }) => {
   const { pathname } = useLocation();
   const { elementTrash } = useElements();
   const { activeCluster } = useClusters();
@@ -22,6 +23,7 @@ const ElementEditBar = () => {
   if (!pathname.includes('/element')) return;
   return (
     <GridWrap
+      className={className}
       $m={`${m} ${m}`}
       $pos="fixed"
       $side="left"
@@ -35,3 +37,7 @@ const ElementEditBar = () => {
 };
 
 export default ElementEditBar;
+
+ElementEditBar.propTypes = {
+  className: PropTypes.string,
+};

@@ -151,7 +151,9 @@ const ElementList = () => {
             filtredElements={filtredElements}
             setLiColor={setLiColor}
           />
-          {(!inView || !isScrollable) && <ElementEditBar />}
+          <ElementEditBar
+            className={!inView || !isScrollable ? 'shown' : 'hidden'}
+          />
         </div>
       </List>
 

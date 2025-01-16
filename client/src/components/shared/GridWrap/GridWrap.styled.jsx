@@ -17,4 +17,15 @@ export const GridDiv = styled.div`
   grid-column-gap: ${({ $cg = '20px' }) => $cg};
 
   grid-template-columns: ${({ $gtc }) => $gtc};
+
+  & .hidden {
+    opacity: 0;
+    transition: opacity 150ms;
+    &:hover {
+      opacity: 1;
+    }
+    & button {
+      transition: color 750ms, border-color 750ms, background-color 750ms;
+    }
+  }
 `;
