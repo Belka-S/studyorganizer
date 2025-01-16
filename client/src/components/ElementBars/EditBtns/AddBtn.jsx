@@ -44,12 +44,15 @@ const AddBtn = () => {
     const caption = await translateText(element, translation);
     const { _id } = activeCluster;
     try {
-      const payload =
-        element.split(/\s+/).length !== 1
-          ? { element, caption, cluster: _id, checked: true }
-          : element.includes('https://')
-          ? { element: '[]', caption: element, cluster: _id }
-          : { element, caption, cluster: _id, favorite: true };
+      const mediaEl = { cluster: _id, element: '[]', caption: element };
+      const textEl = {
+        cluster: _id,
+        element,
+        caption,
+        favorite: true,
+        checked: element.split(/\s+/).length < 20 ? true : false,
+      };
+      const payload = element.includes('https://') ? mediaEl : textEl;
 
       dispatch(addElementThunk(payload));
       e.target.blur();
