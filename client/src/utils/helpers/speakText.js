@@ -154,7 +154,6 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
     : text.substring(firstLangIdx, firstLangIdx + 2);
   // message.pitch = 1; // 0 to 2
   const voices = speech.getVoices().filter(el => el.lang.includes(messageLang));
-  const timeout = lang.includes('de') ? 120 : 100;
 
   if (!voices[0]) return `No ${lang.toUpperCase()} voice available`;
   if (lang === 'en' && voices[4]) {
@@ -175,6 +174,7 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
     }
   };
   // divide message on parts
+  const timeout = lang.includes('de') ? 120 : 100;
   message.onend = () => {
     currentIndex += 1;
     if (currentIndex < messageParts.length) {
@@ -254,6 +254,12 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
     currentIndex += 1;
     if (currentIndex < messageParts.length) {
       const currentMsg = messageParts[currentIndex];
+      const timeout =
+        messageParts[currentIndex - 1].endsWith('.') ||
+        messageParts[currentIndex - 1].endsWith('!') ||
+        messageParts[currentIndex - 1].endsWith('?')
+          ? 60
+          : 180;
       const transLang = currentMsg.split('@±@')[1]?.substring(0, 2);
       const voicesT = speech
         .getVoices()
@@ -273,7 +279,7 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
           speech.speak(translation);
         }
         speech.speak(message);
-      }, messageParts[currentIndex - 1].length * 100);
+      }, messageParts[currentIndex - 1].length * timeout);
     }
   };
 
