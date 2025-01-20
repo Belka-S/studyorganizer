@@ -76,6 +76,10 @@ export const TranslateBtn = styled.button`
   ${baseBtnStyles}
 `;
 
+export const EditBtn = styled.button`
+  ${baseBtnStyles}
+`;
+
 export const SpeakBtn = styled.button`
   height: 100%;
   text-align: left;

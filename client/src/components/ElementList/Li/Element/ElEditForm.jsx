@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { BsSendCheck, BsTextareaResize } from 'react-icons/bs';
 import { SiGoogletranslate } from 'react-icons/si';
+import { MdOutlineTextIncrease } from 'react-icons/md';
 
 import { translateText } from 'utils/helpers';
 import { useAuth, useClusters } from 'utils/hooks';
@@ -19,15 +20,17 @@ import {
   TranslateBtn,
   BtnWrap,
   Textarea,
+  EditBtn,
 } from './Element.styled';
 
-const ElementEditForm = ({ el, article, isForm, setIsForm }) => {
+const ElementEditForm = ({ el, isForm, setIsForm }) => {
   const dispatch = useDispatch();
   const { user } = useAuth();
   const { activeCluster } = useClusters();
+  const [article, setArticle] = useState('');
 
   const { _id, element, caption } = el;
-  const height = isForm + 24;
+  const height = isForm + 42;
 
   const { register, watch, setValue, handleSubmit, setFocus } = useForm({
     mode: 'onBlur',
@@ -94,6 +97,13 @@ const ElementEditForm = ({ el, article, isForm, setIsForm }) => {
     setIsForm(false);
   };
 
+  const handleSetArticle = () => {
+    if (article === '') setArticle('der ');
+    if (article === 'der ') setArticle('die ');
+    if (article === 'die ') setArticle('das ');
+    if (article === 'das ') setArticle('');
+  };
+
   const translateElement = async () => {
     let element = watch('element');
     const isSentence = ['.', '!', '?'].includes(element.at(element.length - 1));
@@ -115,15 +125,18 @@ const ElementEditForm = ({ el, article, isForm, setIsForm }) => {
       <Textarea {...register('element')} style={{ height }} />
 
       <BtnWrap>
-        <SubmitBtn>
-          <BsSendCheck size="16px" />
-        </SubmitBtn>
         <ResizeBtn type="button" onClick={() => setIsForm(height)}>
           <BsTextareaResize size="16px" />
         </ResizeBtn>
+        <EditBtn onClick={handleSetArticle}>
+          <MdOutlineTextIncrease size="18px" />
+        </EditBtn>
         <TranslateBtn type="button" onClick={translateElement}>
           <SiGoogletranslate size="16px" />
         </TranslateBtn>
+        <SubmitBtn>
+          <BsSendCheck size="16px" />
+        </SubmitBtn>
       </BtnWrap>
 
       <Textarea {...register('caption')} style={{ height }} />
@@ -135,7 +148,6 @@ export default ElementEditForm;
 
 ElementEditForm.propTypes = {
   el: PropTypes.object,
-  article: PropTypes.string,
   isForm: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
   setIsForm: PropTypes.func,
 };

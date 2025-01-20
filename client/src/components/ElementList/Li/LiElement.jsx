@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux';
 import { TiStar } from 'react-icons/ti';
 import { FaCheck, FaExternalLinkAlt } from 'react-icons/fa';
 import { FiEdit3, FiTrash2 } from 'react-icons/fi';
-import { MdOutlineTextIncrease } from 'react-icons/md';
 
 import FlexWrap from 'components/shared/FlexWrap/FlexWrap';
 import { useElements } from 'utils/hooks';
@@ -42,8 +41,6 @@ const LiElement = ({
   const { _id, favorite, checked } = el;
   const isInTrash = elementTrash.find(el => el._id === _id);
 
-  const [article, setArticle] = useState('');
-
   const handleFavorite = () => {
     dispatch(updateElementThunk({ _id, favorite: !favorite }));
   };
@@ -61,13 +58,6 @@ const LiElement = ({
       const height = e.target.closest('div').clientHeight;
       setIsForm(height);
     }
-  };
-
-  const handleSetArticle = () => {
-    if (article === '') setArticle('der ');
-    if (article === 'der ') setArticle('die ');
-    if (article === 'die ') setArticle('das ');
-    if (article === 'das ') setArticle('');
   };
 
   const isActive = _id === activeElement?._id;
@@ -102,14 +92,7 @@ const LiElement = ({
         )}
       </FlexWrap>
 
-      {isForm && (
-        <ElEditForm
-          el={el}
-          article={article}
-          isForm={isForm}
-          setIsForm={setIsForm}
-        />
-      )}
+      {isForm && <ElEditForm el={el} isForm={isForm} setIsForm={setIsForm} />}
       {!isForm && (
         <Element
           el={el}
@@ -123,12 +106,6 @@ const LiElement = ({
         <TrashBtn $hovered={isInTrash} onClick={handleTrash}>
           <FiTrash2 size="16px" />
         </TrashBtn>
-
-        {isForm && (
-          <EditBtn onClick={handleSetArticle}>
-            <MdOutlineTextIncrease size="18px" />
-          </EditBtn>
-        )}
 
         <EditBtn onClick={handleEdit}>
           <FiEdit3 size="15px" />
