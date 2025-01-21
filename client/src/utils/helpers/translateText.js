@@ -1,7 +1,10 @@
 import translate from 'translate';
 
+const { VITE_DEEPL_API_KEY } = import.meta.env;
+
 // Translation
-translate.engine = 'google'; // "google", "yandex", "libre", "deepl"
+translate.engine = 'deepl'; // "google", "deepl", "libre", "yandex"
+translate.key = VITE_DEEPL_API_KEY;
 
 export const translateText = async (text, { from, to }) => {
   try {
