@@ -28,6 +28,7 @@ jobs:
           VITE_GOOGLE_CLIENT_ID: ${{vars.VITE_GOOGLE_CLIENT_ID}}
           VITE_GOOGLE_API_KEY: ${{vars.VITE_GOOGLE_API_KEY}}
           VITE_DEEPL_API_KEY: ${{vars.VITE_DEEPL_API_KEY}}
+
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
         with:
