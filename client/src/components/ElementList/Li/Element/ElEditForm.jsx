@@ -40,7 +40,6 @@ const ElementEditForm = ({ el, isForm, setIsForm }) => {
   // set Article (Deutsch)
   useEffect(() => {
     setFocus('element');
-
     if (article && element.trim().startsWith('der')) {
       setValue('element', article + element.replace('der', '').trim() + ', ');
     } else if (article && element.trim().startsWith('die')) {
@@ -128,7 +127,7 @@ const ElementEditForm = ({ el, isForm, setIsForm }) => {
         <ResizeBtn type="button" onClick={() => setIsForm(height)}>
           <BsTextareaResize size="16px" />
         </ResizeBtn>
-        <EditBtn onClick={handleSetArticle}>
+        <EditBtn type="button" onClick={handleSetArticle}>
           <MdOutlineTextIncrease size="18px" />
         </EditBtn>
         <TranslateBtn type="button" onClick={translateElement}>
