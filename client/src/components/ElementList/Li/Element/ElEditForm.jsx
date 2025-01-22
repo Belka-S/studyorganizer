@@ -116,7 +116,7 @@ const ElementEditForm = ({ el, isForm, setIsForm }) => {
       element = parts[0] + ',';
     }
     const translation = { from: activeCluster.lang, to: user.lang };
-    const caption = await translateText(element, translation);
+    const caption = await translateText(element, translation, user.engine);
     setValue('caption', caption);
   };
 

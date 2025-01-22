@@ -23,6 +23,7 @@ const updateSchema = validateBody(
     about: Joi.string().allow(''),
     lang: Joi.string().valid(...Object.keys(langCodes)),
     rate: Joi.number(),
+    engine: Joi.string(),
     clusterSelect: Joi.array().allow(null),
     gdriveSelect: Joi.array().allow(null),
   }),

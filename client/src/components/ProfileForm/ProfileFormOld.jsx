@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+// import { yupResolver } from '@hookform/resolvers/yup';
 import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { btn_submit } from 'styles/common/Buttons.module.scss';
 import { previewImage } from 'utils/helpers';
 
-import css from './Forms.module.scss';
+const css = 'qwe'; // import css from './Forms.module.scss';
 
 const ProfileForm = () => {
   const {
@@ -14,7 +14,10 @@ const ProfileForm = () => {
     watch,
     handleSubmit,
     formState: { errors },
-  } = useForm({ mode: 'onBlur', resolver: yupResolver(schemas.profile) });
+  } = useForm({
+    mode: 'onBlur',
+    // resolver: yupResolver(schemas.profile)
+  });
 
   // Avatar image
   const isNewAvatar = useCallback(() => {
@@ -39,7 +42,9 @@ const ProfileForm = () => {
       <label className={css.avatar}>
         {errors.avatar && 'Image file'} <span> {errors.avatar?.message}</span>
         <input
-          className={isNewAvatar() ? (errors.avatar ? css.invalid : css.valid) : '_'}
+          className={
+            isNewAvatar() ? (errors.avatar ? css.invalid : css.valid) : '_'
+          }
           id="avatar"
           type="file"
           accept="image/*"

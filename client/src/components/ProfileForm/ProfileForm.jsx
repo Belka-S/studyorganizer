@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -23,13 +24,22 @@ import {
   setGdriveSelect,
   emptyGdriveTrash,
 } from 'store/gdrive/gdriveSlice';
-import { logoutThunk } from 'store/auth/authThunks';
+import { logoutThunk, updateUserThunk } from 'store/auth/authThunks';
 import Button from 'components/shared/Button/Button';
+import Select from 'components/shared/Select/Select';
 
-import { Form } from './ProfileForm.styled';
+import { useAuth } from 'utils/hooks';
+import { enginrValues } from 'utils/constants';
+import { themes } from 'styles/themes';
+
+import { Profile } from './Profile.styled';
+
+const { backgroundHoverd, white, borderLight } = themes.colors;
 
 const ProfileForm = () => {
   const dispatch = useDispatch();
+  const { user } = useAuth();
+  const [selectValue, setSelectValue] = useState(() => user?.engine ?? []);
 
   const handleLogOut = () => {
     dispatch(logoutThunk());
@@ -55,10 +65,27 @@ const ProfileForm = () => {
     dispatch(emptyGdriveTrash());
   };
 
+  const setUserEngine = ({ value }) => {
+    const formData = new FormData();
+    formData.append('engine', value);
+    dispatch(updateUserThunk(formData));
+  };
+
   return (
-    <Form>
-      <Button onClick={handleLogOut}>Log out</Button>
-    </Form>
+    <Profile>
+      <Select
+        onChange={setUserEngine}
+        defaultValue={enginrValues.find(el => el.value == user.engine)}
+        options={enginrValues}
+        placeholder="Translate by..."
+        $ol={backgroundHoverd}
+        $b={white}
+        $bh={borderLight}
+      />
+      <Button onClick={handleLogOut} $s="m">
+        Sign out
+      </Button>
+    </Profile>
   );
 };
 

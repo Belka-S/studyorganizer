@@ -7,6 +7,7 @@ const length = lgth => [lgth, `Must be at least ${lgth} characters long!`];
 const regex = field => [regExp[field].pattern, `Invalid ${field.toLowerCase()}!`];
 
 const roleList = ['admin', 'user'];
+const engineList = ['google', 'deepl'];
 
 const userSchema = new Schema(
   {
@@ -26,6 +27,7 @@ const userSchema = new Schema(
     about: { type: String, default: '' },
     lang: { type: String, default: 'en' },
     rate: { type: String, default: 0.6 },
+    engine: { type: String, enum: engineList, default: 'google' },
     clusterSelect: { type: Array, default: [] },
     gdriveSelect: { type: Array, default: [] },
 

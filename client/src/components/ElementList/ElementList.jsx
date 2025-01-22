@@ -117,7 +117,7 @@ const ElementList = () => {
       const { _id, element } = el;
       if (!element.startsWith('[') || lang !== el.lang) {
         const translation = { from: activeCluster.lang, to: lang };
-        const caption = await translateText(element, translation);
+        const caption = await translateText(element, translation, user.engine);
         dispatch(updateElementThunk({ _id, lang, caption }));
         counter = counter + 1;
       }

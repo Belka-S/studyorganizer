@@ -41,7 +41,7 @@ const AddBtn = () => {
       .trim();
 
     const translation = { from: activeCluster.lang, to: user.lang };
-    const caption = await translateText(element, translation);
+    const caption = await translateText(element, translation, user.engine);
     const { _id } = activeCluster;
     try {
       const mediaEl = { cluster: _id, element: '[]', caption: element };

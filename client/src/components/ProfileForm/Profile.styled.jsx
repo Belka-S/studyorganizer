@@ -4,12 +4,14 @@ import { themes } from 'styles/themes';
 
 const { colors, indents } = themes;
 
-export const Form = styled.div`
-  width: 400px;
+export const Profile = styled.div`
+  width: 300px;
   height: 400px;
+  padding: ${indents.l};
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 
   border-radius: ${indents.m};
   background-color: ${colors.backgroundHoverd};
