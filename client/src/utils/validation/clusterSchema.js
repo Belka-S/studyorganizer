@@ -16,7 +16,7 @@ export const titleSchema = Yup.object().shape({
     .required('required'),
   title: Yup.string()
     .matches(...pattern(regExp.NAME))
-    .max(30, 'is too long')
+    .max(50, 'is too long')
     .required('required'),
   group: Yup.string(),
 });
@@ -24,6 +24,6 @@ export const titleSchema = Yup.object().shape({
 export const groupSchema = Yup.object().shape({
   clusterGroup: Yup.string()
     .matches(...pattern(regExp.NAME))
-    .max(20, 'is too long')
+    .max(25, 'is too long')
     .required('required'),
 });
