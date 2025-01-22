@@ -17,7 +17,9 @@ const ClustersSearchBar = () => {
   const dispatch = useDispatch();
   const { user } = useAuth();
   const { clusterGroups, clusterSelect } = useClusters();
-  const [selectValue, setSelectValue] = useState(() => user?.select);
+  const [selectValue, setSelectValue] = useState(
+    () => user?.clusterSelect ?? [],
+  );
 
   useEffect(() => {
     dispatch(setClusterSelect(selectValue));
@@ -60,9 +62,7 @@ const ClustersSearchBar = () => {
     <GridWrap $w="100%" $m={`0 ${s} 0 0 `} $cg={s} $ai="center" $gtc="2fr 1fr">
       <Select
         isMulti
-        onChange={data => {
-          setSelectValue(data ? data.map(el => el.value) : ''); // dispatch(updateUserThunk({ select: selectValue }));
-        }}
+        onChange={data => setSelectValue(data ? data.map(el => el.value) : '')}
         defaultValue={defaultValue}
         isClearable={selectValue}
         options={getOptions(selectValue)}

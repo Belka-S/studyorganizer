@@ -59,7 +59,7 @@ const LiCluster = ({ el, sortByDate, setSortByDate }) => {
   };
 
   const handleClusterNavigate = () => {
-    dispatch(updateUserThunk({ select: clusterSelect }));
+    dispatch(updateUserThunk({ clusterSelect }));
     navigate(`/element/${_id}`, { replace: true });
   };
 

@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 import { FiRefreshCcw } from 'react-icons/fi';
 
 import { listFilesThunk } from 'store/gdrive/gdriveThunks';
+import { updateUserThunk } from 'store/auth/authThunks';
+import { setGdriveSelect } from 'store/gdrive/gdriveSlice';
 
 import { Button } from './RefreshBtn.styled';
 
@@ -21,6 +23,8 @@ const RefreshBtn = () => {
 
   const handleRefresh = () => {
     dispatch(listFilesThunk()).then(toast.success('Refreshed'));
+    dispatch(updateUserThunk({ gdriveSelect: [] }));
+    dispatch(setGdriveSelect([]));
   };
 
   if (isRefreshable) {

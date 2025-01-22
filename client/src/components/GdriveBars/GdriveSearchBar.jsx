@@ -5,8 +5,9 @@ import GridWrap from 'components/shared/GridWrap/GridWrap';
 import Select from 'components/shared/Select/Select';
 import Filter from 'components/shared/Filter/Filter';
 import { baseOptions } from 'components/shared/Select/options/baseOptions';
-import { useGdrive } from 'utils/hooks';
+import { useAuth, useGdrive } from 'utils/hooks';
 import { setGdriveFilter, setGdriveSelect } from 'store/gdrive/gdriveSlice';
+import { listFilesThunk } from 'store/gdrive/gdriveThunks';
 import { themes } from 'styles/themes';
 import { selectGdriveFilter } from 'store/gdrive/gdriveSelectors';
 
@@ -15,14 +16,20 @@ const { s, m } = themes.indents;
 
 const GdriveSearchBar = () => {
   const dispatch = useDispatch();
+  const { user } = useAuth();
   const { gdriveFolders, gdriveSelect } = useGdrive();
-  const [selectValue, setSelectValue] = useState(gdriveSelect);
+  const [selectValue, setSelectValue] = useState(
+    () => user?.gdriveSelect ?? [],
+  );
 
   useEffect(() => {
+    dispatch(listFilesThunk());
     dispatch(setGdriveSelect(selectValue));
   }, [dispatch, selectValue]);
 
-  const getOptions = () => {
+  if (gdriveFolders.length === 0) return;
+
+  const getOptions = selectValue => {
     let options = [
       ...baseOptions.filter(el =>
         ['trash', 'gdrive', 'ungdrive'].includes(el.value),
@@ -44,7 +51,7 @@ const GdriveSearchBar = () => {
     return options;
   };
 
-  const defaultValue = getOptions().filter(el => {
+  const defaultValue = getOptions(selectValue).filter(el => {
     return gdriveSelect.includes(el.value);
   });
 

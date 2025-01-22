@@ -62,7 +62,6 @@ const LiFile = ({ el, group, setGroup, sortByDate, setSortByDate }) => {
   };
 
   const handleDownload = () => {
-    // dispatch(getFileThunk({ fileId: el.id, fileName: el.name }));
     var link = document.createElement('a');
     link.download = el.name;
     link.href = el.webContentLink;
