@@ -253,6 +253,8 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
   translation.text = currentMsg.split('@±@')[1].substring(2);
   // mark current message
   message.onstart = () => {
+    // console.log('2');
+    refreshPlaylist();
     markAsRead(message.text);
     if (currentIndex === messageParts.length - 1) {
       setLiColor(white);
@@ -287,6 +289,8 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
 
       setTimeout(() => {
         if (currentIndex < messageParts.length - 1) {
+          // console.log('1');
+          markAsRead(translation.text);
           speech.speak(translation);
         }
         speech.speak(message);
@@ -298,6 +302,8 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
     speech.cancel();
     setLiColor(white);
   } else {
+    // console.log('0');
+    markAsRead(translation.text);
     speech.speak(translation);
     speech.speak(message);
   }
