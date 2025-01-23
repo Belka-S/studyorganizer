@@ -19,6 +19,10 @@ const baseLiStyle = css`
   background-color: ${({ licolor }) => licolor};
   border-radius: ${indents.xs};
   font-size: 22px;
+
+  &:last-of-type {
+    margin-bottom: ${indents.s};
+  }
 `;
 export const Li = styled.li`
   ${baseLiStyle}

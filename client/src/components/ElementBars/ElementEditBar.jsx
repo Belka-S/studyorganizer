@@ -6,10 +6,10 @@ import { useClusters, useElements } from 'utils/hooks';
 import GridWrap from 'components/shared/GridWrap/GridWrap';
 import { themes } from 'styles/themes';
 
-import AddBtn from './EditBtns/AddBtn';
-import DeleteBtn from './EditBtns/DeleteBtn';
+import AddBtn from './Buttons/AddBtn';
+import DeleteBtn from './Buttons/DeleteBtn';
 
-const { m } = themes.indents;
+const { m, s } = themes.indents;
 
 const ElementEditBar = ({ className }) => {
   const { pathname } = useLocation();
@@ -24,7 +24,7 @@ const ElementEditBar = ({ className }) => {
   return (
     <GridWrap
       className={className}
-      $m={`${m} ${m}`}
+      $m={`${s} ${m}`}
       $pos="fixed"
       $side="left"
       $high="bottom"

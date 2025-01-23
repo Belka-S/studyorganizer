@@ -11,12 +11,12 @@ export const Button = styled.div`
   cursor: pointer;
 
   &:hover svg {
-    stroke: ${colors.hovered};
+    stroke: ${colors.yellow};
   }
 
   & svg {
     transition: stroke 250ms;
-    stroke: ${colors.placeholder};
+    stroke: ${colors.hovered};
     /* stroke: ${({ $colored }) => $colored && colors.yellow}; */
     @keyframes refresh-spin {
       from {

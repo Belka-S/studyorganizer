@@ -32,6 +32,11 @@ export const Nav = styled.nav`
     text-decoration: none;
     font-weight: 700;
     font-size: 18px;
+    transition: color 250ms;
+
+    &:hover {
+      color: ${colors.hovered};
+    }
 
     &.active {
       color: ${colors.accent};

@@ -6,8 +6,8 @@ import Modal from 'components/shared/Modal/Modal';
 import { themes } from 'styles/themes';
 import { useClusters } from 'utils/hooks';
 
-import DeleteBtn from './EditBtns/DeleteBtn';
-import AddBtn from './EditBtns/AddBtn';
+import DeleteBtn from './Buttons/DeleteBtn';
+import AddBtn from './Buttons/AddBtn';
 
 const { s, m } = themes.indents;
 

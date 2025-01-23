@@ -13,6 +13,7 @@ import ElementLangBar from 'components/ElementBars/ElementLangBar';
 import ElementEditBar from 'components/ElementBars/ElementEditBar';
 import OvalLoader from 'components/shared/Loader/OvalLoader';
 import { themes } from 'styles/themes';
+import ElementPlayBar from 'components/ElementBars/ElementPlayBar';
 
 import LiElement from './Li/LiElement';
 import { List } from './ElementList.styled';
@@ -147,12 +148,14 @@ const ElementList = () => {
         ))}
 
         <div ref={ref}>
-          <ElementLangBar
-            filtredElements={filtredElements}
-            setLiColor={setLiColor}
-          />
+          <ElementLangBar />
           <ElementEditBar
             className={!inView || !isScrollable ? 'shown' : 'hidden'}
+          />
+          <ElementPlayBar
+            className={!inView || !isScrollable ? 'shown' : 'hidden'}
+            filtredElements={filtredElements}
+            setLiColor={setLiColor}
           />
         </div>
       </List>
