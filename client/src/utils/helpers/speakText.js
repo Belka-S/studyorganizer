@@ -131,7 +131,7 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
       (el.endsWith(',') || el.includes(',@±@')) &&
       (currentElLength <= 3 ||
         nextElLength <= 3 ||
-        currentElLength + nextElLength <= 11)
+        currentElLength + nextElLength <= 12)
     ) {
       const unitedEl = el.includes(',@±@')
         ? el.substring(0, el.length - 5) + arr[i + 1]
@@ -174,20 +174,10 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
     }
   };
   // divide message on parts
-  // const timeout = lang.includes('de') ? 120 : 100;
+  const timeout = lang.includes('de') ? 120 : 100;
   message.onend = () => {
     currentIndex += 1;
     if (currentIndex < messageParts.length) {
-      const timeout =
-        messageParts[currentIndex - 1].endsWith('.') ||
-        messageParts[currentIndex - 1].endsWith('!') ||
-        messageParts[currentIndex - 1].endsWith('?') ||
-        messageParts[currentIndex - 1].includes('.@±@') ||
-        messageParts[currentIndex - 1].includes('!@±@') ||
-        messageParts[currentIndex - 1].includes('?@±@')
-          ? 120
-          : 240;
-
       message.text = messageParts[currentIndex].split('@±@')[0];
       if (messageParts[currentIndex].split('@±@')[1]) {
         messageLang = messageParts[currentIndex].split('@±@')[1];
