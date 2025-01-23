@@ -174,10 +174,20 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
     }
   };
   // divide message on parts
-  const timeout = lang.includes('de') ? 120 : 100;
+  // const timeout = lang.includes('de') ? 120 : 100;
   message.onend = () => {
     currentIndex += 1;
     if (currentIndex < messageParts.length) {
+      const timeout =
+        messageParts[currentIndex - 1].endsWith('.') ||
+        messageParts[currentIndex - 1].endsWith('!') ||
+        messageParts[currentIndex - 1].endsWith('?') ||
+        messageParts[currentIndex - 1].includes('.@±@') ||
+        messageParts[currentIndex - 1].includes('!@±@') ||
+        messageParts[currentIndex - 1].includes('?@±@')
+          ? 120
+          : 240;
+
       message.text = messageParts[currentIndex].split('@±@')[0];
       if (messageParts[currentIndex].split('@±@')[1]) {
         messageLang = messageParts[currentIndex].split('@±@')[1];
@@ -260,6 +270,7 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
         messageParts[currentIndex - 1].endsWith('?')
           ? 60
           : 160;
+
       const transLang = currentMsg.split('@±@')[1]?.substring(0, 2);
       const voicesT = speech
         .getVoices()
