@@ -30,7 +30,7 @@ const ClustersSearchBar = () => {
   const getOptions = selectValue => {
     let options = [
       ...baseOptions.filter(
-        el => !['recent', 'gdrive', 'ungdrive'].includes(el.value),
+        el => !['recent', 'wordlist', 'gdrive', 'ungdrive'].includes(el.value),
       ),
       ...clusterGroups
         .map(el => ({ value: el.clusterGroup, label: el.clusterGroup }))

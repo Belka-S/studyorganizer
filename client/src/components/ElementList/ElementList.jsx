@@ -14,6 +14,7 @@ import ElementEditBar from 'components/ElementBars/ElementEditBar';
 import OvalLoader from 'components/shared/Loader/OvalLoader';
 import { themes } from 'styles/themes';
 import ElementPlayBar from 'components/ElementBars/ElementPlayBar';
+import { startsWithSmall } from 'utils/helpers/startsWithCapital';
 
 import LiElement from './Li/LiElement';
 import { List } from './ElementList.styled';
@@ -82,14 +83,18 @@ const ElementList = () => {
         element.toLowerCase().replace('·', '').includes(elementFilter) ||
         element.toLowerCase().includes(elementFilter) ||
         caption.toLowerCase().includes(elementFilter);
+      // wordlist
+      const allFiltredWordlist = elementSelect.includes('wordlist')
+        ? allFiltred && startsWithSmall(element)
+        : allFiltred;
       // favorite
       const getFavorite = () => {
         if (elementSelect.some(op => ['favorite', 'unfavorite'].includes(op))) {
           return elementSelect.includes('favorite')
-            ? allFiltred && favorite === true
-            : allFiltred && favorite === false;
+            ? allFiltredWordlist && favorite === true
+            : allFiltredWordlist && favorite === false;
         } else {
-          return allFiltred;
+          return allFiltredWordlist;
         }
       };
       // checked
@@ -102,6 +107,7 @@ const ElementList = () => {
           return getFavorite();
         }
       };
+
       return getCheckedFavorite();
     })
     .sort(

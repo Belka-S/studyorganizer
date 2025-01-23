@@ -6,7 +6,7 @@ import { Button } from './RefreshBtn.styled';
 const RefreshBtn = ({ onClick }) => {
   return (
     <Button onClick={onClick}>
-      <FiRefreshCcw size="26px" />
+      <FiRefreshCcw size="35px" />
     </Button>
   );
 };

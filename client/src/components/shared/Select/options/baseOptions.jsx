@@ -4,6 +4,7 @@ import { ImRadioUnchecked } from 'react-icons/im';
 import { CgSandClock } from 'react-icons/cg';
 import { SiGoogledrive } from 'react-icons/si';
 import { LiaGoogleDrive } from 'react-icons/lia';
+import { TbVocabulary } from 'react-icons/tb';
 
 import { Div } from './options.styled';
 
@@ -13,6 +14,14 @@ export const baseOptions = [
     label: (
       <Div>
         <CgSandClock size="16px" /> <span>Recent</span>
+      </Div>
+    ),
+  },
+  {
+    value: 'wordlist',
+    label: (
+      <Div>
+        <TbVocabulary size="16px" /> <span>Wordlist</span>
       </Div>
     ),
   },
