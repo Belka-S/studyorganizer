@@ -104,7 +104,7 @@ const Header = ({ $height, barW, setBarW }) => {
 
   return (
     <StyledHeader $height={$height}>
-      <FlexWrap $w={barW > '45%' ? barW : '45%'} $p={`0 ${s} 0 0`} $ai="center">
+      <FlexWrap $w={barW > '45%' ? barW : '45%'} $p="0 0 0 0" $ai="center">
         <LogoBtn onClick={handleClick}>
           <Logo />
         </LogoBtn>
