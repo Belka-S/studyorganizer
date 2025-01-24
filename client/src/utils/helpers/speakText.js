@@ -261,7 +261,7 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
         messageParts[currentIndex - 1].endsWith('!') ||
         messageParts[currentIndex - 1].endsWith('?')
           ? 60
-          : 120;
+          : 100;
 
       const transLang = currentMsg.split('@±@')[1]?.substring(0, 2);
       const voicesT = speech
