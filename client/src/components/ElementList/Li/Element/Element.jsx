@@ -57,7 +57,6 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
     } else {
       textString = text.trim() + divider;
     }
-    console.log(textString);
     return !textString.includes('[')
       ? textString
       : textString.substring(0, textString.indexOf('[')) + divider;

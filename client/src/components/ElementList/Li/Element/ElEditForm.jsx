@@ -112,7 +112,7 @@ const ElementEditForm = ({ el, isForm, setIsForm }) => {
     }
     const parts = !isSentence && element.split(',');
     if (parts.length === 3) {
-      element = parts[0] + ',';
+      element = user.lang === 'en' ? 'to ' + parts[0] + ',' : parts[0] + ',';
     }
     const translation = { from: activeCluster.lang, to: user.lang };
     const caption = await translateText(element, translation, user.engine);
