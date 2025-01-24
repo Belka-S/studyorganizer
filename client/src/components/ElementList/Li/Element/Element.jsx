@@ -29,8 +29,9 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
       textString = text
         .trim()
         // dividers
-        .replaceAll(',`', ';')
+        .replaceAll(', `', `;${divider} `)
         .replaceAll(' `', `${divider} `)
+        .replaceAll(',`', ';')
         // abbreviations
         .replaceAll('Mr.', 'mister')
         .replaceAll('Ms.', 'miss')
@@ -56,6 +57,7 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
     } else {
       textString = text.trim() + divider;
     }
+    console.log(textString);
     return !textString.includes('[')
       ? textString
       : textString.substring(0, textString.indexOf('[')) + divider;

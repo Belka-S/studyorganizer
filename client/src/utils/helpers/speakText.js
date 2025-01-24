@@ -40,7 +40,7 @@ const markAsRead = (current, next) => {
         // set lightened text
         if (currentMsg?.startsWith(' ') || nextMsg?.startsWith(' ')) {
           el.style.display = 'inline';
-          const lightenedEl = `<span style="color: ${smokeBlack}; background-color: ${lightYellow}; border-radius: 4px;">${currentMsg.trim()}</span>`;
+          const lightenedEl = `<span style="color: ${smokeBlack}; background-color: ${lightYellow};">${currentMsg.trim()}</span>`;
           el.innerHTML = el.innerText.replace(currentMsg, ' ' + lightenedEl);
         }
         // set element styles

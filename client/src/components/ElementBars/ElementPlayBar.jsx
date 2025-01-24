@@ -41,7 +41,10 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
     : user.lang;
 
   const setPauseDivider = (text, divider) =>
-    text.replaceAll(',`', ';').replaceAll(' `', `${divider} `);
+    text
+      .replaceAll(', `', `;${divider} `)
+      .replaceAll(' `', `${divider} `)
+      .replaceAll(',`', ';');
 
   const getTextString = ({ text, playList, divider }) => {
     let textString = '';
