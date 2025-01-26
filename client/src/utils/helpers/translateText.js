@@ -9,10 +9,25 @@ export const translateText = async (text, { from, to }, engine) => {
   translate.engine = engine;
   translate.key = keys[engine];
   const t = text.replaceAll('·', '');
+  const isSentence = ['.', '!', '?'].includes(t.at(t.length - 1));
   const wordList = t.split(/\s+/);
   const textParts = t.split(', ');
   let translation = await translate(`${t}`, { from, to });
+
   try {
+    // abbreviations
+    if (to.includes('en') && t.toLowerCase().includes('uhr')) {
+      translation = translation
+        .replaceAll('a.m. on', 'am on')
+        .replaceAll('p.m. on', 'pm on')
+        .replaceAll('a.m. to', 'am to')
+        .replaceAll('p.m. to', 'pm to')
+        .replaceAll('a.m.', 'am.')
+        .replaceAll('p.m.', 'pm.');
+    }
+    // sentences
+    if (isSentence) return translation;
+    // words
     if (wordList.length === 1) {
       // single word translation
       translation = translation.toLocaleLowerCase();
@@ -48,16 +63,7 @@ export const translateText = async (text, { from, to }, engine) => {
         ? translation
         : `${translationParts[0]}, ${translationParts[1]}, the ${translationParts[2]}`;
     }
-    // abbreviations
-    if (to.includes('en') && t.toLowerCase().includes('uhr')) {
-      translation = translation
-        .replaceAll('a.m. on', 'am on')
-        .replaceAll('p.m. on', 'pm on')
-        .replaceAll('a.m. to', 'am to')
-        .replaceAll('p.m. to', 'pm to')
-        .replaceAll('a.m.', 'am.')
-        .replaceAll('p.m.', 'pm.');
-    }
+
     return translation;
   } catch (err) {
     return err.message;

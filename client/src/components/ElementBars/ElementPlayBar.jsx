@@ -154,7 +154,7 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
         const normalElement = setPauseDivider(element, '');
         const normalCaption = caption.includes(' [')
           ? caption.substring(0, caption.indexOf(' ['))
-          : caption;
+          : setPauseDivider(caption, '');
         textString += normalElement + `@±@${lang}` + normalCaption + divider;
       }
     }
