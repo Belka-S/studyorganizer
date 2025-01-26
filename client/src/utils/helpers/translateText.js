@@ -27,18 +27,20 @@ export const translateText = async (text, { from, to }, engine) => {
     }
     // sentences
     if (isSentence) return translation;
-    // words
-    if (wordList.length === 1) {
-      // single word translation
-      translation = translation.toLocaleLowerCase();
-    }
     // nouns in German
     if (['der', 'die', 'das'].includes(wordList[0])) {
-      translation = translation
+      return translation
         .replaceAll('The ', '')
         .replaceAll('the ', '')
         .split(', ')[0]
         .toLocaleLowerCase();
+    }
+    // adjectives in English
+    if (to.includes('en') && textParts[2]?.split(' ')[0] === 'am') {
+      const translationParts = translation.split(', ');
+      return translationParts[2].startsWith('the')
+        ? translation
+        : `${translationParts[0]}, ${translationParts[1]}, the ${translationParts[2]}`;
     }
     // verbs in English
     if (textParts[0].endsWith('en') && from.includes('de')) {
@@ -49,21 +51,13 @@ export const translateText = async (text, { from, to }, engine) => {
 
       if (
         to.includes('en') &&
-        ['hat', 'ist'].includes(textParts[2].split(' ')[0])
+        ['hat', 'ist'].includes(textParts[2]?.split(' ')[0])
       ) {
         translation = translationParts[2].startsWith('has')
           ? translation
           : `${translationParts[0]}, ${translationParts[1]}, has ${translationParts[2]}`;
       }
     }
-    // adjectives in English
-    if (to.includes('en') && textParts[2].split(' ')[0] === 'am') {
-      const translationParts = translation.split(', ');
-      translation = translationParts[2].startsWith('the')
-        ? translation
-        : `${translationParts[0]}, ${translationParts[1]}, the ${translationParts[2]}`;
-    }
-
     return translation;
   } catch (err) {
     return err.message;
