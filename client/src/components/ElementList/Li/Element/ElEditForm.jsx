@@ -104,16 +104,7 @@ const ElementEditForm = ({ el, isForm, setIsForm }) => {
   };
 
   const translateElement = async () => {
-    let element = watch('element');
-    const isSentence = ['.', '!', '?'].includes(element.at(element.length - 1));
-    const words = !isSentence && element.split(/\s+/);
-    if (['der', 'die', 'das'].includes(words[0])) {
-      element = words[1];
-    }
-    const parts = !isSentence && element.split(',');
-    if (parts.length === 3) {
-      element = user.lang === 'en' ? 'to ' + parts[0] + ',' : parts[0] + ',';
-    }
+    const element = watch('element');
     const translation = { from: activeCluster.lang, to: user.lang };
     const caption = await translateText(element, translation, user.engine);
     setValue('caption', caption);
