@@ -33,9 +33,9 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
         .replaceAll(' `', `${divider} `)
         .replaceAll(',`', ';')
         // abbreviations
-        .replaceAll('Mr.', 'mister')
-        .replaceAll('Ms.', 'miss')
-        .replaceAll('Mrs.', 'missis')
+        .replaceAll('Mr.', 'misteR')
+        .replaceAll('Ms.', 'misS')
+        .replaceAll('Mrs.', 'missiS')
         // punctuation
         .replaceAll('...', `__${divider}`)
         .replaceAll('.', `.${divider}`)

@@ -7,9 +7,9 @@ const markAsRead = (current, next) => {
     message
       ?.replaceAll('__', '...')
       .replaceAll(';', ',')
-      .replaceAll('missis', 'Mrs.')
-      .replaceAll('miss', 'Ms.')
-      .replaceAll('mister', 'Mr.')
+      .replaceAll('missiS', 'Mrs.')
+      .replaceAll('misS', 'Ms.')
+      .replaceAll('misteR', 'Mr.')
       .replaceAll('@±@de', '')
       .replaceAll('@±@en', '')
       .replaceAll('@±@uk', '')
