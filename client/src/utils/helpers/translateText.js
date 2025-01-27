@@ -9,9 +9,6 @@ export const translateText = async (text, { from, to }, engine) => {
   translate.engine = engine;
   translate.key = keys[engine];
   const t = text.replaceAll('·', '');
-  const isSentence = ['.', '!', '?'].includes(t.at(t.length - 1));
-  const wordList = t.split(/\s+/);
-  const textParts = t.split(', ');
   let translation = await translate(`${t}`, { from, to });
 
   try {
@@ -26,7 +23,15 @@ export const translateText = async (text, { from, to }, engine) => {
         .replaceAll('p.m.', 'pm.');
     }
     // sentences
+    const isSentence = ['.', '!', '?'].includes(t.at(t.length - 1));
     if (isSentence) return translation;
+    // words
+    const wordList = t.replaceAll(',', '').split(/\s+/);
+    // single word
+    if (wordList.length === 1) {
+      return translation.toLocaleLowerCase();
+    }
+    const translationParts = translation.split(', ');
     // nouns in German
     if (['der', 'die', 'das'].includes(wordList[0])) {
       return translation
@@ -36,27 +41,22 @@ export const translateText = async (text, { from, to }, engine) => {
         .toLocaleLowerCase();
     }
     // adjectives in English
-    if (to.includes('en') && textParts[2]?.split(' ')[0] === 'am') {
-      const translationParts = translation.split(', ');
+    if (to.includes('en') && wordList[2] === 'am') {
       return translationParts[2].startsWith('the')
         ? translation
         : `${translationParts[0]}, ${translationParts[1]}, the ${translationParts[2]}`;
     }
     // verbs in English
-    if (textParts[0].endsWith('en') && from.includes('de')) {
-      const translationParts = translation.split(', ');
+    if (
+      wordList[0].endsWith('n') &&
+      ['hat', 'ist'].includes(wordList[2]) &&
+      from.includes('de')
+    ) {
       translation = to.includes('en')
-        ? 'to ' + translation
-        : translationParts[0];
-
-      if (
-        to.includes('en') &&
-        ['hat', 'ist'].includes(textParts[2]?.split(' ')[0])
-      ) {
-        translation = translationParts[2].startsWith('has')
-          ? translation
-          : `${translationParts[0]}, ${translationParts[1]}, has ${translationParts[2]}`;
-      }
+        ? 'to ' + translationParts[0].split(' ')[0]
+        : translationParts[0].split(' ')[0];
+      // if (to.includes('en') && ['hat', 'ist'].includes(wordList[2]?.split(' ')[0]))
+      // {translation = translationParts[2].startsWith('has') ? 'to ' + translation : `${translationParts[0]}, ${translationParts[1]}, has ${translationParts[2]}`;}
     }
     return translation;
   } catch (err) {
