@@ -6,7 +6,7 @@ import Modal from 'components/shared/Modal/Modal';
 import ProfileForm from 'components/ProfileForm/ProfileForm';
 import { themes } from 'styles/themes';
 
-import { BtnDiv } from './ProfileBtn.styled';
+import { UserBtn } from './ProfileBtn.styled';
 
 const { m, xl } = themes.indents;
 
@@ -21,7 +21,7 @@ const ProfileBtn = () => {
 
   return (
     <>
-      <BtnDiv onClick={handleClick} $url={url} $abbr={url ? '' : abbr} />
+      <UserBtn onClick={handleClick} $url={url} $abbr={url ? '' : abbr} />
 
       {isModal && (
         <Modal
@@ -30,7 +30,7 @@ const ProfileBtn = () => {
           $bd={false}
           onClick={handleClick}
         >
-          <ProfileForm />
+          <ProfileForm setIsModal={setIsModal} />
         </Modal>
       )}
     </>

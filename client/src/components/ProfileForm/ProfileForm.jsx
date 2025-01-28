@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -28,18 +28,58 @@ import { logoutThunk, updateUserThunk } from 'store/auth/authThunks';
 import Button from 'components/shared/Button/Button';
 import Select from 'components/shared/Select/Select';
 
-import { useAuth } from 'utils/hooks';
+import { useAuth, useClusters } from 'utils/hooks';
 import { enginrValues } from 'utils/constants';
+import { fetchElementsThunk } from 'store/element/elementThunks';
+import { fetchClustersThunk } from 'store/cluster/clusterThunks';
 import { themes } from 'styles/themes';
 
 import { Profile } from './Profile.styled';
 
 const { backgroundHoverd, white, borderLight } = themes.colors;
 
-const ProfileForm = () => {
+const ProfileForm = ({ setIsModal }) => {
   const dispatch = useDispatch();
   const { user } = useAuth();
-  const [selectValue, setSelectValue] = useState(() => user?.engine ?? []);
+  const { activeCluster } = useClusters();
+
+  const setUserEngine = ({ value }) => {
+    const formData = new FormData();
+    formData.append('engine', value);
+    dispatch(updateUserThunk(formData));
+  };
+
+  const handleRefresh = () => {
+    if (!activeCluster) return;
+    setIsModal(false);
+    dispatch(fetchClustersThunk())
+      .unwrap()
+      .then(({ result }) => {
+        const ac = result.clusters.filter(
+          ({ _id }) => _id === activeCluster._id,
+        )[0];
+        dispatch(setActiveCluster(ac));
+        dispatch(fetchElementsThunk({ cluster: activeCluster._id }))
+          .unwrap()
+          .then(({ result }) => {
+            if (!activeCluster.activeEl) return;
+            const activeEl = result.elements.find(
+              ({ _id }) => _id === ac.activeEl,
+            );
+            dispatch(setActiveElement(activeEl));
+          })
+          .then(() => {
+            const activeDomEl = document.getElementById('active-element');
+            const scrollOnActive = () => {
+              activeDomEl?.scrollIntoView({
+                block: 'center',
+                behavior: 'smooth',
+              });
+            };
+            scrollOnActive();
+          });
+      });
+  };
 
   const handleLogOut = () => {
     dispatch(logoutThunk());
@@ -65,12 +105,6 @@ const ProfileForm = () => {
     dispatch(emptyGdriveTrash());
   };
 
-  const setUserEngine = ({ value }) => {
-    const formData = new FormData();
-    formData.append('engine', value);
-    dispatch(updateUserThunk(formData));
-  };
-
   return (
     <Profile>
       <Select
@@ -82,11 +116,20 @@ const ProfileForm = () => {
         $b={white}
         $bh={borderLight}
       />
-      <Button onClick={handleLogOut} $s="m">
-        Sign out
-      </Button>
+      <div className="wrap">
+        <Button onClick={handleLogOut} $s="m">
+          Sign out
+        </Button>
+        <Button onClick={handleRefresh} $s="m">
+          Refresh
+        </Button>
+      </div>
     </Profile>
   );
 };
 
 export default ProfileForm;
+
+ProfileForm.propTypes = {
+  setIsModal: PropTypes.func,
+};

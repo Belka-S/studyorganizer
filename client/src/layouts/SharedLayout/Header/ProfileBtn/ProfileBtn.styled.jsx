@@ -32,7 +32,7 @@ const avatarStyles = css`
   }
 `;
 
-export const BtnDiv = styled.div`
+export const UserBtn = styled.div`
   ${avatarStyles}
 
   min-width: 36px;

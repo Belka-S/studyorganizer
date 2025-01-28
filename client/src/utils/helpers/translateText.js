@@ -41,7 +41,7 @@ export const translateText = async (text, { from, to }, engine) => {
         .toLocaleLowerCase();
     }
     // adjectives in English
-    if (to.includes('en') && wordList[2].startsWith('am')) {
+    if (to.includes('en') && wordList[2]?.startsWith('am')) {
       return translationParts[2].startsWith('the')
         ? translation
         : `${translationParts[0]}, ${translationParts[1]}, the ${translationParts[2]}`;
@@ -49,7 +49,7 @@ export const translateText = async (text, { from, to }, engine) => {
     // verbs in English
     if (
       wordList[0].endsWith('n') &&
-      ['hat', 'ist'].includes(wordList[2].split(' ')[0]) &&
+      ['hat', 'ist'].includes(wordList[2]?.split(' ')[0]) &&
       from.includes('de')
     ) {
       translation = to.includes('en')
