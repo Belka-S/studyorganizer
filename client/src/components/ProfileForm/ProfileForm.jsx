@@ -117,11 +117,11 @@ const ProfileForm = ({ setIsModal }) => {
         $bh={borderLight}
       />
       <div className="wrap">
-        <Button onClick={handleLogOut} $s="m">
-          Sign out
-        </Button>
         <Button onClick={handleRefresh} $s="m">
           Refresh
+        </Button>
+        <Button onClick={handleLogOut} $s="m">
+          Sign out
         </Button>
       </div>
     </Profile>
