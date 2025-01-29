@@ -29,7 +29,7 @@ const ElementList = () => {
   });
   const { user } = useAuth();
   const { activeCluster } = useClusters();
-  const { allElements, elementTrash, elementFilter } = useElements();
+  const { allElements, elementTrash, elementFilter, isLoading } = useElements();
 
   const [liColor, setLiColor] = useState(white);
 
@@ -37,7 +37,6 @@ const ElementList = () => {
   elementSelect = !elementSelect ? [] : elementSelect;
 
   const [sortByDate, setSortByDate] = useState(false);
-  const [isScrolling, setIsScrolling] = useState(true);
 
   useEffect(() => {
     if (!activeCluster) return;
@@ -59,7 +58,6 @@ const ElementList = () => {
           });
         };
         scrollOnActive();
-        setIsScrolling(false);
       });
   }, []);
 
@@ -166,7 +164,7 @@ const ElementList = () => {
         </div>
       </List>
 
-      {isScrolling && <OvalLoader />}
+      {isLoading && <OvalLoader />}
     </>
   );
 };
