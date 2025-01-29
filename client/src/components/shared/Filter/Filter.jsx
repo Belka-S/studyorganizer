@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { BsSearch } from 'react-icons/bs';
 
 import sprite from 'assets/icons/sprite.svg';
@@ -9,6 +11,28 @@ import { FilterDiv, Button } from './Filter.styled';
 const Filter = ({ selector, reducer }) => {
   const filterValue = useSelector(selector);
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const scrollOnActive = activeDomEl => {
+      activeDomEl?.scrollIntoView({
+        block: 'center',
+        behavior: 'smooth',
+      });
+    };
+    if (pathname.includes('/cluster')) {
+      const activeDomEl = document.getElementById('active-cluster');
+      scrollOnActive(activeDomEl);
+    }
+    if (pathname.includes('/element')) {
+      const activeDomEl = document.getElementById('active-element');
+      scrollOnActive(activeDomEl);
+    }
+    if (pathname.includes('/gdrive')) {
+      const activeDomEl = document.getElementById('active-file');
+      scrollOnActive(activeDomEl);
+    }
+  }, [filterValue, pathname]);
 
   // Serch on icon click
   const handleClick = e => e.target.previousElementSibling.focus();
