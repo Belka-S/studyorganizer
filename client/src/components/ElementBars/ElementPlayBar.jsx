@@ -68,25 +68,28 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
           .replaceAll(',', `,${divider}`)
           .replaceAll('!', `!${divider}`)
           .replaceAll('?', `?${divider}`)
-          .replaceAll(': ', `:${divider} `)
-          // numbers
-          .replaceAll(`0.${divider}`, '0.')
-          .replaceAll(`1.${divider}`, '1.')
-          .replaceAll(`2.${divider}`, '2.')
-          .replaceAll(`3.${divider}`, '3.')
-          .replaceAll(`4.${divider}`, '4.')
-          .replaceAll(`5.${divider}`, '5.')
-          .replaceAll(`6.${divider}`, '6.')
-          .replaceAll(`7.${divider}`, '7.')
-          .replaceAll(`8.${divider}`, '8.')
-          .replaceAll(`9.${divider}`, '9.')
-          // define language
-          .replaceAll(
-            `${divider}`,
-            text === 'caption'
-              ? `@±@${playList[i].lang}${divider}`
-              : `${divider}`,
-          );
+          .replaceAll(': ', `:${divider} `);
+        // numbers
+        if (ac.lang.includes('de')) {
+          textString = textString
+            .replaceAll(`0.${divider}`, '0.')
+            .replaceAll(`1.${divider}`, '1.')
+            .replaceAll(`2.${divider}`, '2.')
+            .replaceAll(`3.${divider}`, '3.')
+            .replaceAll(`4.${divider}`, '4.')
+            .replaceAll(`5.${divider}`, '5.')
+            .replaceAll(`6.${divider}`, '6.')
+            .replaceAll(`7.${divider}`, '7.')
+            .replaceAll(`8.${divider}`, '8.')
+            .replaceAll(`9.${divider}`, '9.');
+        }
+        // define language
+        textString = textString.replaceAll(
+          `${divider}`,
+          text === 'caption'
+            ? `@±@${playList[i].lang}${divider}`
+            : `${divider}`,
+        );
       } else if (!playList[i].element.startsWith('[')) {
         if (text === 'caption') {
           if (part.includes(' [')) {

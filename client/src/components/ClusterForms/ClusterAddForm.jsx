@@ -4,10 +4,9 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from 'react-toastify';
 
-import { useClusters, useGdrive } from 'utils/hooks';
+import { useClusters } from 'utils/hooks';
 import { getGdiveId } from 'utils/helpers';
 import { addClusterThunk, addGroupThunk } from 'store/cluster/clusterThunks';
-import { updateUserThunk } from 'store/auth/authThunks';
 import { titleSchema } from 'utils/validation';
 import ButtonClr from 'components/shared/Button/ButtonClr';
 import CreatableSelect from 'components/shared/Select/CreatableSelect';
@@ -17,7 +16,6 @@ import { Form, Label, Input, Hidden } from './ClusterForms.styled';
 const AddClusterForm = ({ cluster, title, group, setGroup, setIsModal }) => {
   const dispatch = useDispatch();
   const { clusterGroups } = useClusters();
-  const { gdriveSelect } = useGdrive();
 
   const {
     register,
@@ -33,7 +31,6 @@ const AddClusterForm = ({ cluster, title, group, setGroup, setIsModal }) => {
   const onSubmit = data => {
     const gdriveId = getGdiveId(data.cluster);
     dispatch(addClusterThunk({ ...data, group: group.value, gdriveId }));
-    dispatch(updateUserThunk({ gdriveSelect }));
     setIsModal(false);
   };
 

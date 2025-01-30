@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import GdriveSearchBar from 'components/GdriveBars/GdriveSearchBar';
 import ClustersSearchBar from 'components/ClusterBars/ClusterSearchBar';
 import ElementSearchBar from 'components/ElementBars/ElementSearchBar';
 import FlexWrap from 'components/shared/FlexWrap/FlexWrap';
+import { updateUserThunk } from 'store/auth/authThunks';
 import { useClusters, useGdrive } from 'utils/hooks';
 import { useAuth } from 'utils/hooks/useAuth';
 import { themes } from 'styles/themes';
@@ -17,10 +19,11 @@ import ProfileBtn from './ProfileBtn/ProfileBtn';
 const { s } = themes.indents;
 
 const Header = ({ $height, barW, setBarW }) => {
+  const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { isLoggedIn } = useAuth();
-  const { activeCluster: ac } = useClusters();
-  const { activeFile: af } = useGdrive();
+  const { clusterSelect, activeCluster: ac } = useClusters();
+  const { gdriveSelect, activeFile: af } = useGdrive();
 
   useEffect(() => {
     isLoggedIn ? setBarW(`${s}`) : setBarW('45%');
@@ -109,8 +112,22 @@ const Header = ({ $height, barW, setBarW }) => {
           <Logo />
         </LogoBtn>
         <Nav>
-          {isLoggedIn && <NavLink to="/gdrive">G-Drive</NavLink>}
-          {isLoggedIn && <NavLink to="/cluster">Cluster</NavLink>}
+          {isLoggedIn && (
+            <NavLink
+              to="/gdrive"
+              onClick={() => dispatch(updateUserThunk({ clusterSelect }))}
+            >
+              G-Drive
+            </NavLink>
+          )}
+          {isLoggedIn && (
+            <NavLink
+              to="/cluster"
+              onClick={() => dispatch(updateUserThunk({ gdriveSelect }))}
+            >
+              Cluster
+            </NavLink>
+          )}
           {isLoggedIn && (
             <TitleBtn onClick={handleScroll}>
               {clusterTitle()}
