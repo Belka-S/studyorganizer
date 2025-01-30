@@ -55,9 +55,9 @@ const ElementEditForm = ({ el, isForm, setIsForm }) => {
 
   useEffect(() => {
     const handleKeyDown = async e => {
-      if (e.key === '+') {
+      if (e.ctrlKey && e.key === 'Escape') {
         e.preventDefault();
-        await translateElement();
+        await translateElement(user.engine);
         handleSubmit(onSubmit)();
       }
       if (e.key === 'Enter') {
