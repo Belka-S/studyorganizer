@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { BsSendCheck, BsTextareaResize } from 'react-icons/bs';
-import { SiGoogletranslate } from 'react-icons/si';
+import { SiDeepl, SiGoogletranslate } from 'react-icons/si';
 import { MdOutlineTextIncrease } from 'react-icons/md';
 
 import { translateText } from 'utils/helpers';
@@ -103,10 +103,10 @@ const ElementEditForm = ({ el, isForm, setIsForm }) => {
     if (article === 'das ') setArticle('');
   };
 
-  const translateElement = async () => {
+  const translateElement = async engine => {
     const element = watch('element');
     const translation = { from: activeCluster.lang, to: user.lang };
-    const caption = await translateText(element, translation, user.engine);
+    const caption = await translateText(element, translation, engine);
     setValue('caption', caption);
   };
 
@@ -121,8 +121,11 @@ const ElementEditForm = ({ el, isForm, setIsForm }) => {
         <EditBtn type="button" onClick={handleSetArticle}>
           <MdOutlineTextIncrease size="18px" />
         </EditBtn>
-        <TranslateBtn type="button" onClick={translateElement}>
+        <TranslateBtn type="button" onClick={() => translateElement('google')}>
           <SiGoogletranslate size="16px" />
+        </TranslateBtn>
+        <TranslateBtn type="button" onClick={() => translateElement('deepl')}>
+          <SiDeepl size="18px" />
         </TranslateBtn>
         <SubmitBtn>
           <BsSendCheck size="16px" />
