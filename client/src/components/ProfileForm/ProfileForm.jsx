@@ -24,12 +24,16 @@ import {
   setGdriveSelect,
   emptyGdriveTrash,
 } from 'store/gdrive/gdriveSlice';
-import { logoutThunk, updateUserThunk } from 'store/auth/authThunks';
+import {
+  logoutThunk,
+  updateUserThunk,
+  getUserThunk,
+} from 'store/auth/authThunks';
 import Button from 'components/shared/Button/Button';
 import Select from 'components/shared/Select/Select';
 
 import { useAuth, useClusters } from 'utils/hooks';
-import { enginrValues } from 'utils/constants';
+import { engineValues } from 'utils/constants';
 import { fetchElementsThunk } from 'store/element/elementThunks';
 import { fetchClustersThunk } from 'store/cluster/clusterThunks';
 import { themes } from 'styles/themes';
@@ -51,6 +55,7 @@ const ProfileForm = ({ setIsModal }) => {
 
   const handleRefresh = () => {
     if (!activeCluster) return;
+    dispatch(getUserThunk());
     setIsModal(false);
     dispatch(fetchClustersThunk())
       .unwrap()
@@ -110,8 +115,8 @@ const ProfileForm = ({ setIsModal }) => {
     <Profile>
       <Select
         onChange={setUserEngine}
-        defaultValue={enginrValues.find(el => el.value == user.engine)}
-        options={enginrValues}
+        defaultValue={engineValues.find(el => el.value == user.engine)}
+        options={engineValues}
         placeholder="Translate by..."
         $ol={backgroundHoverd}
         $b={white}
