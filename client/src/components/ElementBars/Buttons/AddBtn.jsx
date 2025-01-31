@@ -57,9 +57,10 @@ const AddBtn = () => {
         checked: element.split(/\s+/).length < 20 ? true : false,
       };
       const payload = element.includes('https://') ? mediaEl : textEl;
-
-      dispatch(addElementThunk(payload));
-      e?.target?.blur();
+      dispatch(addElementThunk(payload))
+        .unwrap()
+        .then(() => e?.target && scrollOnBottom())
+        .finally(() => e?.target?.blur());
     } catch (err) {
       e?.target?.blur();
       toast.error(`Invalid element, ${err.message}`);
@@ -67,15 +68,7 @@ const AddBtn = () => {
   };
 
   return (
-    <Button
-      onClick={async () => {
-        await addElement();
-        scrollOnBottom();
-      }}
-      $s="m"
-      $round={true}
-      $bs={button}
-    >
+    <Button onClick={addElement} $s="m" $round={true} $bs={button}>
       <FiPlus size={18} />
     </Button>
   );
