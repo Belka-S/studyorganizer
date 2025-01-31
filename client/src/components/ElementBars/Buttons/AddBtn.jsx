@@ -30,6 +30,10 @@ const AddBtn = () => {
     };
   }, []);
 
+  const scrollOnBottom = () => {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  };
+
   const addElement = async e => {
     const text = window.getSelection().toString();
     text && (await writeClipboard(text));
@@ -55,15 +59,23 @@ const AddBtn = () => {
       const payload = element.includes('https://') ? mediaEl : textEl;
 
       dispatch(addElementThunk(payload));
-      e.target.blur();
+      e?.target?.blur();
     } catch (err) {
-      e.target.blur();
+      e?.target?.blur();
       toast.error(`Invalid element, ${err.message}`);
     }
   };
 
   return (
-    <Button onClick={addElement} $s="m" $round={true} $bs={button}>
+    <Button
+      onClick={async () => {
+        await addElement();
+        scrollOnBottom();
+      }}
+      $s="m"
+      $round={true}
+      $bs={button}
+    >
       <FiPlus size={18} />
     </Button>
   );

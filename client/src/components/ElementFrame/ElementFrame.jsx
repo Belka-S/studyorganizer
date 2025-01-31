@@ -19,6 +19,7 @@ const ElementFrame = () => {
   return (
     elementLink && (
       <Iframe
+        allow="clipboard-read; clipboard-write"
         width="100%"
         height={elementLink?.includes('embed/') ? '50%' : '100%'}
         // src={`${elementLink}#view=FitH&toolbar=1&page=${page}`}
