@@ -6,7 +6,7 @@ import { BsSendCheck, BsTextareaResize } from 'react-icons/bs';
 import { SiDeepl, SiGoogletranslate } from 'react-icons/si';
 import { MdOutlineTextIncrease } from 'react-icons/md';
 
-import { translateText } from 'utils/helpers';
+import { translateText, normalizeClipboard } from 'utils/helpers';
 import { useAuth, useClusters } from 'utils/hooks';
 import {
   updateElementThunk,
@@ -55,7 +55,7 @@ const ElementEditForm = ({ el, isForm, setIsForm }) => {
 
   useEffect(() => {
     const handleKeyDown = async e => {
-      if (e.ctrlKey && e.key === 'Escape') {
+      if (e.code === 'NumpadAdd' || (e.ctrlKey && e.key === 'Escape')) {
         e.preventDefault();
         await translateElement(user.engine);
         handleSubmit(onSubmit)();
@@ -77,8 +77,13 @@ const ElementEditForm = ({ el, isForm, setIsForm }) => {
 
   const onSubmit = data => {
     const lang = user.lang;
-    let element = data.element.split(/\s+/).join(' ').trim();
     let caption = data.caption.trim();
+    let element = normalizeClipboard(data.element, activeCluster.lang)
+      .split(/\s+/)
+      .join(' ')
+      .replaceAll('\n', ' ')
+      .trim();
+
     if (element.endsWith(',')) {
       element = element.substring(0, element.length - 1);
     }
@@ -104,7 +109,13 @@ const ElementEditForm = ({ el, isForm, setIsForm }) => {
   };
 
   const translateElement = async engine => {
-    const element = watch('element');
+    const inputText = watch('element');
+    const element = normalizeClipboard(inputText, activeCluster.lang)
+      .split(/\s+/)
+      .join(' ')
+      .replaceAll('\n', ' ')
+      .trim();
+
     const translation = { from: activeCluster.lang, to: user.lang };
     const caption = await translateText(element, translation, engine);
     setValue('caption', caption);

@@ -8,6 +8,7 @@ import { themes } from 'styles/themes';
 
 import AddBtn from './Buttons/AddBtn';
 import DeleteBtn from './Buttons/DeleteBtn';
+import DictionaryBtn from './Buttons/DictionaryBtn';
 
 const { m, s } = themes.indents;
 
@@ -18,7 +19,7 @@ const ElementEditBar = ({ className }) => {
 
   const isDeleteBtn = elementTrash.length > 0 ? ' 1fr' : '';
   const isAddBtn = activeCluster ? ' 1fr' : '';
-  const gtc = isDeleteBtn + isAddBtn;
+  const gtc = isDeleteBtn + isAddBtn + ' 1fr';
 
   if (!pathname.includes('/element')) return;
   return (
@@ -30,6 +31,7 @@ const ElementEditBar = ({ className }) => {
       $high="bottom"
       $gtc={gtc}
     >
+      <DictionaryBtn />
       {isAddBtn && <AddBtn />}
       {isDeleteBtn && <DeleteBtn />}
     </GridWrap>

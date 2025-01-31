@@ -5,10 +5,16 @@ import { toast } from 'react-toastify';
 import { FiPlus } from 'react-icons/fi';
 
 import Button from 'components/shared/Button/Button';
-import { readClipboard, writeClipboard, translateText } from 'utils/helpers';
+import {
+  readClipboard,
+  writeClipboard,
+  normalizeClipboard,
+  translateText,
+} from 'utils/helpers';
 import { addElementThunk } from 'store/element/elementThunks';
 import { useAuth, useClusters } from 'utils/hooks';
 import { themes } from 'styles/themes';
+
 const { button } = themes.shadows;
 
 const AddBtn = () => {
@@ -18,7 +24,7 @@ const AddBtn = () => {
 
   useEffect(() => {
     const handleKeyDown = async e => {
-      if (e.key === 'd' && e.metaKey) {
+      if (e.key === 'e' && e.metaKey) {
         e.prevent;
         await addElement();
       }
@@ -38,7 +44,8 @@ const AddBtn = () => {
     const text = window.getSelection().toString();
     text && (await writeClipboard(text));
     // document.execCommand('copy');
-    const element = (await readClipboard())
+    const clipboardText = await readClipboard();
+    const element = normalizeClipboard(clipboardText, activeCluster.lang)
       .split(/\s+/)
       .join(' ')
       .replaceAll('\n', ' ')
