@@ -28,6 +28,9 @@ export const translateText = async (text, { from, to }, engine) => {
     // words
     const wordList = t.split(t.includes(', ') ? ', ' : /\s+/);
     const translationParts = translation.split(', ');
+    const translationParts0 =
+      translationParts[0].at(0).toLowerCase() +
+      translationParts[0].substring(1);
     // single word
     if (wordList.length === 1) {
       return translation.toLocaleLowerCase();
@@ -44,7 +47,7 @@ export const translateText = async (text, { from, to }, engine) => {
     if (to.includes('en') && wordList[2]?.startsWith('am')) {
       return translationParts[2].startsWith('the')
         ? translation
-        : `${translationParts[0]}, ${translationParts[1]}, the ${translationParts[2]}`;
+        : `${translationParts0}, ${translationParts[1]}, the ${translationParts[2]}`;
     }
     // verbs in English
     if (
@@ -53,8 +56,8 @@ export const translateText = async (text, { from, to }, engine) => {
       from.includes('de')
     ) {
       translation = to.includes('en')
-        ? 'to ' + translationParts[0]
-        : translationParts[0];
+        ? 'to ' + translationParts0
+        : translationParts0;
       // if (to.includes('en') && ['hat', 'ist'].includes(wordList[2]?.split(' ')[0]))
       // {translation = translationParts[2].startsWith('has') ? 'to ' + translation : `${translationParts[0]}, ${translationParts[1]}, has ${translationParts[2]}`;}
     }
