@@ -28,9 +28,10 @@ export const translateText = async (text, { from, to }, engine) => {
     // words
     const wordList = t.split(t.includes(', ') ? ', ' : /\s+/);
     const translationParts = translation.split(', ');
-    const translationParts0 =
-      translationParts[0].at(0).toLowerCase() +
-      translationParts[0].substring(1);
+    const translationParts0 = !to.includes('de')
+      ? translationParts[0].at(0).toLowerCase() +
+        translationParts[0].substring(1)
+      : translationParts[0];
     // single word
     if (wordList.length === 1) {
       return translation.toLocaleLowerCase();
