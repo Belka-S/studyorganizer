@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { BsSendCheck, BsTextareaResize } from 'react-icons/bs';
+import { BsSendCheck } from 'react-icons/bs';
 import { SiDeepl, SiGoogletranslate } from 'react-icons/si';
 import { MdOutlineTextIncrease } from 'react-icons/md';
 
 import { translateText, normalizeClipboard } from 'utils/helpers';
-import { useAuth, useClusters } from 'utils/hooks';
+import { useAuth, useClusters, useAutosizeTextArea } from 'utils/hooks';
 import {
   updateElementThunk,
   fetchElementsThunk,
@@ -16,27 +16,33 @@ import {
 import {
   Form,
   SubmitBtn,
-  ResizeBtn,
   TranslateBtn,
   BtnWrap,
   Textarea,
   EditBtn,
 } from './Element.styled';
 
-const ElementEditForm = ({ el, isForm, setIsForm }) => {
+const ElementEditForm = ({ el, setIsForm }) => {
   const dispatch = useDispatch();
+  const elementRef = useRef(null);
+  const captionRef = useRef(null);
+  const buttonsRef = useRef(null);
   const { user } = useAuth();
   const { activeCluster } = useClusters();
   const [article, setArticle] = useState('');
 
   const { _id, element, caption } = el;
-  const height = isForm + 42;
 
   const { register, watch, setValue, handleSubmit, setFocus } = useForm({
     mode: 'onBlur',
     defaultValues: { element, caption },
   });
-
+  const { ref: refElement, ...restElement } = register('element');
+  const { ref: refCaption, ...restCaption } = register('caption');
+  // Autosize textarea
+  const refs = [elementRef.current, captionRef.current, buttonsRef.current];
+  const values = [watch('caption'), watch('element')];
+  useAutosizeTextArea(refs, values);
   // set Article (Deutsch)
   useEffect(() => {
     setFocus('element');
@@ -102,11 +108,9 @@ const ElementEditForm = ({ el, isForm, setIsForm }) => {
           .join(', ');
       }
     }
-
     dispatch(updateElementThunk({ _id, lang, element, caption })).then(
       dispatch(fetchElementsThunk()),
     );
-
     setIsForm(false);
   };
 
@@ -132,12 +136,16 @@ const ElementEditForm = ({ el, isForm, setIsForm }) => {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Textarea {...register('element')} style={{ height }} />
+      <Textarea
+        {...restElement}
+        name="element"
+        ref={e => {
+          refElement(e);
+          elementRef.current = e;
+        }}
+      />
 
-      <BtnWrap>
-        <ResizeBtn type="button" onClick={() => setIsForm(height)}>
-          <BsTextareaResize size="16px" />
-        </ResizeBtn>
+      <BtnWrap ref={buttonsRef}>
         <EditBtn type="button" onClick={handleSetArticle}>
           <MdOutlineTextIncrease size="18px" />
         </EditBtn>
@@ -152,7 +160,14 @@ const ElementEditForm = ({ el, isForm, setIsForm }) => {
         </SubmitBtn>
       </BtnWrap>
 
-      <Textarea {...register('caption')} style={{ height }} />
+      <Textarea
+        {...restCaption}
+        name="caption"
+        ref={e => {
+          refCaption(e);
+          captionRef.current = e;
+        }}
+      />
     </Form>
   );
 };
@@ -161,6 +176,5 @@ export default ElementEditForm;
 
 ElementEditForm.propTypes = {
   el: PropTypes.object,
-  isForm: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
   setIsForm: PropTypes.func,
 };

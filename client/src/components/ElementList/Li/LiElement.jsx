@@ -51,14 +51,7 @@ const LiElement = ({
 
   const handleTrash = () => dispatch(setElementTrash(el));
 
-  const handleEdit = e => {
-    if (isForm) {
-      setIsForm(false);
-    } else {
-      const height = e.target.closest('div').clientHeight;
-      setIsForm(height);
-    }
-  };
+  const handleEdit = () => setIsForm(isForm ? false : true);
 
   const isActive = _id === activeElement?._id;
 
@@ -92,7 +85,7 @@ const LiElement = ({
         )}
       </FlexWrap>
 
-      {isForm && <ElEditForm el={el} isForm={isForm} setIsForm={setIsForm} />}
+      {isForm && <ElEditForm el={el} setIsForm={setIsForm} />}
       {!isForm && (
         <Element
           el={el}

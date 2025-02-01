@@ -11,7 +11,7 @@ const { colors, indents } = themes;
 const baseWrapStyles = css`
   padding-block: 4px;
   display: grid;
-  align-items: center;
+  align-items: start;
   grid-template-columns: 20fr 1fr 20fr;
 `;
 
@@ -32,6 +32,7 @@ export const Textarea = styled.textarea`
   border: 1px solid ${colors.accent};
   border-radius: ${indents.xs};
   resize: none;
+  overflow: clip;
 `;
 
 export const Divider = styled.div`
