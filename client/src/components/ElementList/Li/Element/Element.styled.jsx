@@ -28,11 +28,13 @@ export const Form = styled.form`
 `;
 
 export const Textarea = styled.textarea`
+  height: 84px;
   outline: none;
   border: 1px solid ${colors.accent};
   border-radius: ${indents.xs};
   resize: none;
   overflow: clip;
+  transition: height 150ms;
 `;
 
 export const Divider = styled.div`
