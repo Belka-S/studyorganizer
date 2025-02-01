@@ -83,15 +83,24 @@ const ElementEditForm = ({ el, isForm, setIsForm }) => {
       .join(' ')
       .replaceAll('\n', ' ')
       .trim();
-
+    // Normalize element
     if (element.endsWith(',')) {
       element = element.substring(0, element.length - 1);
     }
-    if (element.includes('·')) {
-      element = element.replaceAll(' ·', ',').replaceAll('· ', ', ');
-    }
+    // Normalize caption
     if (caption.endsWith(',')) {
       caption = caption.substring(0, caption.length - 1);
+    }
+    if (user.lang.includes('en') && activeCluster.lang.includes('de')) {
+      const isNetzVerb =
+        (element.includes('hat') || element.includes('ist')) &&
+        element.split('\n')[0].split(/,\s+/)[0].endsWith('n');
+      if (isNetzVerb) {
+        const captionParts = caption.split(/,\s+/);
+        caption = captionParts
+          .map(el => (el.startsWith('to ') ? el : `to ${el}`))
+          .join(', ');
+      }
     }
 
     dispatch(updateElementThunk({ _id, lang, element, caption })).then(
