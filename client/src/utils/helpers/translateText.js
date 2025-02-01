@@ -34,15 +34,17 @@ export const translateText = async (text, { from, to }, engine) => {
       : translationParts[0];
     // single word
     if (wordList.length === 1) {
-      return translation.toLocaleLowerCase();
+      const firstWord = translation.toLocaleLowerCase();
+      return firstWord + ', ';
     }
     // nouns in German
     if (['der', 'die', 'das'].includes(wordList[0].split(' ')[0])) {
-      return translation
+      const firstWord = translation
         .replace('The ', '')
         .replace('the ', '')
         .split(', ')[0]
         .toLocaleLowerCase();
+      return firstWord + ', ';
     }
     // adjectives in English
     if (to.includes('en') && wordList[2]?.startsWith('am')) {
@@ -57,10 +59,8 @@ export const translateText = async (text, { from, to }, engine) => {
       from.includes('de')
     ) {
       translation = to.includes('en')
-        ? 'to ' + translationParts0
-        : translationParts0;
-      // if (to.includes('en') && ['hat', 'ist'].includes(wordList[2]?.split(' ')[0]))
-      // {translation = translationParts[2].startsWith('has') ? 'to ' + translation : `${translationParts[0]}, ${translationParts[1]}, has ${translationParts[2]}`;}
+        ? 'to ' + translationParts0 + ', '
+        : translationParts0 + ', ';
     }
     return translation;
   } catch (err) {
