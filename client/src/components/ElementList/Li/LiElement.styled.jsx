@@ -6,7 +6,6 @@ import { themes } from 'styles/themes';
 const { colors, shadows, indents } = themes;
 
 // li
-
 const baseLiStyle = css`
   margin-bottom: 7px;
   padding-block: ${indents.xs};
@@ -65,7 +64,6 @@ export const Li = styled.li`
 `;
 
 // input label
-
 const baseLabelStyle = css`
   min-height: 19px;
   width: 100%;
@@ -112,7 +110,6 @@ export const LabelChecked = styled.label`
 `;
 
 // edit, trash buttons
-
 export const baseBtnStyles = css`
   display: flex;
   justify-content: center;

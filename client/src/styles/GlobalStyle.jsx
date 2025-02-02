@@ -34,6 +34,7 @@ html {
 *::before,
 *::after {
   box-sizing: inherit;
+  scrollbar-width: thin;
 }
 
 p,

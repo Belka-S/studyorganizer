@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { themes } from 'styles/themes';
 
 const { colors, shadows, indents } = themes;
-const { s, m, l } = indents;
-const { backdrop, white } = colors;
+const { s, m } = indents;
+const { backdrop, background } = colors;
 
 export const Backdrop = styled.div`
   ${({ $bd }) => $bd !== 'none' && 'width: 100vw;'};
@@ -23,13 +23,14 @@ export const Backdrop = styled.div`
     ${({ $x, $y }) => !$x && !$y && 'transform: translate(-50%, -50%);'}
 
     border-radius: ${m};
-    background-color: ${white}; // transparent;
+    background-color: transparent; // transparent;
     box-shadow: ${shadows.back};
 
     ${({ $bd }) =>
       $bd === 'none' &&
       'width: calc(50vw - 58px);' +
-        ` padding: ${s} 0px ${s} 16px;` +
-        ` border-radius: ${s}`};
+        ` padding: ${s} 16px;` +
+        ` border-radius: ${s};` +
+        ` background-color: ${background};`};
   }
 `;

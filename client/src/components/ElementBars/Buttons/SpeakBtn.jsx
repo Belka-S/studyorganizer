@@ -13,9 +13,8 @@ const { button } = themes.shadows;
 const { l, xxl } = themes.indents;
 
 const SpeakBtn = () => {
-  const { activeCluster } = useClusters();
   const [isModal, setIsModal] = useState(false);
-
+  const { activeCluster } = useClusters();
   const { _id } = activeCluster;
 
   return (
