@@ -33,7 +33,7 @@ export default Modal;
 Modal.propTypes = {
   $x: PropTypes.string,
   $y: PropTypes.string,
-  $bd: PropTypes.bool,
+  $bd: PropTypes.string,
   onClick: PropTypes.func.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.string,

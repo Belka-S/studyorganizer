@@ -27,7 +27,7 @@ const ProfileBtn = () => {
         <Modal
           $x={`right: ${l}`}
           $y={`top: ${xl}`}
-          $bd={false}
+          $bd="transparent"
           onClick={handleClick}
         >
           <ProfileForm setIsModal={setIsModal} />

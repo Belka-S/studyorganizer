@@ -10,7 +10,7 @@ import { themes } from 'styles/themes';
 import ElementEditForm from 'components/ElementList/Li/Element/ElEditForm';
 
 const { button } = themes.shadows;
-const { m, xxl } = themes.indents;
+const { l, xxl } = themes.indents;
 
 const SpeakBtn = () => {
   const { activeCluster } = useClusters();
@@ -30,7 +30,7 @@ const SpeakBtn = () => {
       </Button>
       {isModal && (
         <Modal
-          $x={`left: ${m}`}
+          $x={`left: ${l}`}
           $y={`bottom: ${xxl}`}
           $bd="none"
           onClick={() => setIsModal(false)}

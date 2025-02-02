@@ -59,12 +59,11 @@ export const Divider = styled.div`
 `;
 
 // buttons
-
 export const BtnWrap = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: center;
 `;
 
 export const SubmitBtn = styled.button`
