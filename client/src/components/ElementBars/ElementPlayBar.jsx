@@ -6,8 +6,7 @@ import { useAuth, useClusters, useElements } from 'utils/hooks';
 import { speakText, speakTranslation } from 'utils/helpers';
 import { themes } from 'styles/themes';
 import GridWrap from 'components/shared/GridWrap/GridWrap';
-
-import RefreshBtn from './Buttons/RefreshBtn';
+import RefreshBtn from 'components/shared/Button/RefreshBtn';
 
 const { background } = themes.colors;
 const { button } = themes.shadows;

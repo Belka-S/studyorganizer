@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { TransparentBtn } from './Button.styled';
+import { AccentBtn, TransparentBtn } from './Button.styled';
 
 const Button = ({
   $round,
@@ -10,11 +10,23 @@ const Button = ({
   $bs,
   onClick,
   name,
+  variant,
   type = 'button',
   disabled,
   children,
 }) => {
-  return (
+  return variant === 'accent' ? (
+    <AccentBtn
+      $w={$w}
+      $h={$h}
+      $s={$s}
+      onClick={onClick}
+      type={type}
+      disabled={disabled}
+    >
+      {children}
+    </AccentBtn>
+  ) : (
     <TransparentBtn
       $round={$round}
       $w={$w}
@@ -23,6 +35,7 @@ const Button = ({
       $bs={$bs}
       onClick={onClick}
       name={name}
+      variant={variant}
       type={type}
       disabled={disabled}
     >
@@ -41,6 +54,7 @@ Button.propTypes = {
   $bs: PropTypes.string,
   onClick: PropTypes.func,
   name: PropTypes.string,
+  variant: PropTypes.string,
   type: PropTypes.string,
   disabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
   children: PropTypes.oneOfType([

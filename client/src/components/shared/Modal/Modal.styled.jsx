@@ -5,7 +5,7 @@ import { themes } from 'styles/themes';
 const { colors, shadows, indents } = themes;
 
 export const Backdrop = styled.div`
-  width: 100vw;
+  ${({ $bd = true }) => $bd !== 'none' && 'width: 100vw;'};
   height: 100vh;
   position: fixed;
   top: 0;

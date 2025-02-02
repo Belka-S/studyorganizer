@@ -8,7 +8,7 @@ import { useClusters } from 'utils/hooks';
 import { getGdiveId } from 'utils/helpers';
 import { addClusterThunk, addGroupThunk } from 'store/cluster/clusterThunks';
 import { titleSchema } from 'utils/validation';
-import ButtonClr from 'components/shared/Button/ButtonClr';
+import Button from 'components/shared/Button/Button';
 import CreatableSelect from 'components/shared/Select/CreatableSelect';
 
 import { Form, Label, Input, Hidden } from './ClusterForms.styled';
@@ -70,9 +70,9 @@ const AddClusterForm = ({ cluster, title, group, setGroup, setIsModal }) => {
         />
       </Label>
 
-      <ButtonClr type="submit" $s="l" $h="41px">
+      <Button variant="accent" type="submit" $s="l" $h="41px">
         Submit
-      </ButtonClr>
+      </Button>
     </Form>
   );
 };
