@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import { Fragment, useEffect, useState } from 'react';
 
 import { useClusters, useGdrive } from 'utils/hooks';
+import { scrollOnDomEl } from 'utils/helpers';
 import { setGdriveFolders } from 'store/gdrive/gdriveSlice';
 
 import LiFolder from './Li/LiFolder';
@@ -19,10 +20,7 @@ const GdriveList = () => {
 
   useEffect(() => {
     const activeFileEl = document.getElementById('active-file');
-    const scrollOnActive = () => {
-      activeFileEl?.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    };
-    scrollOnActive();
+    activeFileEl && scrollOnDomEl();
   }, []);
 
   // G-Drive folders

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 
 import { useAuth, useClusters, useElements } from 'utils/hooks';
-import { translateText } from 'utils/helpers';
+import { translateText, scrollOnDomEl } from 'utils/helpers';
 import {
   fetchElementsThunk,
   updateElementThunk,
@@ -51,13 +51,7 @@ const ElementList = () => {
       })
       .then(() => {
         const activeDomEl = document.getElementById('active-element');
-        const scrollOnActive = () => {
-          activeDomEl?.scrollIntoView({
-            block: 'center',
-            behavior: 'smooth',
-          });
-        };
-        scrollOnActive();
+        activeDomEl && scrollOnDomEl(activeDomEl);
       });
   }, []);
 

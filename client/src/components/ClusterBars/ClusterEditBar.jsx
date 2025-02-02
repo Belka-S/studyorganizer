@@ -9,7 +9,7 @@ import { useClusters } from 'utils/hooks';
 import DeleteBtn from './Buttons/DeleteBtn';
 import AddBtn from './Buttons/AddBtn';
 
-const { s, m } = themes.indents;
+const { m } = themes.indents;
 
 const ClusterEditBar = () => {
   const { clusterTrash } = useClusters();

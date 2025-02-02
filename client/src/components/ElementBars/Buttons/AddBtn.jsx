@@ -10,6 +10,7 @@ import {
   writeClipboard,
   normalizeClipboard,
   translateText,
+  scrollOnBottom,
 } from 'utils/helpers';
 import { addElementThunk } from 'store/element/elementThunks';
 import { useAuth, useClusters } from 'utils/hooks';
@@ -35,10 +36,6 @@ const AddBtn = () => {
       removeEventListener('keydown', handleKeyDown);
     };
   }, []);
-
-  const scrollOnBottom = () => {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-  };
 
   const addElement = async e => {
     const text = window.getSelection().toString();

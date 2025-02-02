@@ -33,6 +33,7 @@ import Button from 'components/shared/Button/Button';
 import Select from 'components/shared/Select/Select';
 
 import { useAuth, useClusters } from 'utils/hooks';
+import { scrollOnDomEl } from 'utils/helpers';
 import { engineValues } from 'utils/constants';
 import { fetchElementsThunk } from 'store/element/elementThunks';
 import { fetchClustersThunk } from 'store/cluster/clusterThunks';
@@ -76,13 +77,7 @@ const ProfileForm = ({ setIsModal }) => {
           })
           .then(() => {
             const activeDomEl = document.getElementById('active-element');
-            const scrollOnActive = () => {
-              activeDomEl?.scrollIntoView({
-                block: 'center',
-                behavior: 'smooth',
-              });
-            };
-            scrollOnActive();
+            activeDomEl && scrollOnDomEl(activeDomEl);
           });
       });
   };

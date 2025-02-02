@@ -91,7 +91,7 @@ const markAsRead = (current, next) => {
         prePrevActiveEl.querySelectorAll('div')[1].style.display = null;
         prePrevActiveEl.querySelectorAll('div')[2].style.display = null;
       }
-      const scrollOnActive = () => {
+      const scrollOnDomEl = () => {
         activeEl?.scrollIntoView({
           block: 'center',
           behavior: 'smooth',
@@ -99,7 +99,7 @@ const markAsRead = (current, next) => {
       };
       if (currentMsg && !currentMsg.startsWith(' ')) {
         activeEl.style.backgroundColor = white;
-        scrollOnActive();
+        scrollOnDomEl();
       }
       return activeEl;
     }

@@ -9,6 +9,7 @@ import ElementSearchBar from 'components/ElementBars/ElementSearchBar';
 import FlexWrap from 'components/shared/FlexWrap/FlexWrap';
 import { updateUserThunk } from 'store/auth/authThunks';
 import { useClusters, useGdrive } from 'utils/hooks';
+import { scrollOnTop, scrollOnBottom, scrollOnDomEl } from 'utils/helpers';
 import { useAuth } from 'utils/hooks/useAuth';
 import { themes } from 'styles/themes';
 
@@ -29,16 +30,6 @@ const Header = ({ $height, barW, setBarW }) => {
     isLoggedIn ? setBarW(`${s}`) : setBarW('45%');
   }, [isLoggedIn, setBarW]);
 
-  const scrollOnTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-  const scrollOnBottom = () => {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-  };
-  const scrollOnActive = el => {
-    el?.scrollIntoView({ block: 'center', behavior: 'smooth' });
-  };
-
   const scrollGdrive = () => {
     const activeFileEl = document.getElementById('active-file');
     if (!activeFileEl) {
@@ -47,7 +38,7 @@ const Header = ({ $height, barW, setBarW }) => {
     }
     const positionY = activeFileEl?.getBoundingClientRect().y;
     const isVisible = positionY < window.innerHeight && positionY > 0;
-    isVisible ? scrollOnBottom() : scrollOnActive(activeFileEl);
+    isVisible ? scrollOnBottom() : scrollOnDomEl(activeFileEl);
   };
 
   const scrollCluster = () => {
@@ -58,7 +49,7 @@ const Header = ({ $height, barW, setBarW }) => {
     }
     const positionY = activeClusterEl?.getBoundingClientRect().y;
     const isVisible = positionY < window.innerHeight && positionY > 0;
-    isVisible ? scrollOnBottom() : scrollOnActive(activeClusterEl);
+    isVisible ? scrollOnBottom() : scrollOnDomEl(activeClusterEl);
   };
 
   const scrollElement = () => {
@@ -69,7 +60,7 @@ const Header = ({ $height, barW, setBarW }) => {
     }
     const positionY = activeElementEl?.getBoundingClientRect().y;
     const isVisible = positionY < window.innerHeight && positionY > 0;
-    isVisible ? scrollOnBottom() : scrollOnActive(activeElementEl);
+    isVisible ? scrollOnBottom() : scrollOnDomEl(activeElementEl);
   };
 
   const handleClick = () => {

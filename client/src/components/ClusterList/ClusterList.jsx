@@ -6,6 +6,7 @@ import {
   fetchGroupsThunk,
 } from 'store/cluster/clusterThunks';
 import { useClusters, useElements } from 'utils/hooks';
+import { scrollOnDomEl } from 'utils/helpers';
 
 import LiGroup from './Li/LiGroup';
 import LiCluster from './Li/LiCluster';
@@ -28,10 +29,8 @@ const ClusterList = () => {
 
   useEffect(() => {
     const activeDomEl = document.getElementById('active-cluster');
-    const scrollOnActive = () => {
-      activeDomEl?.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    };
-    scrollOnActive();
+
+    activeDomEl && scrollOnDomEl(activeDomEl);
   }, []);
 
   // clusters filter+selector (trash/filter/favorite/checked)
