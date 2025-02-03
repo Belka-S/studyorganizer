@@ -38,7 +38,16 @@ module.exports = {
     'import/order': [
       'warn',
       {
-        groups: ['builtin', 'external', 'parent', 'internal', 'sibling', 'index', 'object', 'type'],
+        groups: [
+          'builtin',
+          'external',
+          'parent',
+          'internal',
+          'sibling',
+          'index',
+          'object',
+          'type',
+        ],
         'newlines-between': 'always-and-inside-groups',
       },
     ],

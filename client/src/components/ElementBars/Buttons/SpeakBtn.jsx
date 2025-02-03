@@ -1,5 +1,10 @@
 import { useState } from 'react';
-import { HiOutlineMicrophone } from 'react-icons/hi';
+import 'regenerator-runtime/runtime';
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from 'react-speech-recognition';
+import { TbMicrophone } from 'react-icons/tb';
+import { BsStopFill } from 'react-icons/bs';
 
 import { useClusters } from 'utils/hooks';
 
@@ -15,17 +20,30 @@ const { l, xxl } = themes.indents;
 const SpeakBtn = () => {
   const [isModal, setIsModal] = useState(false);
   const { activeCluster } = useClusters();
-  const { _id } = activeCluster;
+
+  const { transcript, listening, resetTranscript } = useSpeechRecognition();
+  const { isMicrophoneAvailable } = useSpeechRecognition();
+  const { browserSupportsSpeechRecognition } = useSpeechRecognition();
+  // https://www.google.com/intl/en/chrome/demos/speech.html
+  if (!browserSupportsSpeechRecognition || !isMicrophoneAvailable) return;
+
+  const toggleRecognition = () => {
+    if (!listening) {
+      resetTranscript();
+      setIsModal(true);
+      SpeechRecognition.startListening({
+        language: activeCluster.lang,
+        continuous: true,
+      });
+    } else {
+      SpeechRecognition.stopListening();
+    }
+  };
 
   return (
     <>
-      <Button
-        onClick={() => setIsModal(!isModal)}
-        $s="m"
-        $round={true}
-        $bs={button}
-      >
-        <HiOutlineMicrophone size={18} />
+      <Button onClick={toggleRecognition} $s="m" $round={true} $bs={button}>
+        {!listening ? <TbMicrophone size={18} /> : <BsStopFill size={18} />}
       </Button>
       {isModal && (
         <Modal
@@ -35,7 +53,12 @@ const SpeakBtn = () => {
           onClick={() => setIsModal(false)}
         >
           <ElementEditForm
-            el={{ _id: null, cluster: _id, element: '', caption: '' }}
+            el={{
+              _id: null,
+              cluster: activeCluster._id,
+              element: transcript,
+              caption: '',
+            }}
             setIsForm={() => null}
           />
         </Modal>
