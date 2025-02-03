@@ -115,16 +115,14 @@ const SpeakBtn = () => {
       {isModal && (
         <Modal
           $x={`left: ${l}`}
-          $y={`bottom: ${xxl}`}
+          $y="top: 50%"
           $bd="none"
           onClick={() => setIsModal(false)}
         >
           <ElementEditForm
             el={{
-              _id: null,
               cluster: activeCluster._id,
               element: fullRecording,
-              caption: '',
               favorite: true,
               checked: fullRecording.split(/\s+/).length < 20 ? true : false,
             }}

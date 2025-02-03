@@ -11,6 +11,7 @@ import {
   normalizeClipboard,
   translateText,
   scrollOnBottom,
+  trimChar,
 } from 'utils/helpers';
 import { addElementThunk } from 'store/element/elementThunks';
 import { useAuth, useClusters } from 'utils/hooks';
@@ -41,14 +42,17 @@ const AddBtn = () => {
     text && (await writeClipboard(text));
     // document.execCommand('copy');
     const clipboardText = await readClipboard();
-    const element = normalizeClipboard(clipboardText, activeCluster.lang)
+    let element = normalizeClipboard(clipboardText, activeCluster.lang)
       .split(/\s+/)
       .join(' ')
       .replaceAll('\n', ' ')
       .trim();
-
+    // Normalize element
+    element = trimChar(element, ',');
     const translation = { from: activeCluster.lang, to: user.lang };
-    const caption = await translateText(element, translation, user.engine);
+    let caption = await translateText(element, translation, user.engine);
+    // Normalize caption
+    caption = trimChar(caption.trim(), ',');
     const { _id } = activeCluster;
     try {
       const mediaEl = { cluster: _id, element: '[]', caption: element };

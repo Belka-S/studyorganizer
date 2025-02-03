@@ -6,9 +6,10 @@ import { BsSendCheck } from 'react-icons/bs';
 import { SiDeepl, SiGoogletranslate } from 'react-icons/si';
 import { MdOutlineTextIncrease } from 'react-icons/md';
 
-import { translateText, normalizeClipboard } from 'utils/helpers';
+import { translateText, normalizeClipboard, trimChar } from 'utils/helpers';
 import { useAuth, useClusters, useAutosizeTextArea } from 'utils/hooks';
 import {
+  addElementThunk,
   updateElementThunk,
   fetchElementsThunk,
 } from 'store/element/elementThunks';
@@ -90,13 +91,9 @@ const ElementEditForm = ({ el, setIsForm }) => {
       .replaceAll('\n', ' ')
       .trim();
     // Normalize element
-    if (element.endsWith(',')) {
-      element = element.substring(0, element.length - 1);
-    }
+    element = trimChar(element, ',');
     // Normalize caption
-    if (caption.endsWith(',')) {
-      caption = caption.substring(0, caption.length - 1);
-    }
+    caption = trimChar(caption, ',');
     if (user.lang.includes('en') && activeCluster.lang.includes('de')) {
       const isNetzVerb =
         (element.includes('hat') || element.includes('ist')) &&
@@ -108,9 +105,11 @@ const ElementEditForm = ({ el, setIsForm }) => {
           .join(', ');
       }
     }
-    dispatch(updateElementThunk({ _id, lang, element, caption })).then(
-      dispatch(fetchElementsThunk()),
-    );
+    dispatch(
+      _id
+        ? updateElementThunk({ _id, lang, element, caption })
+        : addElementThunk({ ...el, caption }),
+    ).then(dispatch(fetchElementsThunk()));
     setIsForm(false);
   };
 

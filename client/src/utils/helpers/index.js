@@ -11,3 +11,4 @@ export * from 'utils/helpers/speakText';
 export * from 'utils/helpers/startsWithCapital';
 export * from 'utils/helpers/translateText';
 export * from 'utils/helpers/writeClipboard';
+export * from 'utils/helpers/trimChar';
