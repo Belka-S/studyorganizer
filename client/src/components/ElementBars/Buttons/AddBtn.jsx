@@ -26,11 +26,10 @@ const AddBtn = () => {
   useEffect(() => {
     const handleKeyDown = async e => {
       if (e.key === 'e' && e.metaKey) {
-        e.prevent;
+        e.preventDefault();
         await addElement();
       }
     };
-
     addEventListener('keydown', handleKeyDown);
     return () => {
       removeEventListener('keydown', handleKeyDown);
@@ -66,7 +65,7 @@ const AddBtn = () => {
         .then(() => e?.target && scrollOnBottom())
         .finally(() => e?.target?.blur());
     } catch (err) {
-      e?.target?.blur();
+      e?.currentTarget.blur();
       toast.error(`Invalid element, ${err.message}`);
     }
   };

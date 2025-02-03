@@ -13,8 +13,8 @@ const DictionaryBtn = () => {
 
   useEffect(() => {
     const handleKeyDown = async e => {
-      if (e.key === 'd' && e.metaKey) {
-        e.prevent;
+      if (e.metaKey && e.key === 'd') {
+        e.preventDefault();
         await openDictionary();
       }
     };

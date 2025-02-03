@@ -29,7 +29,7 @@ const AddBtn = ({ setClipboardText, setIsModal }) => {
       setIsModal('add');
       // set cursor on input
     } catch (err) {
-      e?.target.blur();
+      e?.currentTarget.blur();
       toast.error(`Invalid cluster, ${err.message}`);
     }
   };

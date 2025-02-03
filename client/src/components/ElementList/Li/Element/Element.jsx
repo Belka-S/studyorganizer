@@ -72,7 +72,7 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
       lang: activeCluster.lang,
       rate: activeCluster.rate,
     });
-    e.target.blur();
+    e.currentTarget.blur();
     msg && toast.error(msg);
   };
   const speakCaption = e => {
@@ -83,7 +83,7 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
       lang: el.lang,
       rate: user.rate,
     });
-    e.target.blur();
+    e.currentTarget.blur();
     msg && toast.error(msg);
   };
 

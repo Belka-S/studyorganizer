@@ -117,8 +117,7 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
       lang: ac.lang,
       rate: ac.rate,
     });
-
-    e.target.blur();
+    e.currentTarget.blur();
     msg && toast.error(msg);
   };
 
@@ -137,7 +136,7 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
       lang: captionLang,
       rate: user.rate,
     });
-    e.target.blur();
+    e.currentTarget.blur();
     msg && toast.error(msg);
   };
 
@@ -167,8 +166,7 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
       lang: ac.lang,
       rate: user.rate,
     });
-
-    e.target.blur();
+    e.currentTarget.blur();
     msg && toast.error(msg);
   };
 
