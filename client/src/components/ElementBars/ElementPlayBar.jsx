@@ -114,6 +114,7 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
 
   const availableVoices = voices;
   const playElements = e => {
+    e.currentTarget.blur();
     setLiColor(background);
     const divider = '$*@';
     const index = filtredElements.findIndex(
@@ -129,11 +130,11 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
       lang: ac.lang,
       rate: ac.rate,
     });
-    e.currentTarget.blur();
     msg && toast.error(msg);
   };
 
   const playCaptions = e => {
+    e.currentTarget.blur();
     const divider = '$*@';
     setLiColor(background);
     const index = filtredElements.findIndex(
@@ -149,11 +150,11 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
       lang: captionLang,
       rate: user.rate,
     });
-    e.currentTarget.blur();
     msg && toast.error(msg);
   };
 
   const playAll = e => {
+    e.currentTarget.blur();
     setLiColor(background);
     let textString = '';
     const divider = '$*@';
@@ -180,7 +181,6 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
       lang: ac.lang,
       rate: user.rate,
     });
-    e.currentTarget.blur();
     msg && toast.error(msg);
   };
 

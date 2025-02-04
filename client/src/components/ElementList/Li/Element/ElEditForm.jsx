@@ -38,6 +38,11 @@ const ElementEditForm = ({ el, setIsForm }) => {
     mode: 'onBlur',
     defaultValues: { element, caption },
   });
+  // Set caption from 'el' argument
+  useEffect(() => {
+    setValue('caption', caption);
+  }, [caption, setValue]);
+  // Get refs in RHF https://www.react-hook-form.com/faqs/#Howtosharerefusage
   const { ref: refElement, ...restElement } = register('element');
   const { ref: refCaption, ...restCaption } = register('caption');
   // Autosize textarea
@@ -128,8 +133,8 @@ const ElementEditForm = ({ el, setIsForm }) => {
       .replaceAll('\n', ' ')
       .trim();
 
-    const translation = { from: activeCluster.lang, to: user.lang };
-    const caption = await translateText(element, translation, engine);
+    const payload = { from: activeCluster.lang, to: user.lang };
+    const caption = await translateText(element, payload, engine);
     setValue('caption', caption);
   };
 

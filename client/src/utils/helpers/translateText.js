@@ -6,12 +6,13 @@ const { VITE_DEEPL_API_KEY } = import.meta.env;
 const keys = { google: '', deepl: VITE_DEEPL_API_KEY };
 
 export const translateText = async (text, { from, to }, engine) => {
+  if (!text || text.length === 0) return '';
+
+  const t = text.replaceAll(' ·', ',').replaceAll('·', '');
   translate.engine = engine;
   translate.key = keys[engine];
-  const t = text.replaceAll(' ·', ',').replaceAll('·', '');
-  let translation = await translate(`${t}`, { from, to });
-
   try {
+    let translation = await translate(`${t}`, { from, to });
     // abbreviations
     if (to.includes('en') && t.toLowerCase().includes('uhr')) {
       translation = translation

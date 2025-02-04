@@ -49,8 +49,8 @@ const AddBtn = () => {
       .trim();
     // Normalize element
     element = trimChar(element, ',');
-    const translation = { from: activeCluster.lang, to: user.lang };
-    let caption = await translateText(element, translation, user.engine);
+    const payload = { from: activeCluster.lang, to: user.lang };
+    let caption = await translateText(element, payload, user.engine);
     // Normalize caption
     caption = trimChar(caption.trim(), ',');
     const { _id } = activeCluster;

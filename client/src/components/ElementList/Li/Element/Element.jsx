@@ -66,6 +66,7 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
   };
 
   const speakElement = e => {
+    e.currentTarget.blur();
     const msg = speakText({
       setLiColor,
       divider,
@@ -74,10 +75,10 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
       lang: activeCluster.lang,
       rate: activeCluster.rate,
     });
-    e.currentTarget.blur();
     msg && toast.error(msg);
   };
   const speakCaption = e => {
+    e.currentTarget.blur();
     const msg = speakText({
       setLiColor,
       divider,
@@ -86,7 +87,6 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
       lang: el.lang,
       rate: user.rate,
     });
-    e.currentTarget.blur();
     msg && toast.error(msg);
   };
 
