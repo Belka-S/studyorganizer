@@ -27,16 +27,16 @@ const SpeakBtn = () => {
   const { isMicrophoneAvailable } = useSpeechRecognition();
   const { browserSupportsSpeechRecognition } = useSpeechRecognition();
 
+  // Add punctuation
   const normalizedTranscript = recording.endsWith(', ')
     ? transcript
     : transcript.replace(/^./, str => str.toUpperCase());
   const fullRecording = `${recording}${normalizedTranscript}`;
+  const setPunctuation = (text, char) =>
+    text.trim().endsWith(char) ? `${text.trim()} ` : `${text.trim()}${char} `;
 
   useEffect(() => {
     if (!listening) return;
-
-    const setPunctuation = (text, char) =>
-      text.trim().endsWith(char) ? `${text.trim()} ` : `${text.trim()}${char} `;
 
     const charList = ['.', '?', '!', ','];
     const handleKeyDown = e => {
@@ -79,6 +79,8 @@ const SpeakBtn = () => {
           });
         } else {
           SpeechRecognition.stopListening();
+          const normalizedRecording = setPunctuation(fullRecording, '.');
+          setRecording(normalizedRecording);
           resetTranscript();
         }
       }
@@ -87,7 +89,7 @@ const SpeakBtn = () => {
     return () => {
       removeEventListener('keydown', handleKeyDown);
     };
-  }, [activeCluster.lang, listening, resetTranscript]);
+  }, [activeCluster.lang, fullRecording, listening, resetTranscript]);
 
   // https://www.google.com/intl/en/chrome/demos/speech.html
   if (!browserSupportsSpeechRecognition || !isMicrophoneAvailable) return;
@@ -102,6 +104,8 @@ const SpeakBtn = () => {
       });
     } else {
       SpeechRecognition.stopListening();
+      const normalizedRecording = setPunctuation(fullRecording, '.');
+      setRecording(normalizedRecording);
       resetTranscript();
     }
     e?.currentTarget.blur();

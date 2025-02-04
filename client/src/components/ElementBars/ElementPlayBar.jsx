@@ -31,7 +31,6 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
       };
     }
   }, []);
-
   if (!Array.isArray(voices) || voices.length === 0) return;
 
   const getLanguage = arr => {
