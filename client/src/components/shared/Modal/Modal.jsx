@@ -34,7 +34,7 @@ Modal.propTypes = {
   $x: PropTypes.string,
   $y: PropTypes.string,
   $bd: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,

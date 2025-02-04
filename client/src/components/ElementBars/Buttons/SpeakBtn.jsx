@@ -17,11 +17,11 @@ import ElementEditForm from 'components/ElementList/Li/Element/ElEditForm';
 import { translateText } from 'utils/helpers';
 
 const { button } = themes.shadows;
-const { l } = themes.indents;
+const { m } = themes.indents;
 
 const SpeakBtn = () => {
   const { user } = useAuth();
-  const [isModal, setIsModal] = useState(false);
+  const [isForm, setIsForm] = useState(false);
   const { activeCluster } = useClusters();
   const [recording, setRecording] = useState('');
   const [translation, setTranslation] = useState('');
@@ -35,11 +35,12 @@ const SpeakBtn = () => {
     ? transcript
     : transcript.replace(/^./, str => str.toUpperCase());
   const fullRecording = `${recording}${normalizedTranscript}`;
+
   const setPunctuation = (text, char) =>
     text.trim().endsWith(char) ? `${text.trim()} ` : `${text.trim()}${char} `;
-  // Set punctuation
+
   useEffect(() => {
-    if (!listening) return;
+    if (!listening || !isForm) return;
     const charList = ['.', '?', '!', ','];
     const handleKeyDown = e => {
       if (charList.includes(e.key)) {
@@ -50,14 +51,14 @@ const SpeakBtn = () => {
       }
       if (e.key === 'Backspace') {
         e.preventDefault();
-        const qwe = fullRecording.substring(0, fullRecording.length - 1);
-        setRecording(qwe);
+        const backspace = fullRecording.substring(0, fullRecording.length - 1);
+        setRecording(backspace);
         resetTranscript();
       }
       if (e.code === 'Space') {
         e.preventDefault();
-        const qwe = fullRecording + ' ';
-        setRecording(qwe);
+        const space = fullRecording + ' ';
+        setRecording(space);
         resetTranscript();
       }
     };
@@ -65,25 +66,37 @@ const SpeakBtn = () => {
     return () => {
       removeEventListener('keydown', handleKeyDown);
     };
-  }, [fullRecording, listening, recording, resetTranscript]);
-  // Start/Stop recording by cmd+R
+  }, [fullRecording, isForm, listening, recording, resetTranscript]);
+  // Start/Stop recording by cmd+R/escape
   useEffect(() => {
     const handleKeyDown = async e => {
-      if (e.metaKey && e.key === 'r') {
+      if (!listening && e.metaKey && e.key === 'r') {
         e.preventDefault();
-        if (!listening) {
-          setRecording('');
-          setIsModal(true);
-          SpeechRecognition.startListening({
-            language: activeCluster.lang,
-            continuous: true,
-          });
-        } else {
+        setRecording('');
+        setTranslation('');
+        setIsForm(true);
+        SpeechRecognition.startListening({
+          language: activeCluster.lang,
+          continuous: true,
+        });
+      }
+      if (listening) {
+        e.preventDefault();
+        if (e.key === 'Escape') {
+          return SpeechRecognition.stopListening();
+        }
+        if (e.metaKey && e.key === 'r') {
           SpeechRecognition.stopListening();
-          const normalizedRecording = setPunctuation(fullRecording, '.');
-          recording && setRecording(normalizedRecording);
+          // Finalisation after stop
+          const finalText = transcript
+            ? setPunctuation(fullRecording, '.')
+            : fullRecording;
           const payload = { from: activeCluster.lang, to: user.lang };
-          const text = await translateText(fullRecording, payload, user.engine);
+          const text = await translateText(finalText, payload, user.engine);
+          const isFinished = ['.', '?', '!'].includes(
+            fullRecording.at(fullRecording.length - 1),
+          );
+          !isFinished && setRecording(finalText);
           setTranslation(text);
           resetTranscript();
         }
@@ -97,10 +110,10 @@ const SpeakBtn = () => {
     activeCluster.lang,
     fullRecording,
     listening,
-    recording,
     resetTranscript,
-    user.lang,
+    transcript,
     user.engine,
+    user.lang,
   ]);
   // https://www.google.com/intl/en/chrome/demos/speech.html
   if (!browserSupportsSpeechRecognition || !isMicrophoneAvailable) return;
@@ -109,17 +122,24 @@ const SpeakBtn = () => {
     e?.currentTarget.blur();
     if (!listening) {
       setRecording('');
-      setIsModal(true);
+      setTranslation('');
+      setIsForm(true);
       SpeechRecognition.startListening({
         language: activeCluster.lang,
         continuous: true,
       });
     } else {
       SpeechRecognition.stopListening();
-      const normalizedRecording = setPunctuation(fullRecording, '.');
-      recording && setRecording(normalizedRecording);
+      // Finalisation after stop
+      const finalText = transcript
+        ? setPunctuation(fullRecording, '.')
+        : fullRecording;
       const payload = { from: activeCluster.lang, to: user.lang };
-      const text = await translateText(fullRecording, payload, user.engine);
+      const text = await translateText(finalText, payload, user.engine);
+      const isFinished = ['.', '?', '!'].includes(
+        fullRecording.at(fullRecording.length - 1),
+      );
+      !isFinished && setRecording(finalText);
       setTranslation(text);
       resetTranscript();
     }
@@ -131,13 +151,8 @@ const SpeakBtn = () => {
         {!listening ? <TbMicrophone size={18} /> : <BsStopFill size={18} />}
       </Button>
 
-      {isModal && (
-        <Modal
-          $x={`left: ${l}`}
-          $y="top: 50%"
-          $bd="none"
-          onClick={() => setIsModal(false)}
-        >
+      {isForm && (
+        <Modal $x={`left: ${m}`} $y="top: 50%" $bd="none">
           <ElementEditForm
             el={{
               cluster: activeCluster._id,
@@ -146,7 +161,7 @@ const SpeakBtn = () => {
               favorite: true,
               checked: fullRecording.split(/\s+/).length < 20 ? true : false,
             }}
-            setIsForm={() => null}
+            setIsForm={setIsForm}
           />
         </Modal>
       )}
