@@ -120,9 +120,9 @@ const refreshPlaylist = () => {
   });
 };
 
-export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
+export const speakText = props => {
+  const { setLiColor, divider, voices, text, lang, rate } = props;
   const speech = window.speechSynthesis;
-  if (speech.getVoices().length === 0) return 'Try again';
   // devide message on parts
   const messageParts = text.split(divider).reduce((acc, el, i, arr) => {
     const currentElLength = el.trim().split(' ').length;
@@ -153,15 +153,14 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
     ? lang
     : text.substring(firstLangIdx, firstLangIdx + 2);
   // message.pitch = 1; // 0 to 2
-  const voices = speech.getVoices().filter(el => el.lang.includes(messageLang));
-
-  if (!voices[0]) return `No ${lang.toUpperCase()} voice available`;
-  if (lang === 'en' && voices[4]) {
-    message.voice = voices[4]; // 1 - man, 7 - woman
-  } else if (lang === 'de' && voices[0]) {
-    message.voice = voices[0];
+  let voicesM = voices.filter(el => el.lang.includes(messageLang));
+  if (!voicesM[0]) return `No ${lang.toUpperCase()} voice available`;
+  if (lang === 'en' && voicesM[4]) {
+    message.voice = voicesM[4]; // 1 - man, 7 - woman
+  } else if (lang === 'de' && voicesM[0]) {
+    message.voice = voicesM[0];
   } else {
-    message.voice = voices[0];
+    message.voice = voicesM[0];
   }
   // mark current message
   message.onstart = () => {
@@ -182,15 +181,14 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
       if (messageParts[currentIndex].split('@±@')[1]) {
         messageLang = messageParts[currentIndex].split('@±@')[1];
       }
-      const voices = speech
-        .getVoices()
-        .filter(el => el.lang.includes(messageLang));
-      if (messageLang === 'en' && voices[4]) {
-        message.voice = voices[4];
-      } else if (messageLang === 'de' && voices[0]) {
-        message.voice = voices[0];
+      voicesM = voices.filter(el => el.lang.includes(messageLang));
+
+      if (messageLang === 'en' && voicesM[4]) {
+        message.voice = voicesM[4];
+      } else if (messageLang === 'de' && voicesM[0]) {
+        message.voice = voicesM[0];
       } else {
-        message.voice = voices[0];
+        message.voice = voicesM[0];
       }
 
       setTimeout(() => {
@@ -207,9 +205,9 @@ export const speakText = ({ text, lang, rate, divider, setLiColor }) => {
   }
 };
 
-export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
+export const speakTranslation = props => {
+  const { setLiColor, divider, voices, text, lang, rate } = props;
   const speech = window.speechSynthesis;
-  if (speech.getVoices().length === 0) return 'Try again';
 
   let currentIndex = 0;
   const messageParts = text.split(divider); // .substring(0, text.length - divider.length)
@@ -217,20 +215,20 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
   const transLang = currentMsg.split('@±@')[1].substring(0, 2);
   // message
   const message = new SpeechSynthesisUtterance();
-  const voices = speech.getVoices().filter(el => el.lang.includes(lang));
-  if (!voices[0]) return `No ${lang.toUpperCase()} voice available`;
-  if (lang === 'en' && voices[4]) {
-    message.voice = voices[4];
-  } else if (lang === 'de' && voices[0]) {
-    message.voice = voices[0];
+  const voicesM = voices.filter(el => el.lang.includes(lang));
+  if (!voicesM[0]) return `No ${lang.toUpperCase()} voice available`;
+  if (lang === 'en' && voicesM[4]) {
+    message.voice = voicesM[4];
+  } else if (lang === 'de' && voicesM[0]) {
+    message.voice = voicesM[0];
   } else {
-    message.voice = voices[0];
+    message.voice = voicesM[0];
   }
   message.rate = rate;
   message.text = currentMsg.split('@±@')[0];
   // translation
   const translation = new SpeechSynthesisUtterance();
-  const voicesT = speech.getVoices().filter(el => el.lang.includes(transLang));
+  const voicesT = voices.filter(el => el.lang.includes(transLang));
   if (!voicesT[0]) return `No ${lang.toUpperCase()} voice available`;
   if (transLang === 'en' && voicesT[4]) {
     translation.voice = voicesT[4];
@@ -264,9 +262,7 @@ export const speakTranslation = ({ text, lang, rate, divider, setLiColor }) => {
           : 100;
 
       const transLang = currentMsg.split('@±@')[1]?.substring(0, 2);
-      const voicesT = speech
-        .getVoices()
-        .filter(el => el.lang.includes(transLang));
+      const voicesT = voices.filter(el => el.lang.includes(transLang));
       if (transLang === 'en' && voicesT[4]) {
         translation.voice = voicesT[4];
       } else if (transLang === 'de' && voicesT[0]) {

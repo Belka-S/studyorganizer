@@ -16,7 +16,7 @@ import { themes } from 'styles/themes';
 import ElementEditForm from 'components/ElementList/Li/Element/ElEditForm';
 
 const { button } = themes.shadows;
-const { l, xxl } = themes.indents;
+const { l } = themes.indents;
 
 const SpeakBtn = () => {
   const [isModal, setIsModal] = useState(false);
