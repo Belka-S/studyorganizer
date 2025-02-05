@@ -46,6 +46,8 @@
 - **[lint-images]**https://ausi.github.io/respimagelint/
 - **[@svgr/webpack]**https://www.npmjs.com/package/@svgr/webpack
 - **[react-speech-kit]**https://github.com/MikeyParton/react-speech-kit?tab=readme-ov-file
+- **[sentence-cleaner]**https://www.npmjs.com/package/sentence-cleaner
+- **[punctuation-name2symbol]**https://github.com/johnwcallahan/punctuation-name2symbol
 - **[]**
 - **[]**
 - **[]**

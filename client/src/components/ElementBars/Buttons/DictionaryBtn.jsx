@@ -13,7 +13,7 @@ const DictionaryBtn = () => {
 
   useEffect(() => {
     const handleKeyDown = async e => {
-      if (e.metaKey && e.key === 'd') {
+      if (e.metaKey && e.key === 'd' && !e.altKey && !e.shiftKey) {
         e.preventDefault();
         await openDictionary();
       }

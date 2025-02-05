@@ -12,7 +12,7 @@ export const Profile = styled.div`
   flex-direction: column;
   justify-content: space-between;
 
-  border-radius: ${indents.m};
+  border-radius: ${indents.s};
   background-color: ${colors.backgroundHoverd};
 
   & .wrap {

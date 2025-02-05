@@ -22,16 +22,15 @@ export const Backdrop = styled.div`
     ${({ $y = 'top: 50%' }) => $y};
     ${({ $x, $y }) => !$x && !$y && 'transform: translate(-50%, -50%);'}
 
-    border-radius: ${m};
+    border-radius: ${s};
     background-color: transparent; // transparent;
     box-shadow: ${shadows.back};
 
     ${({ $bd }) =>
       $bd === 'none' &&
+      // 'transform: translateY(-50%);' +
       'width: calc(50vw - 26px);' +
         ` padding: ${s} 16px;` +
-        ` border-radius: ${s};` +
-        ` background-color: ${background};` +
-        'transform: translateY(-50%);'};
+        ` background-color: ${background};`};
   }
 `;

@@ -113,7 +113,7 @@ const ElementEditForm = ({ el, setIsForm }) => {
     dispatch(
       _id
         ? updateElementThunk({ _id, lang, element, caption })
-        : addElementThunk({ ...el, caption }),
+        : addElementThunk({ ...el, element, caption }),
     ).then(dispatch(fetchElementsThunk()));
     setIsForm(false);
   };

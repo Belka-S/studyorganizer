@@ -24,7 +24,7 @@ export const translateText = async (text, { from, to }, engine) => {
         .replaceAll('p.m.', 'pm.');
     }
     // sentences
-    const isSentence = ['.', '!', '?'].includes(t.at(t.length - 1));
+    const isSentence = ['.', '!', '?'].includes(t.at(-1));
     if (isSentence) return translation;
     // words
     const wordList = t.split(t.includes(', ') ? ', ' : /\s+/);

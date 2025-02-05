@@ -26,7 +26,7 @@ const AddBtn = () => {
 
   useEffect(() => {
     const handleKeyDown = async e => {
-      if (e.key === 'e' && e.metaKey) {
+      if (e.key === 'e' && e.metaKey && !e.altKey && !e.shiftKey) {
         e.preventDefault();
         await addElement();
       }

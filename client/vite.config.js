@@ -16,6 +16,7 @@ const dirPaths = dirNames.reduce(
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  optimizeDeps: { exclude: ['fsevents'] },
   resolve: {
     alias: { ...dirPaths },
   },

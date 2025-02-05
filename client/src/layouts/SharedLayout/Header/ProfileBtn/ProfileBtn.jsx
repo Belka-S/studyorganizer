@@ -8,7 +8,7 @@ import { themes } from 'styles/themes';
 
 import { UserBtn } from './ProfileBtn.styled';
 
-const { l, xl } = themes.indents;
+const { m, xl } = themes.indents;
 
 const ProfileBtn = () => {
   const [isModal, setIsModal] = useState(false);
@@ -25,7 +25,7 @@ const ProfileBtn = () => {
 
       {isModal && (
         <Modal
-          $x={`right: ${l}`}
+          $x={`right: ${32}px`}
           $y={`top: ${xl}`}
           $bd="transparent"
           onClick={handleClick}
