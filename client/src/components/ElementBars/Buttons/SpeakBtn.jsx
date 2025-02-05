@@ -13,7 +13,7 @@ import Button from 'components/shared/Button/Button';
 import Modal from 'components/shared/Modal/Modal';
 
 import ElementEditForm from 'components/ElementList/Li/Element/ElEditForm';
-import { replaceByMap, scrollOnBottom, translateText } from 'utils/helpers';
+import { replaceByMap, translateText } from 'utils/helpers';
 import { replaceMap } from 'utils/constants/replaceMap';
 import { themes } from 'styles/themes';
 
@@ -71,15 +71,11 @@ const SpeakBtn = () => {
     return () => {
       removeEventListener('keydown', handleKeyDown);
     };
-  }, [punctuatedTranscript, isForm, listening, recording, resetTranscript]);
+  }, [isForm, listening, punctuatedTranscript, resetTranscript]);
   // Start/Stop recording by cmd+R/escape
   useEffect(() => {
     const handleKeyDown = async e => {
       if (!listening) {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          scrollOnBottom();
-        }
         if (e.metaKey && e.key === 'r' && !e.altKey && !e.shiftKey) {
           e.preventDefault();
           setRecording('');
@@ -122,10 +118,9 @@ const SpeakBtn = () => {
     };
   }, [
     activeCluster.lang,
-    punctuatedTranscript,
     listening,
+    punctuatedTranscript,
     resetTranscript,
-    transcript,
     user.engine,
     user.lang,
   ]);

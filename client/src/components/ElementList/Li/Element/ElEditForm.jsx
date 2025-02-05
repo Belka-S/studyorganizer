@@ -6,7 +6,12 @@ import { BsSendCheck } from 'react-icons/bs';
 import { SiDeepl, SiGoogletranslate } from 'react-icons/si';
 import { MdOutlineTextIncrease } from 'react-icons/md';
 
-import { translateText, normalizeClipboard, trimChar } from 'utils/helpers';
+import {
+  translateText,
+  normalizeClipboard,
+  trimChar,
+  scrollOnBottom,
+} from 'utils/helpers';
 import { useAuth, useClusters, useAutosizeTextArea } from 'utils/hooks';
 import {
   addElementThunk,
@@ -24,10 +29,11 @@ import {
 } from './Element.styled';
 
 const ElementEditForm = ({ el, setIsForm }) => {
-  const dispatch = useDispatch();
   const elementRef = useRef(null);
   const captionRef = useRef(null);
   const buttonsRef = useRef(null);
+
+  const dispatch = useDispatch();
   const { user } = useAuth();
   const { activeCluster } = useClusters();
   const [article, setArticle] = useState('');
@@ -116,6 +122,7 @@ const ElementEditForm = ({ el, setIsForm }) => {
         : addElementThunk({ ...el, element, caption }),
     ).then(dispatch(fetchElementsThunk()));
     setIsForm(false);
+    !_id && scrollOnBottom();
   };
 
   const handleSetArticle = () => {
