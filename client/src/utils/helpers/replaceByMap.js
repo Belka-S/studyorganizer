@@ -11,7 +11,7 @@ export const replaceByMap = (text, replaceMap) => {
       words.splice(i + 1, 1, capitalize(words[i + 1]));
     }
   }
-  const capitalizedText = words.join(' ').replaceAll(',,', ',');
+  const capitalizedText = words.join(' ');
 
   return capitalizedText;
 };

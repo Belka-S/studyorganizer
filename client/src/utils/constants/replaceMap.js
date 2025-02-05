@@ -1,3 +1,5 @@
+// Spelling
+export const spellingMap = { '..': '.', '. .': '.', ',,': ',', ', ,': ',' };
 // English
 export const enMap = {
   // Punktuation
@@ -38,4 +40,4 @@ export const deMap = {
   ' trotzdem': ', trotzdem',
 };
 
-export const replaceMap = { ...enMap, ...deMap };
+export const replaceMap = { ...enMap, ...deMap, ...spellingMap };

@@ -110,6 +110,7 @@ const SpeakBtn = () => {
             { from: activeCluster.lang, to: user.lang },
             user.engine,
           );
+          setRecording(finalText);
           setTranslation(translation);
           resetTranscript();
         }
