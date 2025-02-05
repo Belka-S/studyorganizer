@@ -1,22 +1,41 @@
-export const replaceMap = {
-  // En
-  'Yes ': 'Yes, ',
-  'No ': 'No, ',
-  // De
-  'Ja ': 'Ja, ',
-  'Nein ': 'Nein, ',
-  // Punktuation De
-  ' Punkt': '.',
-  ' Ausrufezeichen': '!',
-  ' Fragezeichen': '?',
-  ' Komma': ',',
-  ' Doppelpunkt': ':',
-  ' Semikolon': ';',
-  // Punktuation En
+// English
+export const enMap = {
+  // Punktuation
+  ' Dot': '.',
   ' dot': '.',
   ' exclamation mark': '!',
   ' question mark': '?',
   ' comma': ',',
   ' colon': ':',
   ' semi-colon': ';',
+  // Words
+  'Yes ': 'Yes, ',
+  'No ': 'No, ',
 };
+// German
+export const deMap = {
+  // Punktuation
+  ' Punkt': '.',
+  ' Ausrufezeichen': '!',
+  ' Fragezeichen': '?',
+  ' Komma': ',',
+  ' Doppelpunkt': ':',
+  ' Semikolon': ';',
+  // Words
+  'Ja ': 'Ja, ',
+  'Nein ': 'Nein, ',
+  ' weil': ', weil',
+  ' aber': ', aber',
+  ' als': ', als',
+  ' ob': ', ob',
+  ' damit': ', damit',
+  ' bevor': ', bevor',
+  ' obwohl': ', obwohl',
+  ' dass': ', dass',
+  ' dann': ', dann',
+  ' deshalb': ', deshalb',
+  ' desvegen': ', desvegen',
+  ' trotzdem': ', trotzdem',
+};
+
+export const replaceMap = { ...enMap, ...deMap };

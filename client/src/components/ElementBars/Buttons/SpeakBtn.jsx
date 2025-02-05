@@ -101,9 +101,10 @@ const SpeakBtn = () => {
           SpeechRecognition.stopListening();
           // Finalisation after stop
           const lastIndex = punctuatedTranscript.at(-1);
-          const finalText = ['.', '?', '!'].includes(lastIndex)
-            ? punctuatedTranscript
-            : setKeyboardPunctuation(punctuatedTranscript, '.');
+          const finalText =
+            !lastIndex || [('.', '?', '!')].includes(lastIndex)
+              ? punctuatedTranscript
+              : setKeyboardPunctuation(punctuatedTranscript, '.');
           const translation = await translateText(
             finalText,
             { from: activeCluster.lang, to: user.lang },
@@ -143,9 +144,11 @@ const SpeakBtn = () => {
     } else {
       SpeechRecognition.stopListening();
       // Finalisation after stop
-      const finalText = ['.', '?', '!'].includes(punctuatedTranscript.at(-1))
-        ? punctuatedTranscript
-        : setKeyboardPunctuation(punctuatedTranscript, '.');
+      const lastIndex = punctuatedTranscript.at(-1);
+      const finalText =
+        !lastIndex || [('.', '?', '!')].includes(lastIndex)
+          ? punctuatedTranscript
+          : setKeyboardPunctuation(punctuatedTranscript, '.');
       const payload = { from: activeCluster.lang, to: user.lang };
       const translation = await translateText(finalText, payload, user.engine);
       setRecording(finalText);
