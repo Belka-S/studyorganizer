@@ -28,7 +28,7 @@ import {
   EditBtn,
 } from './Element.styled';
 
-const ElementEditForm = ({ el, setIsForm }) => {
+const ElementEditForm = ({ el, setIsForm, setRecording, setTranslation }) => {
   const elementRef = useRef(null);
   const captionRef = useRef(null);
   const buttonsRef = useRef(null);
@@ -82,8 +82,8 @@ const ElementEditForm = ({ el, setIsForm }) => {
         e.preventDefault();
         handleSubmit(onSubmit)();
       }
-      if (e.key === 'Escape') {
-        setIsForm(false);
+      if (e.code === 'AltRight') {
+        elementRef.current.focus();
       }
     };
 
@@ -121,8 +121,12 @@ const ElementEditForm = ({ el, setIsForm }) => {
         ? updateElementThunk({ _id, lang, element, caption })
         : addElementThunk({ ...el, element, caption }),
     ).then(dispatch(fetchElementsThunk()));
+    if (!_id) {
+      scrollOnBottom();
+      setRecording('');
+      setTranslation('');
+    }
     setIsForm(false);
-    !_id && scrollOnBottom();
   };
 
   const handleSetArticle = () => {
@@ -188,4 +192,6 @@ export default ElementEditForm;
 ElementEditForm.propTypes = {
   el: PropTypes.object,
   setIsForm: PropTypes.func,
+  setRecording: PropTypes.func,
+  setTranslation: PropTypes.func,
 };

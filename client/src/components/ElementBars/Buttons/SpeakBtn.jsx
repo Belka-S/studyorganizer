@@ -72,14 +72,23 @@ const SpeakBtn = () => {
       removeEventListener('keydown', handleKeyDown);
     };
   }, [isForm, listening, punctuatedTranscript, resetTranscript]);
-  // Start/Stop recording by cmd+R/escape
+  // Start/Stop recording by cmd+R/ Finish escape/enter
   useEffect(() => {
     const handleKeyDown = async e => {
+      // Finish
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        SpeechRecognition.stopListening();
+        setIsForm(false);
+        setRecording('');
+        setTranslation('');
+        resetTranscript();
+        return;
+      }
+      // Start
       if (!listening) {
         if (e.metaKey && e.key === 'r' && !e.altKey && !e.shiftKey) {
           e.preventDefault();
-          setRecording('');
-          setTranslation('');
           setIsForm(true);
           SpeechRecognition.startListening({
             language: activeCluster.lang,
@@ -87,11 +96,8 @@ const SpeakBtn = () => {
           });
         }
       }
+      // Stop
       if (listening) {
-        if (e.key === 'Escape') {
-          e.preventDefault();
-          return SpeechRecognition.stopListening();
-        }
         if (e.metaKey && e.key === 'r' && !e.altKey && !e.shiftKey) {
           e.preventDefault();
           SpeechRecognition.stopListening();
@@ -118,6 +124,7 @@ const SpeakBtn = () => {
     };
   }, [
     activeCluster.lang,
+    isForm,
     listening,
     punctuatedTranscript,
     resetTranscript,
@@ -130,8 +137,6 @@ const SpeakBtn = () => {
   const toggleRecognition = async e => {
     e?.currentTarget.blur();
     if (!listening) {
-      setRecording('');
-      setTranslation('');
       setIsForm(true);
       SpeechRecognition.startListening({
         language: activeCluster.lang,
@@ -171,6 +176,8 @@ const SpeakBtn = () => {
                 punctuatedTranscript.split(/\s+/).length < 20 ? true : false,
             }}
             setIsForm={setIsForm}
+            setRecording={setRecording}
+            setTranslation={setTranslation}
           />
         </Modal>
       )}

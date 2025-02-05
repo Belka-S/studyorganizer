@@ -58,7 +58,7 @@
 - **[chardet]**https://www.npmjs.com/package/chardet
 - **[gdriveApi]**https://developers.google.com/drive/api/reference/rest/v3/drives/list?hl=ru
 - **[node-cron]**https://www.npmjs.com/package/node-cron
-- **[]**
+- **[google-api-nodejs-client]**https://github.com/googleapis/google-api-nodejs-client
 - **[]**
 - **[]**
 - **[]**

@@ -1,5 +1,14 @@
 // Spelling
-export const spellingMap = { '..': '.', '. .': '.', ',,': ',', ', ,': ',' };
+export const spellingMap = {
+  '..': '.',
+  '. .': '.',
+  '?.': '?',
+  '? .': '?',
+  '!.': '!',
+  '! .': '!',
+  ',,': ',',
+  ', ,': ',',
+};
 // English
 export const enMap = {
   // Punktuation
