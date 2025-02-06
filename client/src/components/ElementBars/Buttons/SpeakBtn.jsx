@@ -76,7 +76,7 @@ const SpeakBtn = () => {
   useEffect(() => {
     const handleKeyDown = async e => {
       // Finish
-      if (e.key === 'Escape') {
+      if (e.ctrlKey && e.key === 'Escape') {
         e.preventDefault();
         SpeechRecognition.stopListening();
         setIsForm(false);

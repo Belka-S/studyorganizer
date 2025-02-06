@@ -73,7 +73,7 @@ const ElementEditForm = ({ el, setIsForm, setRecording, setTranslation }) => {
 
   useEffect(() => {
     const handleKeyDown = async e => {
-      if (e.code === 'NumpadAdd' || (e.ctrlKey && e.key === 'Escape')) {
+      if (e.code === 'NumpadAdd') {
         e.preventDefault();
         await translateElement(user.engine);
         handleSubmit(onSubmit)();
