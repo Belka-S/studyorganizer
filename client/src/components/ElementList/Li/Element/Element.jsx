@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import { toast } from 'react-toastify';
-
+import { useGoogleLogin } from '@react-oauth/google';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { getMediaLink, speakText } from 'utils/helpers';
+import { getCaptionType, speakText } from 'utils/helpers';
 import { useAuth, useClusters } from 'utils/hooks';
 import { setActiveElement } from 'store/element/elementSlice';
+import { setGoogleToken } from 'store/auth/authSlice';
 import { updateClusterThunk } from 'store/cluster/clusterThunks';
 
 import { GridWrap, Divider, SpeakBtn, Iframe, Audio } from './Element.styled';
@@ -14,7 +17,7 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
   const dispatch = useDispatch();
   const { user } = useAuth();
   const { activeCluster } = useClusters();
-  const { element, caption } = el;
+  const [blobUrl, setBlobUrl] = useState();
 
   const divider = '$*@';
   const getTextString = (text, divider) => {
@@ -71,7 +74,7 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
       setLiColor,
       divider,
       voices: window.speechSynthesis.getVoices(),
-      text: getTextString(element, divider),
+      text: getTextString(el.element, divider),
       lang: activeCluster.lang,
       rate: activeCluster.rate,
     });
@@ -83,7 +86,7 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
       setLiColor,
       divider,
       voices: window.speechSynthesis.getVoices(),
-      text: getTextString(caption, divider),
+      text: getTextString(el.caption, divider),
       lang: el.lang,
       rate: user.rate,
     });
@@ -107,20 +110,49 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
     }
   };
 
-  const isAudio = caption.endsWith('mp3');
-  const isIframe = !isAudio && caption.startsWith('http');
-  const isBtn = !isAudio && !isIframe;
+  const caption = getCaptionType(el.caption);
+
+  // Pllay Google Drive media
+  const googleLogin = useGoogleLogin({
+    onSuccess: res => {
+      // const userInfo = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', { headers: { Authorization: `Bearer ${res.access_token}` }, }).then(res => res.data);
+      dispatch(setGoogleToken(res.access_token));
+    },
+    onError: err => toast(err.message),
+  });
+
+  const playGdriveFile = async token => {
+    const data = await axios
+      .get(caption.file, {
+        responseType: 'blob',
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(res => res.data);
+    const blobUrl = URL.createObjectURL(data);
+    setBlobUrl(blobUrl);
+  };
 
   return (
-    <GridWrap onClick={handleSetActiveElement}>
-      <SpeakBtn onClick={speakElement}>{element}</SpeakBtn>
+    <>
+      <GridWrap onClick={handleSetActiveElement}>
+        <SpeakBtn onClick={speakElement}>{el.element}</SpeakBtn>
 
-      <Divider onClick={handleSort} />
-
-      {isAudio && <Audio controls src={getMediaLink(caption)} />}
-      {isIframe && <Iframe src={getMediaLink(caption)} />}
-      {isBtn && <SpeakBtn onClick={speakCaption}>{caption}</SpeakBtn>}
-    </GridWrap>
+        <Divider
+          onClick={
+            el.element.startsWith('[')
+              ? user.googleToken
+                ? () => playGdriveFile(user.googleToken)
+                : () => googleLogin()
+              : handleSort
+          }
+        />
+        {caption.text && (
+          <SpeakBtn onClick={speakCaption}>{caption.text}</SpeakBtn>
+        )}
+        {blobUrl && <Audio src={blobUrl} controls />}
+        {!blobUrl && caption.link && <Iframe src={caption.link} />}
+      </GridWrap>
+    </>
   );
 };
 

@@ -20,10 +20,10 @@ export const StyledHeader = styled.header`
 export const Nav = styled.nav`
   margin-right: auto;
   display: flex;
-  align-items: center;
 
   & a {
     padding: 2px 0;
+
     margin-right: ${indents.s};
     border-radius: ${indents.xs};
     text-decoration: none;
@@ -33,6 +33,14 @@ export const Nav = styled.nav`
     font-weight: 700;
     font-size: 18px;
     transition: color 250ms;
+
+    display: flex;
+    align-items: baseline;
+
+    & svg {
+      margin-bottom: 2px;
+      align-self: center;
+    }
 
     &:hover {
       color: ${colors.hovered};

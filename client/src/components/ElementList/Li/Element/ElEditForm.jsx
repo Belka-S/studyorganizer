@@ -82,6 +82,10 @@ const ElementEditForm = ({ el, setIsForm, setRecording, setTranslation }) => {
         e.preventDefault();
         handleSubmit(onSubmit)();
       }
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setIsForm(false);
+      }
       if (e.code === 'AltRight') {
         elementRef.current.focus();
       }

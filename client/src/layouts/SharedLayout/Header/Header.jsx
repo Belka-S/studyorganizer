@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
+
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink, useLocation } from 'react-router-dom';
+import { FcGoogle } from 'react-icons/fc';
 
 import GdriveSearchBar from 'components/GdriveBars/GdriveSearchBar';
 import ClustersSearchBar from 'components/ClusterBars/ClusterSearchBar';
@@ -102,13 +104,15 @@ const Header = ({ $height, barW, setBarW }) => {
         <LogoBtn onClick={handleClick}>
           <Logo />
         </LogoBtn>
+
         <Nav>
           {isLoggedIn && (
             <NavLink
               to="/gdrive"
               onClick={() => dispatch(updateUserThunk({ clusterSelect }))}
             >
-              G-Drive
+              <FcGoogle size="17px" />
+              Drive
             </NavLink>
           )}
           {isLoggedIn && (

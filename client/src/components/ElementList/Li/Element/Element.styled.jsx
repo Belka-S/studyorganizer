@@ -101,13 +101,12 @@ const baseAudioStyle = css`
   align-items: center;
   justify-content: center;
   border: none;
+  height: 60px;
+  border-radius: 30px;
 `;
 
 export const Iframe = styled.iframe`
   ${baseAudioStyle}
-
-  height: 60px;
-  border-radius: 30px;
 `;
 
 export const Audio = styled.audio`

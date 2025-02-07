@@ -35,6 +35,10 @@ const authUserSlice = createSlice({
   initialState: userInitialState,
   reducers: {
     authenticate: handleAuthSucsess,
+    setGoogleToken: (state, action) => ({
+      ...state,
+      googleToken: action.payload,
+    }),
   },
   extraReducers: builder => {
     builder
@@ -99,3 +103,4 @@ export const authReducer = combineReducers({
 });
 
 export const { authenticate } = authUserSlice.actions;
+export const { setGoogleToken } = authUserSlice.actions;

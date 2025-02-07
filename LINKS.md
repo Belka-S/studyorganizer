@@ -48,7 +48,6 @@
 - **[react-speech-kit]**https://github.com/MikeyParton/react-speech-kit?tab=readme-ov-file
 - **[sentence-cleaner]**https://www.npmjs.com/package/sentence-cleaner
 - **[punctuation-name2symbol]**https://github.com/johnwcallahan/punctuation-name2symbol
-- **[react-oauth]**https://github.com/MomenSherif/react-oauth
 - **[react-oauth]**https://github.com/MomenSherif/react-oauth/issues/12
 - **[pdf24]**https://tools.pdf24.org/en/ocr-pdf#s=1706141238718
 - **[]**
