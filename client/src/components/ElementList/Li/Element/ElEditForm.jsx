@@ -79,7 +79,7 @@ const ElementEditForm = ({ el, setIsForm, setRecording, setTranslation }) => {
         await translateElement(user.engine);
         handleSubmit(onSubmit)();
       }
-      if (e.key === 'Enter') {
+      if (e.key === 'Enter' || e.key === 'F1') {
         e.preventDefault();
         handleSubmit(onSubmit)();
       }

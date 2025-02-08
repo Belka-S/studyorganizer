@@ -74,12 +74,15 @@ const SpeakBtn = ({ className }) => {
       removeEventListener('keydown', handleKeyDown);
     };
   }, [isForm, listening, punctuatedTranscript, resetTranscript]);
-  // Start/Stop recording by cmd+R
+  // Start/Stop recording by cmd+R/F2
   useEffect(() => {
     const handleKeyDown = async e => {
+      const rec =
+        e.key === 'F2' ||
+        (e.key === 'r' && e.metaKey && !e.altKey && !e.shiftKey);
       // Start
       if (!listening) {
-        if (e.metaKey && e.key === 'r' && !e.altKey && !e.shiftKey) {
+        if (rec) {
           e.preventDefault();
           setIsForm(true);
           SpeechRecognition.startListening({
@@ -90,7 +93,7 @@ const SpeakBtn = ({ className }) => {
       }
       // Stop
       if (listening) {
-        if (e.metaKey && e.key === 'r' && !e.altKey && !e.shiftKey) {
+        if (rec) {
           e.preventDefault();
           SpeechRecognition.stopListening();
           // Finalisation after stop
@@ -126,7 +129,7 @@ const SpeakBtn = ({ className }) => {
   // Finish escape/enter
   useEffect(() => {
     const handleKeyUp = async e => {
-      if (e.key === 'Escape' || e.key === 'Enter') {
+      if (e.key === 'Escape' || e.key === 'Enter' || e.key === 'F1') {
         e.preventDefault();
         SpeechRecognition.stopListening();
         setIsForm(false);

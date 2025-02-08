@@ -137,7 +137,7 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
     setBlobUrl(blobUrl);
   };
 
-  const isToken = Date.now() > user?.googleToken?.expiresIn;
+  const isToken = Date.now() < user?.googleToken?.expiresIn;
 
   return (
     <>
@@ -147,7 +147,7 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
         <Divider
           onClick={
             el.element.startsWith('[')
-              ? user.googleToken
+              ? isToken
                 ? () => playGdriveFile(user.googleToken.accessToken)
                 : () => googleLogin()
               : handleSort
@@ -156,8 +156,26 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
         {caption.text && (
           <SpeakBtn onClick={speakCaption}>{caption.text}</SpeakBtn>
         )}
-        {blobUrl && !isToken && <Audio src={blobUrl} controls />}
-        {(!blobUrl || isToken) && caption.link && <Iframe src={caption.link} />}
+
+        {(!blobUrl || !isToken) && caption.link && (
+          <Iframe src={caption.link} />
+        )}
+        {caption?.link?.endsWith('.mp3') && (
+          <Audio
+            onPause={e => e.target.blur()}
+            onEnded={e => e.target.blur()}
+            src={caption.link}
+            controls
+          />
+        )}
+        {blobUrl && isToken && (
+          <Audio
+            onPause={e => e.target.blur()}
+            onEnded={e => e.target.blur()}
+            src={blobUrl}
+            controls
+          />
+        )}
       </GridWrap>
     </>
   );
