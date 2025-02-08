@@ -8,7 +8,7 @@ export const List = styled.ul`
 `;
 
 export const BarWrap = styled.div`
-  & .speak-btn-wrap {
+  & .speak-btn {
     position: fixed;
     bottom: ${themes.indents.s};
     left: calc(45% + 10px);

@@ -170,9 +170,7 @@ const SpeakBtn = ({ className }) => {
   };
 
   return (
-    <div
-      className={classNames(className, 'speak-btn-wrap', !isForm && 'hidden')}
-    >
+    <div className={classNames(className, 'speak-btn', !isForm && 'hidden')}>
       <Button onClick={toggleRecognition} $s="m" $round={true} $bs={button}>
         {!listening ? <TbMicrophone size={18} /> : <BsStopFill size={18} />}
       </Button>
