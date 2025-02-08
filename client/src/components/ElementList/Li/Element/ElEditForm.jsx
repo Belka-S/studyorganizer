@@ -71,6 +71,7 @@ const ElementEditForm = ({ el, setIsForm, setRecording, setTranslation }) => {
     }
   }, [article, element, setFocus, setValue]);
 
+  // Set key controle
   useEffect(() => {
     const handleKeyDown = async e => {
       if (e.code === 'NumpadAdd') {
@@ -90,7 +91,6 @@ const ElementEditForm = ({ el, setIsForm, setRecording, setTranslation }) => {
         elementRef.current.focus();
       }
     };
-
     addEventListener('keydown', handleKeyDown);
     return () => {
       removeEventListener('keydown', handleKeyDown);

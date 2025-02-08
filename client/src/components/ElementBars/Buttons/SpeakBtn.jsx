@@ -72,19 +72,9 @@ const SpeakBtn = () => {
       removeEventListener('keydown', handleKeyDown);
     };
   }, [isForm, listening, punctuatedTranscript, resetTranscript]);
-  // Start/Stop recording by cmd+R/ Finish escape/enter
+  // Start/Stop recording by cmd+R
   useEffect(() => {
     const handleKeyDown = async e => {
-      // Finish
-      if (e.ctrlKey && e.key === 'Escape') {
-        e.preventDefault();
-        SpeechRecognition.stopListening();
-        setIsForm(false);
-        setRecording('');
-        setTranslation('');
-        resetTranscript();
-        return;
-      }
       // Start
       if (!listening) {
         if (e.metaKey && e.key === 'r' && !e.altKey && !e.shiftKey) {
@@ -131,6 +121,25 @@ const SpeakBtn = () => {
     user.engine,
     user.lang,
   ]);
+  // Finish escape/enter
+  useEffect(() => {
+    const handleKeyUp = async e => {
+      if (e.key === 'Escape' || e.key === 'Enter') {
+        e.preventDefault();
+        SpeechRecognition.stopListening();
+        setIsForm(false);
+        setRecording('');
+        setTranslation('');
+        resetTranscript();
+        return;
+      }
+    };
+    addEventListener('keyup', handleKeyUp);
+    return () => {
+      removeEventListener('keyup', handleKeyUp);
+    };
+  }, [resetTranscript]);
+
   // https://www.google.com/intl/en/chrome/demos/speech.html
   if (!browserSupportsSpeechRecognition || !isMicrophoneAvailable) return;
 

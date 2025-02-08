@@ -8,6 +8,7 @@ const modalRoot = document.querySelector('#modal');
 
 const Modal = ({ $x, $y, $bd, onClick, children }) => {
   useEffect(() => {
+    if (!onClick) return;
     const handleKeyDown = e => {
       e.key === 'Escape' && onClick();
     };

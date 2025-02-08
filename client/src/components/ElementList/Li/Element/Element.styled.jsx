@@ -7,7 +7,6 @@ import { themes } from 'styles/themes';
 const { colors, indents } = themes;
 
 // element
-
 const baseWrapStyles = css`
   padding-block: 4px;
   display: grid;
@@ -71,10 +70,6 @@ export const SubmitBtn = styled.button`
   ${baseBtnStyles}
 `;
 
-export const ResizeBtn = styled.button`
-  ${baseBtnStyles}
-`;
-
 export const TranslateBtn = styled.button`
   ${baseBtnStyles}
 `;
@@ -95,20 +90,30 @@ export const SpeakBtn = styled.button`
   transition: background-color 250ms;
 `;
 
+// Audio player
 const baseAudioStyle = css`
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
-  height: 60px;
+  height: 54px;
   border-radius: 30px;
 `;
 
 export const Iframe = styled.iframe`
   ${baseAudioStyle}
 `;
-
+// https://chromium.googlesource.com/chromium/blink/+/72fef91ac1ef679207f51def8133b336a6f6588f/Source/core/css/mediaControls.css?autodive=0%2F%2F%2F
 export const Audio = styled.audio`
   ${baseAudioStyle}
+
+  &::-webkit-media-controls {
+    display: flex;
+    justify-content: center;
+    background-color: ${colors.background};
+  }
+  &::-webkit-media-controls-panel {
+    background-color: ${colors.backgroundHoverd};
+  }
 `;
