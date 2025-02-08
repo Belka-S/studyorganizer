@@ -11,7 +11,7 @@ import RefreshBtn from 'components/shared/Button/RefreshBtn';
 
 const { background } = themes.colors;
 const { button } = themes.shadows;
-const { m, s } = themes.indents;
+const { s, m } = themes.indents;
 
 const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
   const { user } = useAuth();
@@ -192,6 +192,7 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
       $side="right"
       $high="bottom"
       $gtc="1fr 0.5fr 1fr"
+      $cg={s}
     >
       <Button onClick={playElements} $s="m" $round={true} $bs={button}>
         {ac?.lang.at(0).toUpperCase() + ac?.lang.substring(1)}

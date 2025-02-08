@@ -1,9 +1,11 @@
+import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 
 import 'regenerator-runtime/runtime';
 import SpeechRecognition, {
   useSpeechRecognition,
 } from 'react-speech-recognition';
+import classNames from 'classnames';
 
 import { TbMicrophone } from 'react-icons/tb';
 import { BsStopFill } from 'react-icons/bs';
@@ -20,7 +22,7 @@ import { themes } from 'styles/themes';
 const { button } = themes.shadows;
 const { m, xl } = themes.indents;
 
-const SpeakBtn = () => {
+const SpeakBtn = ({ className }) => {
   const { user } = useAuth();
   const [isForm, setIsForm] = useState(false);
   const { activeCluster } = useClusters();
@@ -168,7 +170,9 @@ const SpeakBtn = () => {
   };
 
   return (
-    <>
+    <div
+      className={classNames(className, 'speak-btn-wrap', !isForm && 'hidden')}
+    >
       <Button onClick={toggleRecognition} $s="m" $round={true} $bs={button}>
         {!listening ? <TbMicrophone size={18} /> : <BsStopFill size={18} />}
       </Button>
@@ -190,8 +194,12 @@ const SpeakBtn = () => {
           />
         </Modal>
       )}
-    </>
+    </div>
   );
 };
 
 export default SpeakBtn;
+
+SpeakBtn.propTypes = {
+  className: PropTypes.string,
+};

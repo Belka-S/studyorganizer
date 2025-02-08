@@ -9,7 +9,7 @@ import { useClusters } from 'utils/hooks';
 import DeleteBtn from './Buttons/DeleteBtn';
 import AddBtn from './Buttons/AddBtn';
 
-const { m } = themes.indents;
+const { s, m } = themes.indents;
 
 const ClusterEditBar = () => {
   const { clusterTrash } = useClusters();
@@ -28,6 +28,7 @@ const ClusterEditBar = () => {
         $side="right"
         $high="bottom"
         $gtc={gtc}
+        $cg={s}
       >
         {isDeleteBtn && <DeleteBtn />}
         <AddBtn setClipboardText={setClipboardText} setIsModal={setIsModal} />
