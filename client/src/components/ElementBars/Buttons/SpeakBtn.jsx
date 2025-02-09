@@ -46,7 +46,7 @@ const SpeakBtn = ({ className }) => {
     text.trim().endsWith(char) ? `${text.trim()} ` : `${text.trim()}${char} `;
 
   useEffect(() => {
-    if (!listening || !isForm) return;
+    if (!isForm) return;
     const charList = ['.', '?', '!', ','];
     const handleKeyDown = e => {
       if (charList.includes(e.key)) {
@@ -57,9 +57,16 @@ const SpeakBtn = ({ className }) => {
       }
       if (e.key === 'Backspace') {
         e.preventDefault();
-        const lastIndex = punctuatedTranscript.length - 1;
-        const backspace = punctuatedTranscript.substring(0, lastIndex);
-        setRecording(backspace);
+        const text = window.getSelection().toString();
+        window.getSelection().deleteFromDocument();
+        if (text) {
+          const backspace = punctuatedTranscript.replace(text, '');
+          setRecording(backspace);
+        } else {
+          const lastIndex = punctuatedTranscript.length - 1;
+          const backspace = punctuatedTranscript.substring(0, lastIndex);
+          setRecording(backspace);
+        }
         resetTranscript();
       }
       if (e.key === 'Space') {
@@ -78,7 +85,7 @@ const SpeakBtn = ({ className }) => {
   useEffect(() => {
     const handleKeyDown = async e => {
       const rec =
-        e.key === 'F2' ||
+        e.key === 'F1' ||
         (e.key === 'r' && e.metaKey && !e.altKey && !e.shiftKey);
       // Start
       if (!listening) {
@@ -103,7 +110,7 @@ const SpeakBtn = ({ className }) => {
               ? punctuatedTranscript
               : setKeyboardPunctuation(punctuatedTranscript, '.');
           const translation = await translateText(
-            finalText,
+            replaceByMap(finalText, replaceMap),
             { from: activeCluster.lang, to: user.lang },
             user.engine,
           );
@@ -129,7 +136,7 @@ const SpeakBtn = ({ className }) => {
   // Finish escape/enter
   useEffect(() => {
     const handleKeyUp = async e => {
-      if (e.key === 'Escape' || e.key === 'Enter' || e.key === 'F1') {
+      if (e.key === 'Escape' || e.key === 'Enter' || e.key === '§') {
         e.preventDefault();
         SpeechRecognition.stopListening();
         setIsForm(false);

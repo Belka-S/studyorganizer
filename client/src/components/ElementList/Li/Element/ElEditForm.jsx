@@ -74,12 +74,12 @@ const ElementEditForm = ({ el, setIsForm, setRecording, setTranslation }) => {
   // Set key controle
   useEffect(() => {
     const handleKeyDown = async e => {
-      if (e.code === 'NumpadAdd') {
+      if (e.code === 'NumpadAdd' || e.key === 'F2') {
         e.preventDefault();
         await translateElement(user.engine);
         handleSubmit(onSubmit)();
       }
-      if (e.key === 'Enter' || e.key === 'F1') {
+      if (e.key === 'Enter' || e.key === '§') {
         e.preventDefault();
         handleSubmit(onSubmit)();
       }
