@@ -1,23 +1,21 @@
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useGoogleLogin } from '@react-oauth/google';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { getCaptionType, speakText } from 'utils/helpers';
 import { useAuth, useClusters } from 'utils/hooks';
 import { setActiveElement } from 'store/element/elementSlice';
-import { setGoogleToken } from 'store/auth/authSlice';
 import { updateClusterThunk } from 'store/cluster/clusterThunks';
+import HtmlAudioPlayer from 'components/shared/AudioPlayer/HtmlAudioPlayer';
 
-import { GridWrap, Divider, SpeakBtn, Iframe, Audio } from './Element.styled';
+import { GridWrap, Divider, SpeakBtn, Iframe } from './Element.styled';
 
 const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
   const dispatch = useDispatch();
   const { user } = useAuth();
   const { activeCluster } = useClusters();
-  const [blobUrl, setBlobUrl] = useState();
+  const [isIframe, setIsIframe] = useState(true);
 
   const divider = '$*@';
   const getTextString = (text, divider) => {
@@ -93,6 +91,14 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
     msg && toast.error(msg);
   };
 
+  const handleSetActiveElement = e => {
+    const { _id } = activeCluster;
+    dispatch(setActiveElement(el));
+    if (e.currentTarget.closest('li').id !== 'active-element') {
+      dispatch(updateClusterThunk({ _id, activeEl: el._id }));
+    }
+  };
+
   const handleSort = e => {
     setSortByDate(!sortByDate);
     sortByDate
@@ -102,78 +108,27 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
     e.stopPropagation();
   };
 
-  const handleSetActiveElement = e => {
-    const { _id } = activeCluster;
-    dispatch(setActiveElement(el));
-    if (e.currentTarget.closest('li').id !== 'active-element') {
-      dispatch(updateClusterThunk({ _id, activeEl: el._id }));
-    }
+  const handleToggleIframe = () => {
+    isIframe ? setIsIframe(!isIframe) : handleSort();
   };
 
   const caption = getCaptionType(el.caption);
-
-  // Pllay Google Drive media
-  const googleLogin = useGoogleLogin({
-    onSuccess: res => {
-      const { access_token, expires_in } = res;
-      const googleToken = {
-        accessToken: access_token,
-        expiresIn: expires_in * 1000 + Date.now(),
-      };
-      // const userInfo = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', { headers: { Authorization: `Bearer ${res.access_token}` }, }).then(res => res.data);
-      dispatch(setGoogleToken(googleToken));
-    },
-    onError: err => toast(err.message),
-  });
-
-  const playGdriveFile = async token => {
-    const data = await axios
-      .get(caption.file, {
-        responseType: 'blob',
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then(res => res.data);
-    const blobUrl = URL.createObjectURL(data);
-    setBlobUrl(blobUrl);
-  };
-
-  const isToken = Date.now() < user?.googleToken?.expiresIn;
 
   return (
     <>
       <GridWrap onClick={handleSetActiveElement}>
         <SpeakBtn onClick={speakElement}>{el.element}</SpeakBtn>
 
-        <Divider
-          onClick={
-            el.element.startsWith('[')
-              ? isToken
-                ? () => playGdriveFile(user.googleToken.accessToken)
-                : () => googleLogin()
-              : handleSort
-          }
-        />
+        <Divider onClick={handleToggleIframe} />
         {caption.text && (
           <SpeakBtn onClick={speakCaption}>{caption.text}</SpeakBtn>
         )}
-
-        {(!blobUrl || !isToken) && caption.link && (
-          <Iframe src={caption.link} />
-        )}
-        {caption?.link?.endsWith('.mp3') && (
-          <Audio
-            onPause={e => e.target.blur()}
-            onEnded={e => e.target.blur()}
-            src={caption.link}
-            controls
-          />
-        )}
-        {blobUrl && isToken && (
-          <Audio
-            onPause={e => e.target.blur()}
-            onEnded={e => e.target.blur()}
-            src={blobUrl}
-            controls
+        {isIframe && <Iframe src={caption.link} />}
+        {!isIframe && (
+          <HtmlAudioPlayer
+            src={caption.file}
+            accessToken={user.googleToken?.accessToken}
+            expiresIn={user.googleToken?.expiresIn}
           />
         )}
       </GridWrap>
