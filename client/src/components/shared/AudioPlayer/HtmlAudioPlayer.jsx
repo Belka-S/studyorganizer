@@ -34,7 +34,7 @@ const HtmlAudioPlayer = ({ src, accessToken, expiresIn }) => {
           responseType: 'blob',
           headers: { Authorization: `Bearer ${token}` },
         })
-        .then(res => res.blob);
+        .then(res => res.data);
       const blobUrl = URL.createObjectURL(blob);
       setBlobUrl(blobUrl);
     } catch (err) {

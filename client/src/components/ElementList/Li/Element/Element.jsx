@@ -16,8 +16,12 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
   const { user } = useAuth();
   const { activeCluster } = useClusters();
 
+  const element = el.element;
   const caption = getCaptionType(el.caption);
-  const [isIframe, setIsIframe] = useState(!!caption.file?.endsWith('.mp3'));
+
+  const [isIframe, setIsIframe] = useState(
+    () => !caption.file?.endsWith('.mp3' || '.wav'),
+  );
 
   const divider = '$*@';
   const getTextString = (text, divider) => {
@@ -74,7 +78,7 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
       setLiColor,
       divider,
       voices: window.speechSynthesis.getVoices(),
-      text: getTextString(el.element, divider),
+      text: getTextString(element, divider),
       lang: activeCluster.lang,
       rate: activeCluster.rate,
     });
@@ -86,7 +90,7 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
       setLiColor,
       divider,
       voices: window.speechSynthesis.getVoices(),
-      text: getTextString(el.caption, divider),
+      text: getTextString(caption.text, divider),
       lang: el.lang,
       rate: user.rate,
     });
@@ -111,13 +115,13 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
   };
 
   const handleToggleIframe = () => {
-    isIframe ? setIsIframe(!isIframe) : handleSort();
+    element.startsWith('[') ? setIsIframe(!isIframe) : handleSort();
   };
 
   return (
     <>
       <GridWrap onClick={handleSetActiveElement}>
-        <SpeakBtn onClick={speakElement}>{el.element}</SpeakBtn>
+        <SpeakBtn onClick={speakElement}>{element}</SpeakBtn>
 
         <Divider onClick={handleToggleIframe} />
         {caption.text && (
