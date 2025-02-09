@@ -15,7 +15,9 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
   const dispatch = useDispatch();
   const { user } = useAuth();
   const { activeCluster } = useClusters();
-  const [isIframe, setIsIframe] = useState(true);
+
+  const caption = getCaptionType(el.caption);
+  const [isIframe, setIsIframe] = useState(caption.file.endsWith('.mp3'));
 
   const divider = '$*@';
   const getTextString = (text, divider) => {
@@ -111,8 +113,6 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
   const handleToggleIframe = () => {
     isIframe ? setIsIframe(!isIframe) : handleSort();
   };
-
-  const caption = getCaptionType(el.caption);
 
   return (
     <>

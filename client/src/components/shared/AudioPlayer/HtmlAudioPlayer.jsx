@@ -28,14 +28,18 @@ const HtmlAudioPlayer = ({ src, accessToken, expiresIn }) => {
   });
 
   const getBlobUrl = async token => {
-    const data = await axios
-      .get(src, {
-        responseType: 'blob',
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then(res => res.data);
-    const blobUrl = URL.createObjectURL(data);
-    setBlobUrl(blobUrl);
+    try {
+      const blob = await axios
+        .get(src, {
+          responseType: 'blob',
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then(res => res.blob);
+      const blobUrl = URL.createObjectURL(blob);
+      setBlobUrl(blobUrl);
+    } catch (err) {
+      toast(err.message);
+    }
   };
 
   const isToken = Date.now() < expiresIn;
