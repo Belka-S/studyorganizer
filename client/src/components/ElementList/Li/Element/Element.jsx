@@ -123,8 +123,8 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
         {caption.text && (
           <SpeakBtn onClick={speakCaption}>{caption.text}</SpeakBtn>
         )}
-        {isIframe && <Iframe src={caption.link} />}
-        {!isIframe && (
+        {isIframe && !caption.text && <Iframe src={caption.link} />}
+        {!isIframe && !caption.text && (
           <HtmlAudioPlayer
             src={caption.file}
             accessToken={user.googleToken?.accessToken}
