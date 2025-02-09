@@ -17,7 +17,7 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
   const { activeCluster } = useClusters();
 
   const caption = getCaptionType(el.caption);
-  const [isIframe, setIsIframe] = useState(!!caption.file.endsWith('.mp3'));
+  const [isIframe, setIsIframe] = useState(!!caption.file?.endsWith('.mp3'));
 
   const divider = '$*@';
   const getTextString = (text, divider) => {
