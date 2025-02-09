@@ -24,7 +24,7 @@ const ReactH5AudioPlayer = ({ src, accessToken, expiresIn }) => {
       dispatch(setGoogleToken(googleToken));
       getBlobUrl(access_token);
     },
-    onError: err => toast(err.message),
+    onError: err => toast.error(err.message),
   });
 
   const getBlobUrl = async token => {
@@ -38,7 +38,7 @@ const ReactH5AudioPlayer = ({ src, accessToken, expiresIn }) => {
       const blobUrl = URL.createObjectURL(blob);
       setBlobUrl(blobUrl);
     } catch (err) {
-      toast(err.message);
+      toast.error(err.message);
     }
   };
 
