@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { getCaptionType, speakText } from 'utils/helpers';
-import { useAuth, useClusters } from 'utils/hooks';
+import { useAuth, useClusters, useElements } from 'utils/hooks';
 import { setActiveElement } from 'store/element/elementSlice';
 import { updateClusterThunk } from 'store/cluster/clusterThunks';
 import HtmlAudioPlayer from 'components/shared/AudioPlayer/HtmlAudioPlayer';
@@ -15,6 +15,7 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
   const dispatch = useDispatch();
   const { user } = useAuth();
   const { activeCluster } = useClusters();
+  const { activeElement, allElements } = useElements();
 
   const element = el.element;
   const caption = getCaptionType(el.caption);
@@ -22,6 +23,33 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
   const [isIframe, setIsIframe] = useState(
     () => !caption.file?.endsWith('.mp3' || '.wav'),
   );
+
+  // Set key controle
+  useEffect(() => {
+    if (el._id !== activeElement?._id) return;
+    const handleKeyDown = e => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        speakElement();
+        // const index = allElements.findIndex(
+        //   ({ _id }) => _id === activeElement._id,
+        // );
+        // dispatch(setActiveElement(allElements[index + 1]));
+      }
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        speakCaption();
+        // const index = allElements.findIndex(
+        //   ({ _id }) => _id === activeElement._id,
+        // );
+        // dispatch(setActiveElement(allElements[index - 1]));
+      }
+    };
+    addEventListener('keydown', handleKeyDown);
+    return () => {
+      removeEventListener('keydown', handleKeyDown);
+    };
+  }, [activeElement?._id, el._id, speakCaption, speakElement]);
 
   const divider = '$*@';
   const getTextString = (text, divider) => {
@@ -73,7 +101,7 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
   };
 
   const speakElement = e => {
-    e.currentTarget.blur();
+    e?.currentTarget.blur();
     const msg = speakText({
       setLiColor,
       divider,
@@ -85,7 +113,7 @@ const Element = ({ el, sortByDate, setSortByDate, setLiColor }) => {
     msg && toast.error(msg);
   };
   const speakCaption = e => {
-    e.currentTarget.blur();
+    e?.currentTarget.blur();
     const msg = speakText({
       setLiColor,
       divider,

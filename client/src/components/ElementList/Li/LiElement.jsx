@@ -8,9 +8,9 @@ import { FaCheck, FaExternalLinkAlt } from 'react-icons/fa';
 import { FiEdit3, FiTrash2 } from 'react-icons/fi';
 
 import FlexWrap from 'components/shared/FlexWrap/FlexWrap';
-import { useElements } from 'utils/hooks';
+import { useClusters, useElements } from 'utils/hooks';
 import { updateElementThunk } from 'store/element/elementThunks';
-import { setElementTrash } from 'store/element/elementSlice';
+import { setElementTrash, setActiveElement } from 'store/element/elementSlice';
 
 import Element from './Element/Element';
 import ElEditForm from './Element/ElEditForm';
@@ -34,7 +34,7 @@ const LiElement = ({
   setLiColor,
 }) => {
   const dispatch = useDispatch();
-  const { elementTrash, activeElement } = useElements();
+  const { elementTrash, activeElement, allElements } = useElements();
 
   const [isForm, setIsForm] = useState(false);
 
@@ -44,17 +44,32 @@ const LiElement = ({
 
   // Set key controle
   useEffect(() => {
+    if (!isActive) return;
     const handleKeyDown = e => {
       if (e.key === 'F2') {
         e.preventDefault();
         isActive && setIsForm(isForm ? false : true);
+      }
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const index = allElements.findIndex(
+          ({ _id }) => _id === activeElement._id,
+        );
+        dispatch(setActiveElement(allElements[index + 1]));
+      }
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const index = allElements.findIndex(
+          ({ _id }) => _id === activeElement._id,
+        );
+        dispatch(setActiveElement(allElements[index - 1]));
       }
     };
     addEventListener('keydown', handleKeyDown);
     return () => {
       removeEventListener('keydown', handleKeyDown);
     };
-  }, [isActive, isForm]);
+  }, [activeElement._id, allElements, dispatch, isActive, isForm]);
 
   const handleFavorite = () => {
     dispatch(updateElementThunk({ _id, favorite: !favorite }));
