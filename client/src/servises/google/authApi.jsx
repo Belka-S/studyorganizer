@@ -8,27 +8,13 @@ import Button from 'components/shared/Button/Button';
 import { listFilesThunk } from 'store/gdrive/gdriveThunks';
 import { themes } from 'styles/themes';
 
+import { SCOPES } from './googleScopes';
+
 const { button } = themes.shadows;
 
 const { VITE_GOOGLE_CLIENT_ID, VITE_GOOGLE_API_KEY } = import.meta.env;
 const DISCOVERY_DOC =
   'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
-const SCOPES = [
-  'https://www.googleapis.com/auth/drive',
-  'https://www.googleapis.com/auth/drive.file',
-  'https://www.googleapis.com/auth/drive.appdata',
-  'https://www.googleapis.com/auth/drive.metadata',
-  'https://www.googleapis.com/auth/drive.readonly',
-  'https://www.googleapis.com/auth/drive.apps',
-  'https://www.googleapis.com/auth/drive.scripts',
-  'https://www.googleapis.com/auth/drive.photos.readonly',
-  'https://www.googleapis.com/auth/drive.apps.readonly',
-  'https://www.googleapis.com/auth/drive.metadata.readonly',
-  'https://www.googleapis.com/auth/drive.activity',
-  // 'https://www.googleapis.com/auth/docs',
-  // 'https://www.googleapis.com/auth/activity',
-  // 'https://www.googleapis.com/auth/presentations.readonly',
-].join(' ');
 
 const GoogleAuth = ({ signInBtn, signOutBtn, children }) => {
   const dispatch = useDispatch();

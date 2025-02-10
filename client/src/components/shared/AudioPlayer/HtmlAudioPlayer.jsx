@@ -6,6 +6,7 @@ import { useGoogleLogin } from '@react-oauth/google';
 import { toast } from 'react-toastify';
 
 import { setGoogleToken } from 'store/auth/authSlice';
+import { SCOPES } from 'servises/google/googleScopes';
 
 import { Audio } from './AudioPlayer.styled';
 
@@ -25,6 +26,7 @@ const HtmlAudioPlayer = ({ src, accessToken, expiresIn }) => {
       getBlobUrl(access_token);
     },
     onError: err => toast.error(err.message),
+    scope: SCOPES,
   });
 
   const getBlobUrl = async token => {
