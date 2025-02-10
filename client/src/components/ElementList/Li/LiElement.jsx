@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { TiStar } from 'react-icons/ti';
@@ -40,6 +40,21 @@ const LiElement = ({
 
   const { _id, favorite, checked } = el;
   const isInTrash = elementTrash.find(el => el._id === _id);
+  const isActive = _id === activeElement?._id;
+
+  // Set key controle
+  useEffect(() => {
+    const handleKeyDown = e => {
+      if (e.key === 'F2') {
+        e.preventDefault();
+        isActive && setIsForm(isForm ? false : true);
+      }
+    };
+    addEventListener('keydown', handleKeyDown);
+    return () => {
+      removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isActive, isForm]);
 
   const handleFavorite = () => {
     dispatch(updateElementThunk({ _id, favorite: !favorite }));
@@ -52,8 +67,6 @@ const LiElement = ({
   const handleTrash = () => dispatch(setElementTrash(el));
 
   const handleEdit = () => setIsForm(isForm ? false : true);
-
-  const isActive = _id === activeElement?._id;
 
   return (
     <Li id={isActive ? 'active-element' : null} licolor={liColor}>
