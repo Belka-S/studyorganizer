@@ -72,20 +72,30 @@ const ElementEditForm = ({ el, setIsForm, setRecording, setTranslation }) => {
   }, [article, element, setFocus, setValue]);
 
   // Set key controle
+  const modalEl = document.querySelector('#modal');
   useEffect(() => {
     const handleKeyDown = async e => {
-      if (e.code === 'NumpadAdd' || e.key === 'F2') {
+      if (
+        modalEl.children.length === 0 &&
+        (e.code === 'NumpadAdd' || e.key === 'F2')
+      ) {
         e.preventDefault();
         await translateElement(user.engine);
         handleSubmit(onSubmit)();
       }
-      if (e.key === 'Enter' || e.key === '§') {
+      if (
+        e.key === 'Enter' ||
+        e.key === '§' ||
+        (modalEl.children.length > 0 && e.key === 'F2')
+      ) {
         e.preventDefault();
         handleSubmit(onSubmit)();
+        e.currentTarget.blur();
       }
       if (e.key === 'Escape') {
         e.preventDefault();
         setIsForm(false);
+        e.currentTarget.blur();
       }
       if (e.code === 'AltRight') {
         elementRef.current.focus();

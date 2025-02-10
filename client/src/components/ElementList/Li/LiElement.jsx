@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { TiStar } from 'react-icons/ti';
@@ -9,6 +9,7 @@ import { FiEdit3, FiTrash2 } from 'react-icons/fi';
 
 import FlexWrap from 'components/shared/FlexWrap/FlexWrap';
 import { useClusters, useElements } from 'utils/hooks';
+import { scrollOnBottom, scrollOnDomEl, scrollOnTop } from 'utils/helpers';
 import { updateElementThunk } from 'store/element/elementThunks';
 import { setElementTrash, setActiveElement } from 'store/element/elementSlice';
 
@@ -27,13 +28,13 @@ const LiElement = ({
   el,
   index,
   length,
-  sortByDate,
-  setSortByDate,
   translateAll,
   liColor,
   setLiColor,
 }) => {
   const dispatch = useDispatch();
+  const elementRef = useRef(null);
+  const { activeCluster } = useClusters();
   const { elementTrash, activeElement, allElements } = useElements();
 
   const [isForm, setIsForm] = useState(false);
@@ -43,33 +44,56 @@ const LiElement = ({
   const isActive = _id === activeElement?._id;
 
   // Set key controle
+  const modalEl = document.querySelector('#modal');
   useEffect(() => {
     if (!isActive) return;
+    const { sortBy } = activeCluster;
+    const isMedia = activeElement.element.startsWith('[');
+
     const handleKeyDown = e => {
-      if (e.key === 'F2') {
+      if (e.key === 'F2' && !isMedia && modalEl.children.length === 0) {
         e.preventDefault();
         isActive && setIsForm(isForm ? false : true);
+        e.currentTarget.blur();
       }
-      if (e.key === 'ArrowDown') {
+      if (e.key === 'ArrowDown' && !e.metaKey && !e.altKey && !e.shiftKey) {
         e.preventDefault();
         const index = allElements.findIndex(
           ({ _id }) => _id === activeElement._id,
         );
-        dispatch(setActiveElement(allElements[index + 1]));
+        dispatch(setActiveElement(allElements[sortBy ? index - 1 : index + 1]));
+        scrollOnDomEl(elementRef.current.nextElementSibling);
       }
-      if (e.key === 'ArrowUp') {
+      if (e.key === 'ArrowUp' && !e.metaKey && !e.altKey && !e.shiftKey) {
         e.preventDefault();
         const index = allElements.findIndex(
           ({ _id }) => _id === activeElement._id,
         );
-        dispatch(setActiveElement(allElements[index - 1]));
+        dispatch(setActiveElement(allElements[sortBy ? index + 1 : index - 1]));
+        scrollOnDomEl(elementRef.current.previousElementSibling);
+      }
+      if (e.altKey && e.key === 'ArrowDown' && !e.metaKey && !e.shiftKey) {
+        e.preventDefault();
+        scrollOnBottom();
+      }
+      if (e.altKey && e.key === 'ArrowUp' && !e.metaKey && !e.shiftKey) {
+        e.preventDefault();
+        scrollOnTop();
       }
     };
     addEventListener('keydown', handleKeyDown);
     return () => {
       removeEventListener('keydown', handleKeyDown);
     };
-  }, [activeElement._id, allElements, dispatch, isActive, isForm]);
+  }, [
+    activeCluster,
+    activeElement._id,
+    allElements,
+    dispatch,
+    isActive,
+    isForm,
+    modalEl.children.length,
+  ]);
 
   const handleFavorite = () => {
     dispatch(updateElementThunk({ _id, favorite: !favorite }));
@@ -84,7 +108,11 @@ const LiElement = ({
   const handleEdit = () => setIsForm(isForm ? false : true);
 
   return (
-    <Li id={isActive ? 'active-element' : null} licolor={liColor}>
+    <Li
+      id={isActive ? 'active-element' : null}
+      licolor={liColor}
+      ref={elementRef}
+    >
       <FlexWrap $h="100%" $p="0" $fd="column">
         <LabelFavorite $hovered={favorite}>
           <input
@@ -114,14 +142,7 @@ const LiElement = ({
       </FlexWrap>
 
       {isForm && <ElEditForm el={el} setIsForm={setIsForm} />}
-      {!isForm && (
-        <Element
-          el={el}
-          sortByDate={sortByDate}
-          setSortByDate={setSortByDate}
-          setLiColor={setLiColor}
-        />
-      )}
+      {!isForm && <Element el={el} setLiColor={setLiColor} />}
 
       <FlexWrap $h="100%" $p="0" $fd="column">
         <TrashBtn $hovered={isInTrash} onClick={handleTrash}>
@@ -142,8 +163,6 @@ LiElement.propTypes = {
   el: PropTypes.object,
   index: PropTypes.number,
   length: PropTypes.number,
-  sortByDate: PropTypes.bool,
-  setSortByDate: PropTypes.func,
   translateAll: PropTypes.func,
   liColor: PropTypes.string,
   setLiColor: PropTypes.func,

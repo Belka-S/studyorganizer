@@ -8,6 +8,7 @@ import { speakText, speakTranslation } from 'utils/helpers';
 import { themes } from 'styles/themes';
 import GridWrap from 'components/shared/GridWrap/GridWrap';
 import RefreshBtn from 'components/shared/Button/RefreshBtn';
+import RecordBtn from './Buttons/RecordBtn';
 
 const { background } = themes.colors;
 const { button } = themes.shadows;
@@ -191,9 +192,10 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
       $pos="fixed"
       $side="right"
       $high="bottom"
-      $gtc="1fr 0.5fr 1fr"
+      $gtc=" 1fr 1fr 0.5fr 1fr"
       $cg={s}
     >
+      <RecordBtn />
       <Button onClick={playElements} $s="m" $round={true} $bs={button}>
         {ac?.lang.at(0).toUpperCase() + ac?.lang.substring(1)}
       </Button>

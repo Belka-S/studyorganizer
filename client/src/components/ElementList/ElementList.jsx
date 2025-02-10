@@ -11,14 +11,13 @@ import {
 import { setActiveElement } from 'store/element/elementSlice';
 import ElementLangBar from 'components/ElementBars/ElementLangBar';
 import ElementEditBar from 'components/ElementBars/ElementEditBar';
-import SpeakBtn from 'components/ElementBars/Buttons/SpeakBtn';
 import OvalLoader from 'components/shared/Loader/OvalLoader';
 import { themes } from 'styles/themes';
 import ElementPlayBar from 'components/ElementBars/ElementPlayBar';
 import { startsWithSmall } from 'utils/helpers/startsWithCapital';
 
 import LiElement from './Li/LiElement';
-import { BarWrap, List } from './ElementList.styled';
+import { div, List } from './ElementList.styled';
 
 const { white } = themes.colors;
 
@@ -37,8 +36,6 @@ const ElementList = () => {
   let { elementSelect } = useElements();
   elementSelect = !elementSelect ? [] : elementSelect;
 
-  const [sortByDate, setSortByDate] = useState(false);
-
   useEffect(() => {
     if (!activeCluster) return;
     dispatch(fetchElementsThunk({ cluster: activeCluster._id }))
@@ -54,7 +51,7 @@ const ElementList = () => {
         const activeDomEl = document.getElementById('active-element');
         activeDomEl && scrollOnDomEl(activeDomEl);
       });
-  }, []);
+  }, [activeCluster, dispatch]);
 
   const activeClusterElements = allElements
     .filter(el => el.cluster === activeCluster?._id)
@@ -104,7 +101,7 @@ const ElementList = () => {
       return getCheckedFavorite();
     })
     .sort(
-      sortByDate
+      activeCluster.sortBy
         ? (a, b) => b.createdAt.localeCompare(a.createdAt)
         : (a, b) => a.createdAt.localeCompare(b.createdAt),
     );
@@ -138,17 +135,14 @@ const ElementList = () => {
             el={element}
             index={index}
             length={arr.length}
-            sortByDate={sortByDate}
-            setSortByDate={setSortByDate}
             translateAll={translateAll}
             liColor={liColor}
             setLiColor={setLiColor}
           />
         ))}
 
-        <BarWrap ref={ref}>
+        <div ref={ref}>
           <ElementLangBar />
-          <SpeakBtn className={!inView || !isScrollable ? 'shown' : 'hidden'} />
           <ElementEditBar
             className={!inView || !isScrollable ? 'shown' : 'hidden'}
           />
@@ -157,7 +151,7 @@ const ElementList = () => {
             filtredElements={filtredElements}
             setLiColor={setLiColor}
           />
-        </BarWrap>
+        </div>
       </List>
 
       {isLoading && <OvalLoader />}

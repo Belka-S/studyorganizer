@@ -28,8 +28,8 @@ export const Backdrop = styled.div`
 
     ${({ $bd }) =>
       $bd === 'none' &&
-      // 'transform: translateY(-50%);' +
-      'width: calc(50vw - 26px);' +
+      'transform: translateY(-50%);' +
+        'width: calc(50vw - 26px);' +
         ` padding: ${s} 16px;` +
         ` background-color: ${background};`};
   }

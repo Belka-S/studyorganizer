@@ -22,6 +22,7 @@ export const enMap = {
   // Words
   'Yes ': 'Yes, ',
   'No ': 'No, ',
+  'Wow ': 'Wow, ',
 };
 // German
 export const deMap = {

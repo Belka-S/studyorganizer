@@ -13,7 +13,6 @@ const baseLiStyle = css`
   display: grid;
   align-items: center;
   grid-template-columns: 1fr 25fr 1fr;
-  column-gap: 4px;
 
   border: 1px solid transparent;
   background-color: ${({ licolor }) => licolor};

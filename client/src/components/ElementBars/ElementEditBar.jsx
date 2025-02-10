@@ -33,7 +33,6 @@ const ElementEditBar = ({ className }) => {
       $cg={s}
     >
       <DictionaryBtn />
-      {/* <SpeakBtn /> */}
       {isAddBtn && <AddBtn />}
       {isDeleteBtn && <DeleteBtn />}
     </GridWrap>

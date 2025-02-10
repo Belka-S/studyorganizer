@@ -20,9 +20,9 @@ import { replaceMap } from 'utils/constants/replaceMap';
 import { themes } from 'styles/themes';
 
 const { button } = themes.shadows;
-const { m, xl } = themes.indents;
+const { m } = themes.indents;
 
-const SpeakBtn = ({ className }) => {
+const RecordBtn = ({ className }) => {
   const { user } = useAuth();
   const [isForm, setIsForm] = useState(false);
   const { activeCluster } = useClusters();
@@ -180,13 +180,13 @@ const SpeakBtn = ({ className }) => {
   };
 
   return (
-    <div className={classNames(className, 'speak-btn', !isForm && 'hidden')}>
+    <div className={classNames(className, !isForm && 'hidden')}>
       <Button onClick={toggleRecognition} $s="m" $round={true} $bs={button}>
         {!listening ? <TbMicrophone size={18} /> : <BsStopFill size={18} />}
       </Button>
 
       {isForm && (
-        <Modal $x={`left: ${m}`} $y={`top: ${xl}`} $bd="none">
+        <Modal $x={`left: ${m}`} $y={`top: ${50}%`} $bd="none">
           <ElementEditForm
             el={{
               cluster: activeCluster._id,
@@ -206,8 +206,8 @@ const SpeakBtn = ({ className }) => {
   );
 };
 
-export default SpeakBtn;
+export default RecordBtn;
 
-SpeakBtn.propTypes = {
+RecordBtn.propTypes = {
   className: PropTypes.string,
 };
