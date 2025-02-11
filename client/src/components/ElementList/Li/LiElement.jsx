@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { TiStar } from 'react-icons/ti';
@@ -31,6 +31,8 @@ const LiElement = ({
   translateAll,
   liColor,
   setLiColor,
+  editCount,
+  setEditCount,
 }) => {
   const dispatch = useDispatch();
   const elementRef = useRef(null);
@@ -43,6 +45,18 @@ const LiElement = ({
   const isInTrash = elementTrash.find(el => el._id === _id);
   const isActive = _id === activeElement?._id;
 
+  const handleEdit = useCallback(
+    bool => {
+      setIsForm(!bool);
+      if (bool) {
+        setEditCount(editCount - 1);
+      } else {
+        setEditCount(editCount + 1);
+      }
+    },
+    [editCount, setEditCount],
+  );
+
   // Set key controle
   const modalEl = document.querySelector('#modal');
   useEffect(() => {
@@ -53,9 +67,11 @@ const LiElement = ({
     const handleKeyDown = e => {
       if (e.key === 'F2' && !isMedia && modalEl.children.length === 0) {
         e.preventDefault();
-        isActive && setIsForm(isForm ? false : true);
+        isActive && handleEdit(!isForm);
         e.currentTarget.blur();
       }
+
+      if (editCount > 0) return;
       if (e.key === 'ArrowDown' && !e.metaKey && !e.altKey && !e.shiftKey) {
         e.preventDefault();
         const index = allElements.findIndex(
@@ -88,9 +104,11 @@ const LiElement = ({
   }, [
     activeCluster,
     activeElement?._id,
-    activeElement?.element,
+    activeElement.element,
     allElements,
     dispatch,
+    editCount,
+    handleEdit,
     isActive,
     isForm,
     modalEl.children.length,
@@ -105,8 +123,6 @@ const LiElement = ({
   };
 
   const handleTrash = () => dispatch(setElementTrash(el));
-
-  const handleEdit = () => setIsForm(isForm ? false : true);
 
   return (
     <Li
@@ -142,15 +158,17 @@ const LiElement = ({
         )}
       </FlexWrap>
 
-      {isForm && <ElEditForm el={el} setIsForm={setIsForm} />}
-      {!isForm && <Element el={el} setLiColor={setLiColor} />}
+      {isForm && <ElEditForm el={el} handleEdit={handleEdit} />}
+      {!isForm && (
+        <Element el={el} editCount={editCount} setLiColor={setLiColor} />
+      )}
 
       <FlexWrap $h="100%" $p="0" $fd="column">
         <TrashBtn $hovered={isInTrash} onClick={handleTrash}>
           <FiTrash2 size="16px" />
         </TrashBtn>
 
-        <EditBtn onClick={handleEdit}>
+        <EditBtn onClick={() => handleEdit(isForm)}>
           <FiEdit3 size="15px" />
         </EditBtn>
       </FlexWrap>
@@ -167,4 +185,6 @@ LiElement.propTypes = {
   translateAll: PropTypes.func,
   liColor: PropTypes.string,
   setLiColor: PropTypes.func,
+  editCount: PropTypes.number,
+  setEditCount: PropTypes.func,
 };

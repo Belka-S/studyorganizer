@@ -32,6 +32,7 @@ const ElementList = () => {
   const { allElements, elementTrash, elementFilter, isLoading } = useElements();
 
   const [liColor, setLiColor] = useState(white);
+  const [editCount, setEditCount] = useState(0);
 
   let { elementSelect } = useElements();
   elementSelect = !elementSelect ? [] : elementSelect;
@@ -138,6 +139,8 @@ const ElementList = () => {
             translateAll={translateAll}
             liColor={liColor}
             setLiColor={setLiColor}
+            editCount={editCount}
+            setEditCount={setEditCount}
           />
         ))}
 

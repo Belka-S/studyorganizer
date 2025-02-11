@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { BsSendCheck } from 'react-icons/bs';
@@ -10,6 +10,7 @@ import {
   translateText,
   normalizeClipboard,
   trimChar,
+  scrollOnTop,
   scrollOnBottom,
 } from 'utils/helpers';
 import { useAuth, useClusters, useAutosizeTextArea } from 'utils/hooks';
@@ -28,7 +29,7 @@ import {
   EditBtn,
 } from './Element.styled';
 
-const ElementEditForm = ({ el, setIsForm, setRecording, setTranslation }) => {
+const ElementEditForm = ({ el, handleEdit, setRecording, setTranslation }) => {
   const elementRef = useRef(null);
   const captionRef = useRef(null);
   const buttonsRef = useRef(null);
@@ -71,6 +72,84 @@ const ElementEditForm = ({ el, setIsForm, setRecording, setTranslation }) => {
     }
   }, [article, element, setFocus, setValue]);
 
+  const onSubmit = useCallback(
+    data => {
+      const lang = user.lang;
+      let caption = data.caption.trim();
+      let element = normalizeClipboard(data.element, activeCluster.lang)
+        .split(/\s+/)
+        .join(' ')
+        .replaceAll('\n', ' ')
+        .trim();
+      // Normalize element
+      element = trimChar(element, ',');
+      // Normalize caption
+      caption = trimChar(caption, ',');
+      if (
+        !element.endsWith('.' || '!' || '?' || '"') &&
+        user.lang.includes('en') &&
+        activeCluster.lang.includes('de')
+      ) {
+        const isNetzVerb =
+          (element.includes('hat') || element.includes('ist')) &&
+          element.split('\n')[0].split(/,\s+/)[0].endsWith('n');
+        if (isNetzVerb) {
+          const captionParts = caption.split(/,\s+/);
+          caption = captionParts
+            .map(el => (el.startsWith('to ') ? el : `to ${el}`))
+            .join(', ');
+        }
+      }
+
+      dispatch(
+        _id
+          ? updateElementThunk({ _id, lang, element, caption })
+          : addElementThunk({ ...el, element, caption }),
+      ).then(dispatch(fetchElementsThunk()));
+
+      if (!_id && caption) {
+        activeCluster.sortBy ? scrollOnTop() : scrollOnBottom();
+        setRecording('');
+        setTranslation('');
+      }
+      handleEdit(true);
+    },
+    [
+      _id,
+      activeCluster.lang,
+      activeCluster.sortBy,
+      dispatch,
+      el,
+      handleEdit,
+      setRecording,
+      setTranslation,
+      user.lang,
+    ],
+  );
+
+  const handleSetArticle = () => {
+    if (article === '') setArticle('der ');
+    if (article === 'der ') setArticle('die ');
+    if (article === 'die ') setArticle('das ');
+    if (article === 'das ') setArticle('');
+  };
+
+  const translateElement = useCallback(
+    async engine => {
+      const inputText = watch('element');
+      const element = normalizeClipboard(inputText, activeCluster.lang)
+        .split(/\s+/)
+        .join(' ')
+        .replaceAll('\n', ' ')
+        .trim();
+
+      const payload = { from: activeCluster.lang, to: user.lang };
+      const caption = await translateText(element, payload, engine);
+      setValue('caption', caption);
+    },
+    [activeCluster.lang, setValue, user.lang, watch],
+  );
+
   // Set key controle
   const modalEl = document.querySelector('#modal');
   useEffect(() => {
@@ -89,12 +168,12 @@ const ElementEditForm = ({ el, setIsForm, setRecording, setTranslation }) => {
         (modalEl.children.length > 0 && e.key === 'F2')
       ) {
         e.preventDefault();
-        handleSubmit(onSubmit)();
         e.currentTarget.blur();
+        handleSubmit(onSubmit)();
       }
       if (e.key === 'Escape') {
         e.preventDefault();
-        setIsForm(false);
+        handleEdit(true);
         e.currentTarget.blur();
       }
       if (e.code === 'AltRight') {
@@ -105,67 +184,14 @@ const ElementEditForm = ({ el, setIsForm, setRecording, setTranslation }) => {
     return () => {
       removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
-
-  const onSubmit = data => {
-    const lang = user.lang;
-    let caption = data.caption.trim();
-    let element = normalizeClipboard(data.element, activeCluster.lang)
-      .split(/\s+/)
-      .join(' ')
-      .replaceAll('\n', ' ')
-      .trim();
-    // Normalize element
-    element = trimChar(element, ',');
-    // Normalize caption
-    caption = trimChar(caption, ',');
-    if (
-      !element.endsWith('.') &&
-      user.lang.includes('en') &&
-      activeCluster.lang.includes('de')
-    ) {
-      const isNetzVerb =
-        (element.includes('hat') || element.includes('ist')) &&
-        element.split('\n')[0].split(/,\s+/)[0].endsWith('n');
-      if (isNetzVerb) {
-        const captionParts = caption.split(/,\s+/);
-        caption = captionParts
-          .map(el => (el.startsWith('to ') ? el : `to ${el}`))
-          .join(', ');
-      }
-    }
-    dispatch(
-      _id
-        ? updateElementThunk({ _id, lang, element, caption })
-        : addElementThunk({ ...el, element, caption }),
-    ).then(dispatch(fetchElementsThunk()));
-    if (!_id) {
-      scrollOnBottom();
-      setRecording('');
-      setTranslation('');
-    }
-    setIsForm(false);
-  };
-
-  const handleSetArticle = () => {
-    if (article === '') setArticle('der ');
-    if (article === 'der ') setArticle('die ');
-    if (article === 'die ') setArticle('das ');
-    if (article === 'das ') setArticle('');
-  };
-
-  const translateElement = async engine => {
-    const inputText = watch('element');
-    const element = normalizeClipboard(inputText, activeCluster.lang)
-      .split(/\s+/)
-      .join(' ')
-      .replaceAll('\n', ' ')
-      .trim();
-
-    const payload = { from: activeCluster.lang, to: user.lang };
-    const caption = await translateText(element, payload, engine);
-    setValue('caption', caption);
-  };
+  }, [
+    handleEdit,
+    handleSubmit,
+    modalEl.children.length,
+    onSubmit,
+    translateElement,
+    user.engine,
+  ]);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -209,7 +235,7 @@ export default ElementEditForm;
 
 ElementEditForm.propTypes = {
   el: PropTypes.object,
-  setIsForm: PropTypes.func,
+  handleEdit: PropTypes.func,
   setRecording: PropTypes.func,
   setTranslation: PropTypes.func,
 };

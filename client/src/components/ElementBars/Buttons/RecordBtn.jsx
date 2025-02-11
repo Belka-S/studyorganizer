@@ -193,7 +193,7 @@ const RecordBtn = ({ className }) => {
           $x={`left: ${m}`}
           $y={`top: ${50}%`}
           $bd="none"
-          btn={true}
+          btn="true"
           onClick={finishRecognition}
         >
           <ElementEditForm
@@ -205,7 +205,7 @@ const RecordBtn = ({ className }) => {
               checked:
                 punctuatedTranscript.split(/\s+/).length < 20 ? true : false,
             }}
-            setIsForm={setIsForm}
+            handleEdit={setIsForm}
             setRecording={setRecording}
             setTranslation={setTranslation}
           />

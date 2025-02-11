@@ -12,7 +12,7 @@ import HtmlAudioPlayer from 'components/shared/AudioPlayer/HtmlAudioPlayer';
 
 import { GridWrap, Divider, SpeakBtn, Iframe } from './Element.styled';
 
-const Element = ({ el, setLiColor }) => {
+const Element = ({ el, editCount, setLiColor }) => {
   const dispatch = useDispatch();
   const { user } = useAuth();
   const { activeCluster } = useClusters();
@@ -30,12 +30,7 @@ const Element = ({ el, setLiColor }) => {
     (text, divider) => {
       let textString = '';
       if (!divider) return text;
-      if (
-        text.trim().endsWith('.') ||
-        text.trim().endsWith('!') ||
-        text.trim().endsWith('?') ||
-        text.endsWith('"')
-      ) {
+      if (text.trim().endsWith('.' || '!' || '?' || '"')) {
         textString = text
           .trim()
           // dividers
@@ -118,7 +113,7 @@ const Element = ({ el, setLiColor }) => {
 
   // Set key controle
   useEffect(() => {
-    if (el._id !== activeElement?._id) return;
+    if (editCount > 0 || el._id !== activeElement?._id) return;
     const handleKeyDown = e => {
       if (e.key === 'ArrowLeft' && !e.metaKey && !e.altKey && !e.shiftKey) {
         e.preventDefault();
@@ -133,7 +128,7 @@ const Element = ({ el, setLiColor }) => {
     return () => {
       removeEventListener('keydown', handleKeyDown);
     };
-  }, [activeElement?._id, el._id, speakCaption, speakElement]);
+  }, [activeElement?._id, editCount, el._id, speakCaption, speakElement]);
 
   const handleSetActiveElement = e => {
     if (element.startsWith('[')) {
@@ -183,6 +178,7 @@ export default Element;
 
 Element.propTypes = {
   el: PropTypes.object,
+  editCount: PropTypes.number,
   setLiColor: PropTypes.func,
   $active: PropTypes.bool,
   $hovered: PropTypes.bool,
