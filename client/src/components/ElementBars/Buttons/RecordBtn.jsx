@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import 'regenerator-runtime/runtime';
 import SpeechRecognition, {
@@ -134,23 +134,26 @@ const RecordBtn = ({ className }) => {
     user.lang,
   ]);
   // Finish escape/enter
+  const finishRecognition = useCallback(() => {
+    SpeechRecognition.stopListening();
+    setIsForm(false);
+    setRecording('');
+    setTranslation('');
+    resetTranscript();
+  }, [resetTranscript]);
+
   useEffect(() => {
-    const handleKeyUp = async e => {
+    const handleKeyUp = e => {
       if (e.key === 'Escape' || e.key === 'Enter' || e.key === '§') {
         e.preventDefault();
-        SpeechRecognition.stopListening();
-        setIsForm(false);
-        setRecording('');
-        setTranslation('');
-        resetTranscript();
-        return;
+        return finishRecognition();
       }
     };
     addEventListener('keyup', handleKeyUp);
     return () => {
       removeEventListener('keyup', handleKeyUp);
     };
-  }, [resetTranscript]);
+  }, [finishRecognition]);
 
   // https://www.google.com/intl/en/chrome/demos/speech.html
   if (!browserSupportsSpeechRecognition || !isMicrophoneAvailable) return;
@@ -186,7 +189,13 @@ const RecordBtn = ({ className }) => {
       </Button>
 
       {isForm && (
-        <Modal $x={`left: ${m}`} $y={`top: ${50}%`} $bd="none">
+        <Modal
+          $x={`left: ${m}`}
+          $y={`top: ${50}%`}
+          $bd="none"
+          btn={true}
+          onClick={finishRecognition}
+        >
           <ElementEditForm
             el={{
               cluster: activeCluster._id,
