@@ -24,9 +24,9 @@ const { s } = themes.indents;
 const Header = ({ $height, barW, setBarW }) => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
+  console.log('pathname: ', pathname);
   const { isLoggedIn } = useAuth();
   const { clusterSelect, activeCluster: ac } = useClusters();
-  console.log('Header: ', clusterSelect);
   const { gdriveSelect, activeFile: af } = useGdrive();
 
   useEffect(() => {
@@ -110,7 +110,10 @@ const Header = ({ $height, barW, setBarW }) => {
           {isLoggedIn && (
             <NavLink
               to="/gdrive"
-              onClick={() => dispatch(updateUserThunk({ clusterSelect }))}
+              onClick={() => {
+                if (!pathname.includes('/element'))
+                  dispatch(updateUserThunk({ clusterSelect }));
+              }}
             >
               <FcGoogle size="17px" />
               Drive
@@ -120,8 +123,8 @@ const Header = ({ $height, barW, setBarW }) => {
             <NavLink
               to="/cluster"
               onClick={() => {
-                console.log('gdriveSelect: ', gdriveSelect);
-                dispatch(updateUserThunk({ gdriveSelect }));
+                if (!pathname.includes('/element'))
+                  dispatch(updateUserThunk({ gdriveSelect }));
               }}
             >
               Cluster
