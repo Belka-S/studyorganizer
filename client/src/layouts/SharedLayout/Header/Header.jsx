@@ -24,7 +24,6 @@ const { s } = themes.indents;
 const Header = ({ $height, barW, setBarW }) => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  console.log('pathname: ', pathname);
   const { isLoggedIn } = useAuth();
   const { clusterSelect, activeCluster: ac } = useClusters();
   const { gdriveSelect, activeFile: af } = useGdrive();

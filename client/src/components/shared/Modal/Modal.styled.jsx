@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { themes } from 'styles/themes';
 
 const { colors, shadows, indents } = themes;
-const { s, m } = indents;
-const { backdrop, background } = colors;
+const { s } = indents;
+const { backdrop, backgroundHoverd } = colors;
 
 export const Backdrop = styled.div`
   ${({ $bd }) => $bd !== 'none' && 'width: 100vw;'};
@@ -31,6 +31,6 @@ export const Backdrop = styled.div`
       'transform: translateY(-50%);' +
         'width: calc(50vw - 26px);' +
         ` padding: ${s} 16px;` +
-        ` background-color: ${background};`};
+        ` background-color: ${backgroundHoverd};`};
   }
 `;

@@ -59,7 +59,7 @@ const LiElement = ({
       if (e.key === 'ArrowDown' && !e.metaKey && !e.altKey && !e.shiftKey) {
         e.preventDefault();
         const index = allElements.findIndex(
-          ({ _id }) => _id === activeElement._id,
+          ({ _id }) => _id === activeElement?._id,
         );
         dispatch(setActiveElement(allElements[sortBy ? index - 1 : index + 1]));
         scrollOnDomEl(elementRef.current.nextElementSibling);
@@ -67,7 +67,7 @@ const LiElement = ({
       if (e.key === 'ArrowUp' && !e.metaKey && !e.altKey && !e.shiftKey) {
         e.preventDefault();
         const index = allElements.findIndex(
-          ({ _id }) => _id === activeElement._id,
+          ({ _id }) => _id === activeElement?._id,
         );
         dispatch(setActiveElement(allElements[sortBy ? index + 1 : index - 1]));
         scrollOnDomEl(elementRef.current.previousElementSibling);
@@ -87,7 +87,8 @@ const LiElement = ({
     };
   }, [
     activeCluster,
-    activeElement._id,
+    activeElement?._id,
+    activeElement?.element,
     allElements,
     dispatch,
     isActive,
