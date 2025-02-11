@@ -26,6 +26,7 @@ const Header = ({ $height, barW, setBarW }) => {
   const { pathname } = useLocation();
   const { isLoggedIn } = useAuth();
   const { clusterSelect, activeCluster: ac } = useClusters();
+  console.log('Header: ', clusterSelect);
   const { gdriveSelect, activeFile: af } = useGdrive();
 
   useEffect(() => {
@@ -118,7 +119,10 @@ const Header = ({ $height, barW, setBarW }) => {
           {isLoggedIn && (
             <NavLink
               to="/cluster"
-              onClick={() => dispatch(updateUserThunk({ gdriveSelect }))}
+              onClick={() => {
+                console.log('gdriveSelect: ', gdriveSelect);
+                dispatch(updateUserThunk({ gdriveSelect }));
+              }}
             >
               Cluster
             </NavLink>

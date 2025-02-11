@@ -17,7 +17,7 @@ import ElementPlayBar from 'components/ElementBars/ElementPlayBar';
 import { startsWithSmall } from 'utils/helpers/startsWithCapital';
 
 import LiElement from './Li/LiElement';
-import { div, List } from './ElementList.styled';
+import { List } from './ElementList.styled';
 
 const { white } = themes.colors;
 
