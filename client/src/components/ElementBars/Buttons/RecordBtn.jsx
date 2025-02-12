@@ -193,7 +193,7 @@ const RecordBtn = ({ className }) => {
           $x={`left: ${m}`}
           $y={`top: ${50}%`}
           $bd="none"
-          btn="true"
+          btn={true}
           onClick={finishRecognition}
         >
           <ElementEditForm

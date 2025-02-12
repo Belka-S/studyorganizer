@@ -104,7 +104,7 @@ const LiElement = ({
   }, [
     activeCluster,
     activeElement?._id,
-    activeElement.element,
+    activeElement?.element,
     allElements,
     dispatch,
     editCount,

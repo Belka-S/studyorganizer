@@ -23,7 +23,7 @@ const Modal = ({ $x, $y, $bd, btn = false, onClick, children }) => {
   const handleBackdropClick = e => e.target === e.currentTarget && onClick();
 
   return createPortal(
-    <Backdrop $x={$x} $y={$y} $bd={$bd} btn={btn} onClick={handleBackdropClick}>
+    <Backdrop $x={$x} $y={$y} $bd={$bd} onClick={handleBackdropClick}>
       <div className="modal">
         {btn && (
           <button className="close-btn" onClick={onClick}>
@@ -43,7 +43,7 @@ Modal.propTypes = {
   $x: PropTypes.string,
   $y: PropTypes.string,
   $bd: PropTypes.string,
-  $btn: PropTypes.bool,
+  btn: PropTypes.bool,
   onClick: PropTypes.func,
   children: PropTypes.oneOfType([
     PropTypes.string,
