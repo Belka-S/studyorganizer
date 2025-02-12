@@ -135,10 +135,12 @@ const Element = ({ el, editCount, setLiColor }) => {
       setIsIframe(!isIframe);
       return;
     }
-    const { _id } = activeCluster;
+    const { _id, activeEl } = activeCluster;
     dispatch(setActiveElement(el));
-    if (e.currentTarget.closest('li').id !== 'active-element') {
-      dispatch(updateClusterThunk({ _id, activeEl: el._id }));
+    if (activeEl !== el._id) {
+      dispatch(updateClusterThunk({ _id, activeEl: el._id }))
+        .unwrap()
+        .then(pld => dispatch(setActiveCluster(pld.result.cluster)));
     }
   };
 
@@ -147,11 +149,7 @@ const Element = ({ el, editCount, setLiColor }) => {
     const { _id, sortBy } = activeCluster;
     dispatch(updateClusterThunk({ _id, sortBy: !sortBy }))
       .unwrap()
-      .then(res => {
-        const { sortBy } = res.result.cluster;
-        dispatch(setActiveCluster({ ...activeCluster, sortBy }));
-        // sortBy ? toast.success('Below is Recent') : toast.success('Above is Recent');
-      });
+      .then(pld => dispatch(setActiveCluster(pld.result.cluster)));
   };
 
   return (

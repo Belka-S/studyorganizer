@@ -95,7 +95,7 @@ const clusterActiveSlice = createSlice({
   name: 'active',
   initialState: null,
   reducers: {
-    setActiveCluster: (state, action) => ({ ...state, ...action.payload }),
+    setActiveCluster: (_, action) => action.payload,
   },
 });
 
