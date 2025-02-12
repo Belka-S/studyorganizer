@@ -12,8 +12,8 @@ import SharedLayout from 'layouts/SharedLayout/SharedLayout';
 
 // import HomePage from 'pages/HomePage';
 import GooglePage from 'pages/GooglePage';
+import SigninPage from 'pages/SigninPage';
 const SignupPage = lazy(() => import('pages/SignupPage'));
-const SigninPage = lazy(() => import('pages/SigninPage'));
 const ForgotPage = lazy(() => import('pages/ForgotPage'));
 const ProfilePage = lazy(() => import('pages/ProfilePage'));
 const ClusterPage = lazy(() => import('pages/ClusterPage'));
