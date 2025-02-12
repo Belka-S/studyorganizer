@@ -45,17 +45,14 @@ const LiElement = ({
   const isInTrash = elementTrash.find(el => el._id === _id);
   const isActive = _id === activeElement?._id;
 
-  const handleEdit = useCallback(
-    bool => {
-      setIsForm(!bool);
-      if (bool) {
-        setEditCount(editCount - 1);
-      } else {
-        setEditCount(editCount + 1);
-      }
-    },
-    [editCount, setEditCount],
-  );
+  const handleEdit = bool => {
+    setIsForm(!bool);
+    if (bool) {
+      setEditCount(editCount - 1);
+    } else {
+      setEditCount(editCount + 1);
+    }
+  };
 
   // Set key controle
   const modalEl = document.querySelector('#modal');
@@ -67,8 +64,12 @@ const LiElement = ({
     const handleKeyDown = e => {
       if (e.key === 'F2' && !isMedia && modalEl.children.length === 0) {
         e.preventDefault();
-        isActive && handleEdit(!isForm);
-        e.currentTarget.blur();
+        setIsForm(!isForm);
+        if (isForm) {
+          setEditCount(editCount - 1);
+        } else {
+          setEditCount(editCount + 1);
+        }
       }
 
       if (editCount > 0) return;
@@ -108,10 +109,10 @@ const LiElement = ({
     allElements,
     dispatch,
     editCount,
-    handleEdit,
     isActive,
     isForm,
     modalEl.children.length,
+    setEditCount,
   ]);
 
   const handleFavorite = () => {
