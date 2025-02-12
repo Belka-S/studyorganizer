@@ -30,7 +30,12 @@ const Element = ({ el, editCount, setLiColor }) => {
     (text, divider) => {
       let textString = '';
       if (!divider) return text;
-      if (text.trim().endsWith('.' || '!' || '?' || '"')) {
+      if (
+        text.trim().endsWith('.') ||
+        text.trim().endsWith('!') ||
+        text.trim().endsWith('?') ||
+        text.trim().endsWith('"')
+      ) {
         textString = text
           .trim()
           // dividers

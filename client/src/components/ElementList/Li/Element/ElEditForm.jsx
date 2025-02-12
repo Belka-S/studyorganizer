@@ -86,7 +86,10 @@ const ElementEditForm = ({ el, handleEdit, setRecording, setTranslation }) => {
       // Normalize caption
       caption = trimChar(caption, ',');
       if (
-        !element.endsWith('.' || '!' || '?' || '"') &&
+        (!element.endsWith('.') ||
+          !element.endsWith('!') ||
+          !element.endsWith('?') ||
+          !element.endsWith('"')) &&
         user.lang.includes('en') &&
         activeCluster.lang.includes('de')
       ) {
