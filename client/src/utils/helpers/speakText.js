@@ -254,12 +254,11 @@ export const speakTranslation = props => {
     currentIndex += 1;
     if (currentIndex < messageParts.length) {
       const currentMsg = messageParts[currentIndex];
-      const timeout =
-        messageParts[currentIndex - 1].endsWith('.') ||
-        messageParts[currentIndex - 1].endsWith('!') ||
-        messageParts[currentIndex - 1].endsWith('?')
-          ? 60
-          : 100;
+      const timeout = ['.', '!', '?', '"'].includes(
+        messageParts[currentIndex - 1].at(-1),
+      )
+        ? 60
+        : 100;
 
       const transLang = currentMsg.split('@±@')[1]?.substring(0, 2);
       const voicesT = voices.filter(el => el.lang.includes(transLang));

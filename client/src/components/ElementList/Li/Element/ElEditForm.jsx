@@ -86,12 +86,9 @@ const ElementEditForm = ({ el, handleEdit, setRecording, setTranslation }) => {
       // Normalize caption
       caption = trimChar(caption, ',');
       if (
-        (!element.endsWith('.') ||
-          !element.endsWith('!') ||
-          !element.endsWith('?') ||
-          !element.endsWith('"')) &&
         user.lang.includes('en') &&
-        activeCluster.lang.includes('de')
+        activeCluster.lang.includes('de') &&
+        !['.', '!', '?', '"'].includes(element.at(-1))
       ) {
         const isNetzVerb =
           (element.includes('hat') || element.includes('ist')) &&

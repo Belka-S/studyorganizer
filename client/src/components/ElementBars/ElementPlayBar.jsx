@@ -67,12 +67,7 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
     for (let i = 0; i < playList.length; i += 1) {
       let part = playList[i][text];
       const ld = `@±@${playList[i].lang}${divider}`;
-      if (
-        part.endsWith('.') ||
-        part.endsWith('!') ||
-        part.endsWith('?') ||
-        part.endsWith('"')
-      ) {
+      if (['.', '!', '?', '"'].includes(part.at(-1))) {
         textString += setPauseDivider(part, divider)
           // abbreviations
           .replaceAll('Mr.', 'misteR')

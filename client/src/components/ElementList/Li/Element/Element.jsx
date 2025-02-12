@@ -22,7 +22,7 @@ const Element = ({ el, editCount, setLiColor }) => {
   const caption = getCaptionType(el.caption);
 
   const [isIframe, setIsIframe] = useState(
-    () => !caption.file?.endsWith('.mp3' || '.wav'),
+    () => !caption.file?.endsWith('.mp3'),
   );
 
   const divider = '$*@';
@@ -30,12 +30,7 @@ const Element = ({ el, editCount, setLiColor }) => {
     (text, divider) => {
       let textString = '';
       if (!divider) return text;
-      if (
-        text.trim().endsWith('.') ||
-        text.trim().endsWith('!') ||
-        text.trim().endsWith('?') ||
-        text.trim().endsWith('"')
-      ) {
+      if (['.', '!', '?', '"'].includes(text.trim().at(-1))) {
         textString = text
           .trim()
           // dividers

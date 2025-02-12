@@ -10,13 +10,13 @@ export const getCaptionType = caption => {
     www: 'www',
   };
   // Link
-  if (caption.startsWith(type.http || type.www)) {
+  if (caption.startsWith(type.http) || caption.startsWith(type.www)) {
     captionObj.link = caption
       .replace('watch?v=', 'embed/')
       .replace('/view', '/preview');
   }
   // Text
-  if (!caption.includes(type.http || type.www)) {
+  if (!caption.includes(type.http) || !caption.includes(type.www)) {
     captionObj.text = caption;
   }
   // File

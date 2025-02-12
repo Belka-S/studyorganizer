@@ -49,7 +49,7 @@ const ReactH5AudioPlayer = ({ src, accessToken, expiresIn }) => {
   return (
     <AudioPlayer
       ref={playerRef}
-      src={src.endsWith('.mp3' || '.wav') ? src : blobUrl}
+      src={src.endsWith('.mp3') ? src : blobUrl}
       onError={() => isToken && getBlobUrl(accessToken)}
       onPlay={() => !isToken && googleLogin()}
       onPause={e => e.target.blur()}
