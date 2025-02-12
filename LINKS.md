@@ -50,7 +50,7 @@
 - **[punctuation-name2symbol]**https://github.com/johnwcallahan/punctuation-name2symbol
 - **[react-oauth]**https://github.com/MomenSherif/react-oauth/issues/12
 - **[pdf24]**https://tools.pdf24.org/en/ocr-pdf#s=1706141238718
-- **[]**
+- **[lucide-react]**https://lucide.dev/guide/packages/lucide-react
 - **[]**
 - **[]**
 
