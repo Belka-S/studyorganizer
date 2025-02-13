@@ -16,7 +16,7 @@ export const getCaptionType = caption => {
       .replace('/view', '/preview');
   }
   // Text
-  if (!caption.includes(type.http) || !caption.includes(type.www)) {
+  if (!caption.startsWith(type.http) && !caption.startsWith(type.www)) {
     captionObj.text = caption;
   }
   // File
@@ -30,5 +30,6 @@ export const getCaptionType = caption => {
       'https://www.googleapis.com/drive/v3/files/' +
       `${gdriveFileId}?alt=media&key=${VITE_GOOGLE_API_KEY}`;
   }
+
   return captionObj;
 };

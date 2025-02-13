@@ -125,21 +125,6 @@ const ElementList = () => {
         : (a, b) => a.createdAt.localeCompare(b.createdAt),
     );
 
-  // const translateAll = async () => {
-  //   const lang = user.lang;
-  //   let counter = 0;
-  //   await filtredElements.forEach(async el => {
-  //     if (counter > 1) return;
-  //     const { _id, element } = el;
-  //     if (!element.startsWith('[') || lang !== el.lang) {
-  //       const payload = { from: activeCluster.lang, to: lang };
-  //       const caption = await translateText(element, payload, user.engine);
-  //       dispatch(updateElementThunk({ _id, lang, caption }));
-  //       counter = counter + 1;
-  //     }
-  //   });
-  // };
-
   const isScrollable =
     window.innerHeight <
     entry?.target.getBoundingClientRect().y +
