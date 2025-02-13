@@ -2,12 +2,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 
-import { useAuth, useClusters, useElements } from 'utils/hooks';
-import { translateText, scrollOnDomEl } from 'utils/helpers';
-import {
-  fetchElementsThunk,
-  updateElementThunk,
-} from 'store/element/elementThunks';
+import { useClusters, useElements } from 'utils/hooks';
+import { scrollOnDomEl } from 'utils/helpers';
+import { fetchElementsThunk } from 'store/element/elementThunks';
 import { setActiveElement } from 'store/element/elementSlice';
 import ElementLangBar from 'components/ElementBars/ElementLangBar';
 import ElementEditBar from 'components/ElementBars/ElementEditBar';
@@ -27,12 +24,13 @@ const ElementList = () => {
     initialInView: true,
     rootMargin: '0px 0px -30px 0px',
   });
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const { activeCluster } = useClusters();
   const { allElements, elementTrash, elementFilter, isLoading } = useElements();
 
   const [liColor, setLiColor] = useState(white);
   const [editCount, setEditCount] = useState(0);
+  const [selectMode, setSelectMode] = useState(false);
 
   let { elementSelect } = useElements();
   elementSelect = !elementSelect ? [] : elementSelect;
@@ -53,6 +51,26 @@ const ElementList = () => {
         activeDomEl && scrollOnDomEl(activeDomEl);
       });
   }, [activeCluster, dispatch]);
+
+  // Set selection mode
+  useEffect(() => {
+    const handleKeyDown = e => {
+      if (e.altKey) {
+        setSelectMode(true);
+      }
+    };
+    const handleKeyUp = e => {
+      if (!e.altKey) {
+        setSelectMode(false);
+      }
+    };
+    addEventListener('keyup', handleKeyUp);
+    addEventListener('keydown', handleKeyDown);
+    return () => {
+      removeEventListener('keydown', handleKeyDown);
+      removeEventListener('keyup', handleKeyUp);
+    };
+  }, [selectMode, setSelectMode]);
 
   const activeClusterElements = allElements
     .filter(el => el.cluster === activeCluster?._id)
@@ -107,20 +125,20 @@ const ElementList = () => {
         : (a, b) => a.createdAt.localeCompare(b.createdAt),
     );
 
-  const translateAll = async () => {
-    const lang = user.lang;
-    let counter = 0;
-    await filtredElements.forEach(async el => {
-      if (counter > 1) return;
-      const { _id, element } = el;
-      if (!element.startsWith('[') || lang !== el.lang) {
-        const payload = { from: activeCluster.lang, to: lang };
-        const caption = await translateText(element, payload, user.engine);
-        dispatch(updateElementThunk({ _id, lang, caption }));
-        counter = counter + 1;
-      }
-    });
-  };
+  // const translateAll = async () => {
+  //   const lang = user.lang;
+  //   let counter = 0;
+  //   await filtredElements.forEach(async el => {
+  //     if (counter > 1) return;
+  //     const { _id, element } = el;
+  //     if (!element.startsWith('[') || lang !== el.lang) {
+  //       const payload = { from: activeCluster.lang, to: lang };
+  //       const caption = await translateText(element, payload, user.engine);
+  //       dispatch(updateElementThunk({ _id, lang, caption }));
+  //       counter = counter + 1;
+  //     }
+  //   });
+  // };
 
   const isScrollable =
     window.innerHeight <
@@ -130,17 +148,15 @@ const ElementList = () => {
   return (
     <>
       <List>
-        {filtredElements.map((element, index, arr) => (
+        {filtredElements.map(el => (
           <LiElement
-            key={element._id}
-            el={element}
-            index={index}
-            length={arr.length}
-            translateAll={translateAll}
+            key={el._id}
+            el={el}
             liColor={liColor}
             setLiColor={setLiColor}
             editCount={editCount}
             setEditCount={setEditCount}
+            selectMode={selectMode}
           />
         ))}
 

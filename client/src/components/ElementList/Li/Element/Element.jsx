@@ -12,7 +12,7 @@ import HtmlAudioPlayer from 'components/shared/AudioPlayer/HtmlAudioPlayer';
 
 import { GridWrap, Divider, SpeakBtn, Iframe } from './Element.styled';
 
-const Element = ({ el, editCount, setLiColor }) => {
+const Element = ({ el, setLiColor, editCount, selectMode }) => {
   const dispatch = useDispatch();
   const { user } = useAuth();
   const { activeCluster } = useClusters();
@@ -74,7 +74,7 @@ const Element = ({ el, editCount, setLiColor }) => {
 
   const speakElement = useCallback(
     e => {
-      if (element.startsWith('[')) return;
+      if (selectMode || element.startsWith('[')) return;
       e?.currentTarget.blur();
       const msg = speakText({
         setLiColor,
@@ -91,12 +91,14 @@ const Element = ({ el, editCount, setLiColor }) => {
       activeCluster.rate,
       element,
       getTextString,
+      selectMode,
       setLiColor,
     ],
   );
 
   const speakCaption = useCallback(
     e => {
+      if (selectMode) return;
       e?.currentTarget.blur();
       const msg = speakText({
         setLiColor,
@@ -108,7 +110,7 @@ const Element = ({ el, editCount, setLiColor }) => {
       });
       msg && toast.error(msg);
     },
-    [caption.text, el.lang, getTextString, setLiColor, user.rate],
+    [caption.text, el.lang, getTextString, selectMode, setLiColor, user.rate],
   );
 
   // Set key controle
@@ -130,7 +132,8 @@ const Element = ({ el, editCount, setLiColor }) => {
     };
   }, [activeElement?._id, editCount, el._id, speakCaption, speakElement]);
 
-  const handleSetActiveElement = e => {
+  const handleSetActiveElement = () => {
+    if (selectMode) return;
     if (element.startsWith('[')) {
       setIsIframe(!isIframe);
       return;
@@ -154,11 +157,15 @@ const Element = ({ el, editCount, setLiColor }) => {
 
   return (
     <GridWrap onClick={handleSetActiveElement}>
-      <SpeakBtn onClick={speakElement}>{element}</SpeakBtn>
+      <SpeakBtn onClick={speakElement} selectmode={selectMode}>
+        {element}
+      </SpeakBtn>
 
       <Divider onClick={handleSort} />
       {caption.text && (
-        <SpeakBtn onClick={speakCaption}>{caption.text}</SpeakBtn>
+        <SpeakBtn onClick={speakCaption} selectmode={selectMode}>
+          {caption.text}
+        </SpeakBtn>
       )}
       {isIframe && !caption.text && <Iframe src={caption.link} />}
       {!isIframe && !caption.text && (
@@ -176,8 +183,7 @@ export default Element;
 
 Element.propTypes = {
   el: PropTypes.object,
-  editCount: PropTypes.number,
   setLiColor: PropTypes.func,
-  $active: PropTypes.bool,
-  $hovered: PropTypes.bool,
+  editCount: PropTypes.number,
+  selectMode: PropTypes.bool,
 };

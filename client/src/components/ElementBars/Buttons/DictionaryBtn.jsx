@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import { PiTranslateBold } from 'react-icons/pi';
 
@@ -11,40 +11,27 @@ const { button } = themes.shadows;
 const DictionaryBtn = () => {
   const { activeCluster } = useClusters();
 
-  useEffect(() => {
-    const handleKeyDown = async e => {
-      if (e.metaKey && e.key === 'd' && !e.altKey && !e.shiftKey) {
-        e.preventDefault();
-        await openDictionary();
-      }
-    };
-
-    addEventListener('keydown', handleKeyDown);
-    return () => {
-      removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
-
   // Array to hold opened tabs
-  let tabs = [];
+  let tabs = useRef([]);
   // Function to open multiple tabs
-  function openTabs(urls) {
+  const openTabs = urls => {
     urls.forEach(url => {
       const newTab = window.open(url, '_blank');
       if (newTab) {
-        tabs.push(newTab); // Store the reference
+        tabs.current.push(newTab); // Store the reference
       } else {
         toast.error(`Failed to open tab: ${url}`);
       }
     });
-  }
+  };
   // Function to close all opened tabs
   const closeAllTabs = () => {
-    tabs.forEach(tab => {
+    tabs.current.forEach(tab => {
       tab.close();
     });
-    tabs = []; // Clear the array
+    tabs.current = []; // Clear the array
   };
+
   const openDictionary = async () => {
     const text = window.getSelection().toString();
     text && (await writeClipboard(text));
@@ -61,6 +48,20 @@ const DictionaryBtn = () => {
     closeAllTabs();
     openTabs(urls);
   };
+
+  useEffect(() => {
+    const handleKeyDown = async e => {
+      if (e.metaKey && e.key === 'd' && !e.altKey && !e.shiftKey) {
+        e.preventDefault();
+        await openDictionary();
+      }
+    };
+
+    addEventListener('keydown', handleKeyDown);
+    return () => {
+      removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   return (
     <Button onClick={openDictionary} $s="m" $round={true} $bs={button}>

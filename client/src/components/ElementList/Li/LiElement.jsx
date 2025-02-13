@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { TiStar } from 'react-icons/ti';
-import { FaCheck, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaCheck } from 'react-icons/fa';
 import { FiEdit3, FiTrash2 } from 'react-icons/fi';
 
 import FlexWrap from 'components/shared/FlexWrap/FlexWrap';
@@ -22,17 +22,15 @@ import {
   TrashBtn,
   EditBtn,
 } from './LiElement.styled';
-import { TranslateBtn } from './Element/Element.styled';
+// import { TranslateBtn } from './Element/Element.styled';
 
 const LiElement = ({
   el,
-  index,
-  length,
-  translateAll,
   liColor,
   setLiColor,
   editCount,
   setEditCount,
+  selectMode,
 }) => {
   const dispatch = useDispatch();
   const elementRef = useRef(null);
@@ -151,17 +149,16 @@ const LiElement = ({
           />
           <FaCheck size="15px" />
         </LabelChecked>
-
-        {isForm && length === index + 1 && (
-          <TranslateBtn onClick={translateAll}>
-            <FaExternalLinkAlt size="16px" />
-          </TranslateBtn>
-        )}
       </FlexWrap>
 
       {isForm && <ElEditForm el={el} handleEdit={handleEdit} />}
       {!isForm && (
-        <Element el={el} editCount={editCount} setLiColor={setLiColor} />
+        <Element
+          el={el}
+          setLiColor={setLiColor}
+          editCount={editCount}
+          selectMode={selectMode}
+        />
       )}
 
       <FlexWrap $h="100%" $p="0" $fd="column">
@@ -181,11 +178,12 @@ export default LiElement;
 
 LiElement.propTypes = {
   el: PropTypes.object,
-  index: PropTypes.number,
-  length: PropTypes.number,
-  translateAll: PropTypes.func,
+  // index: PropTypes.number,
+  // length: PropTypes.number,
+  // translateAll: PropTypes.func,
   liColor: PropTypes.string,
   setLiColor: PropTypes.func,
   editCount: PropTypes.number,
   setEditCount: PropTypes.func,
+  selectMode: PropTypes.bool,
 };
