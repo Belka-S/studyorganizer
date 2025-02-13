@@ -30,7 +30,7 @@ export const Form = styled.form`
 export const Textarea = styled.textarea`
   height: 84px;
   outline: none;
-  border: 1px solid ${colors.accent};
+  border: 1px solid ${colors.backgroundHoverd};
   border-radius: ${indents.xs};
   resize: none;
   overflow: clip;
@@ -89,11 +89,10 @@ export const SpeakBtn = styled.button`
   color: ${colors.black};
   transition: background-color 250ms;
 
-  ${({ $mode }) => $mode === 'true' && 'cursor: pointer;'}
+  ${({ $mode }) => $mode === 'true' && 'cursor: text;'}
   -webkit-user-select: text; /* Safari */
   -ms-user-select: text; /* IE 10 and IE 11 */
   user-select: text; /* Standard syntax */
-  /* cursor: ${({ selectmode }) => (selectmode ? 'text' : 'pointer')}; */
 `;
 
 // Audio player

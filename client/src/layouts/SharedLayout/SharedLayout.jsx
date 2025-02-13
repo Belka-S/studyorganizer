@@ -8,11 +8,11 @@ import SideBar from 'layouts/SharedLayout/SideBar/SideBar';
 
 import { themes } from 'styles/themes';
 
-const { xl } = themes.indents;
+const { s, xl } = themes.indents;
 const barH = `calc(100vh - ${xl})`;
 
 const SharedLayout = () => {
-  const [barW, setBarW] = useState('0%');
+  const [barW, setBarW] = useState(`${s}`);
 
   return (
     <>
