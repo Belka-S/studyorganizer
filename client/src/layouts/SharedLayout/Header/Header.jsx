@@ -29,7 +29,7 @@ const Header = ({ $height, barW, setBarW }) => {
   const { gdriveSelect, activeFile: af } = useGdrive();
 
   useEffect(() => {
-    isLoggedIn ? setBarW(`${s}`) : setBarW('45%');
+    isLoggedIn ? setBarW('0%') : setBarW('45%');
   }, [isLoggedIn, setBarW]);
 
   const scrollGdrive = () => {

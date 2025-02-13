@@ -36,7 +36,7 @@ import { useAuth, useClusters } from 'utils/hooks';
 import { scrollOnDomEl } from 'utils/helpers';
 import { engineValues } from 'utils/constants';
 import { fetchElementsThunk } from 'store/element/elementThunks';
-import { fetchClustersThunk } from 'store/cluster/clusterThunks';
+import { getClusterByIdThunk } from 'store/cluster/clusterThunks';
 import { themes } from 'styles/themes';
 
 import { Profile } from './Profile.styled';
@@ -57,21 +57,19 @@ const ProfileForm = ({ setIsModal }) => {
   const handleRefresh = () => {
     if (!activeCluster) return;
     dispatch(getUserThunk());
+    dispatch(cleanElement());
     setIsModal(false);
-    dispatch(fetchClustersThunk())
+    dispatch(getClusterByIdThunk(activeCluster._id))
       .unwrap()
       .then(({ result }) => {
-        const ac = result.clusters.filter(
-          ({ _id }) => _id === activeCluster._id,
-        )[0];
-        dispatch(setActiveCluster(ac));
-        dispatch(cleanElement());
+        const { cluster } = result;
+        dispatch(setActiveCluster(cluster));
         dispatch(fetchElementsThunk({ cluster: activeCluster._id }))
           .unwrap()
           .then(({ result }) => {
             if (!activeCluster.activeEl) return;
             const activeEl = result.elements.find(
-              ({ _id }) => _id === ac.activeEl,
+              ({ _id }) => _id === cluster.activeEl,
             );
             dispatch(setActiveElement(activeEl));
           })

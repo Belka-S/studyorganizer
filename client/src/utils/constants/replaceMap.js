@@ -23,6 +23,7 @@ export const enMap = {
   'Yes ': 'Yes, ',
   'No ': 'No, ',
   'Wow ': 'Wow, ',
+  ' but': ', but',
 };
 // German
 export const deMap = {

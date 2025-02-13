@@ -3,12 +3,22 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import * as API from 'servises/mongoDB/clusterApi';
 
 // Clusters
-
 export const fetchClustersThunk = createAsyncThunk(
   'items/fetchClusters',
   async (_, thunkAPI) => {
     try {
       return await API.fetchClusters();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
+export const getClusterByIdThunk = createAsyncThunk(
+  'items/getCluster',
+  async (id, thunkAPI) => {
+    try {
+      return await API.getClusterById(id);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

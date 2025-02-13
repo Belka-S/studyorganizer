@@ -5,6 +5,7 @@ import * as TNK from './clusterThunks';
 const thunkArr = [
   // Clusters
   TNK.fetchClustersThunk,
+  TNK.getClusterByIdThunk,
   TNK.addClusterThunk,
   TNK.updateClusterThunk,
   TNK.deleteClusterThunk,
@@ -17,9 +18,14 @@ const thunkArr = [
 const fn = type => thunkArr.map(el => el[type]);
 
 // Clusters
-
 const handleFetchClusters = (_, action) => {
   return action.payload.result.clusters;
+};
+
+const handleGetClusterById = (state, action) => {
+  const { cluster } = action.payload.result;
+  const index = state.findIndex(el => el._id === cluster._id);
+  state.splice(index, 1, cluster);
 };
 
 const handleAddCluster = (state, action) => {
@@ -68,6 +74,7 @@ const clusterItemsSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(TNK.fetchClustersThunk.fulfilled, handleFetchClusters)
+      .addCase(TNK.getClusterByIdThunk.fulfilled, handleGetClusterById)
       .addCase(TNK.addClusterThunk.fulfilled, handleAddCluster)
       .addCase(TNK.updateClusterThunk.fulfilled, handleUpdateCluster)
       .addCase(TNK.deleteClusterThunk.fulfilled, handleDeleteCluster);

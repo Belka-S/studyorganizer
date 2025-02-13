@@ -1,9 +1,13 @@
 import { apiClient } from './apiClient';
 
 // Clusters
-
 export const fetchClusters = async () => {
   const { data } = await apiClient.get('/clusters');
+  return data;
+};
+
+export const getClusterById = async id => {
+  const { data } = await apiClient.get(`/clusters/${id}`);
   return data;
 };
 
