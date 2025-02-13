@@ -126,7 +126,7 @@ const LiElement = ({
   return (
     <Li
       id={isActive ? 'active-element' : null}
-      licolor={liColor}
+      $licolor={liColor}
       ref={elementRef}
     >
       <FlexWrap $h="100%" $p="0" $fd="column">
@@ -178,9 +178,6 @@ export default LiElement;
 
 LiElement.propTypes = {
   el: PropTypes.object,
-  // index: PropTypes.number,
-  // length: PropTypes.number,
-  // translateAll: PropTypes.func,
   liColor: PropTypes.string,
   setLiColor: PropTypes.func,
   editCount: PropTypes.number,

@@ -157,13 +157,13 @@ const Element = ({ el, setLiColor, editCount, selectMode }) => {
 
   return (
     <GridWrap onClick={handleSetActiveElement}>
-      <SpeakBtn onClick={speakElement} selectmode={selectMode}>
+      <SpeakBtn onClick={speakElement} $mode={`${selectMode}`}>
         {element}
       </SpeakBtn>
 
       <Divider onClick={handleSort} />
       {caption.text && (
-        <SpeakBtn onClick={speakCaption} selectmode={selectMode}>
+        <SpeakBtn onClick={speakCaption} $mode={`${selectMode}`}>
           {caption.text}
         </SpeakBtn>
       )}

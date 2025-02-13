@@ -89,10 +89,11 @@ export const SpeakBtn = styled.button`
   color: ${colors.black};
   transition: background-color 250ms;
 
-  cursor: ${({ selectmode = false }) => (selectmode ? 'text' : 'pointer')};
+  ${({ $mode }) => $mode === 'true' && 'cursor: pointer;'}
   -webkit-user-select: text; /* Safari */
   -ms-user-select: text; /* IE 10 and IE 11 */
   user-select: text; /* Standard syntax */
+  /* cursor: ${({ selectmode }) => (selectmode ? 'text' : 'pointer')}; */
 `;
 
 // Audio player

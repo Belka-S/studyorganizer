@@ -24,7 +24,6 @@ const ElementList = () => {
     initialInView: true,
     rootMargin: '0px 0px -30px 0px',
   });
-  // const { user } = useAuth();
   const { activeCluster } = useClusters();
   const { allElements, elementTrash, elementFilter, isLoading } = useElements();
 
@@ -35,6 +34,7 @@ const ElementList = () => {
   let { elementSelect } = useElements();
   elementSelect = !elementSelect ? [] : elementSelect;
 
+  // Scroll on activeElement
   useEffect(() => {
     if (!activeCluster) return;
     dispatch(fetchElementsThunk({ cluster: activeCluster._id }))
@@ -72,6 +72,8 @@ const ElementList = () => {
     };
   }, [selectMode, setSelectMode]);
 
+  // Build DOM
+  if (isLoading) return <OvalLoader />;
   const activeClusterElements = allElements
     .filter(el => el.cluster === activeCluster?._id)
     .sort((a, b) => a.createdAt.localeCompare(b.createdAt));
@@ -130,36 +132,33 @@ const ElementList = () => {
     entry?.target.getBoundingClientRect().y +
       entry?.target.getBoundingClientRect().height * 1.5;
 
+  console.log('qwe');
   return (
-    <>
-      <List>
-        {filtredElements.map(el => (
-          <LiElement
-            key={el._id}
-            el={el}
-            liColor={liColor}
-            setLiColor={setLiColor}
-            editCount={editCount}
-            setEditCount={setEditCount}
-            selectMode={selectMode}
-          />
-        ))}
+    <List>
+      {filtredElements.map(el => (
+        <LiElement
+          key={el._id}
+          el={el}
+          liColor={liColor}
+          setLiColor={setLiColor}
+          editCount={editCount}
+          setEditCount={setEditCount}
+          selectMode={selectMode}
+        />
+      ))}
 
-        <div ref={ref}>
-          <ElementLangBar />
-          <ElementEditBar
-            className={!inView || !isScrollable ? 'shown' : 'hidden'}
-          />
-          <ElementPlayBar
-            className={!inView || !isScrollable ? 'shown' : 'hidden'}
-            filtredElements={filtredElements}
-            setLiColor={setLiColor}
-          />
-        </div>
-      </List>
-
-      {isLoading && <OvalLoader />}
-    </>
+      <div ref={ref}>
+        <ElementLangBar />
+        <ElementEditBar
+          className={!inView || !isScrollable ? 'shown' : 'hidden'}
+        />
+        <ElementPlayBar
+          className={!inView || !isScrollable ? 'shown' : 'hidden'}
+          filtredElements={filtredElements}
+          setLiColor={setLiColor}
+        />
+      </div>
+    </List>
   );
 };
 

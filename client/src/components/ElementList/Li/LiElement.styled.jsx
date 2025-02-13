@@ -15,7 +15,7 @@ const baseLiStyle = css`
   grid-template-columns: 1fr 25fr 1fr;
 
   border: 1px solid transparent;
-  background-color: ${({ licolor }) => licolor};
+  background-color: ${({ $licolor }) => $licolor};
   border-radius: ${indents.xs};
   font-size: 22px;
 
