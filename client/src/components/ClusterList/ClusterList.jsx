@@ -29,7 +29,6 @@ const ClusterList = () => {
 
   useEffect(() => {
     const activeDomEl = document.getElementById('active-cluster');
-
     activeDomEl && scrollOnDomEl(activeDomEl);
   }, []);
 

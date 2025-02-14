@@ -74,6 +74,7 @@ const recordBtn = css`
   padding: ${s} 16px;
   background-color: ${backgroundHoverd};
   border: 1px solid ${backgroundHoverd};
+  transition: border-color 250ms;
 `;
 
 const recordBtnListening = css`

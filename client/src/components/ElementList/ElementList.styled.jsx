@@ -6,7 +6,7 @@ export const List = styled.ul`
 
   & .el_bar-up {
     transition: transform 250ms;
-    transform: translateY(-105px);
+    transform: translateY(calc(124px - 100vh));
   }
   & .el_bar-down {
     transition: transform 250ms;
