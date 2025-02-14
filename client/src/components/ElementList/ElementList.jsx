@@ -151,17 +151,20 @@ const ElementList = () => {
             selectMode={selectMode}
           />
         ))}
-        <div ref={ref}>
-          <ElementLangBar />
-          <ElementEditBar
-            className={inView && isScrollable ? 'el_bar-up' : 'el_bar-down'}
-          />
-          <ElementPlayBar
-            className={inView && isScrollable ? 'el_bar-up' : 'el_bar-down'}
-            filtredElements={filtredElements}
-            setLiColor={setLiColor}
-          />
-        </div>
+
+        {!isLoading && (
+          <div ref={ref}>
+            <ElementLangBar />
+            <ElementEditBar
+              className={inView && isScrollable ? 'bar-up' : 'bar-down'}
+            />
+            <ElementPlayBar
+              className={inView && isScrollable ? 'bar-up' : 'bar-down'}
+              filtredElements={filtredElements}
+              setLiColor={setLiColor}
+            />
+          </div>
+        )}
       </List>
 
       {isLoading && <OvalLoader />}
