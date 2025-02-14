@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { themes } from 'styles/themes';
 
@@ -6,8 +6,9 @@ const { colors, shadows, indents } = themes;
 const { s } = indents;
 const { white, accent, hovered, backdrop, backgroundHoverd } = colors;
 
+// Modal
 export const Backdrop = styled.div`
-  ${({ $bd }) => $bd !== 'none' && 'width: 100vw;'};
+  ${({ $bd }) => $bd !== 'none' && $bd !== 'listening' && 'width: 100vw;'};
   height: 100vh;
   position: fixed;
   top: 0;
@@ -23,15 +24,8 @@ export const Backdrop = styled.div`
     ${({ $x, $y }) => !$x && !$y && 'transform: translate(-50%, -50%);'}
 
     border-radius: ${s};
-    background-color: transparent; // transparent;
+    background-color: transparent;
     box-shadow: ${shadows.back};
-
-    ${({ $bd }) =>
-      $bd === 'none' &&
-      'transform: translateY(-50%);' +
-        'width: calc(50vw - 26px);' +
-        ` padding: ${s} 16px;` +
-        ` background-color: ${backgroundHoverd};`};
 
     &:hover,
     :focus {
@@ -42,6 +36,9 @@ export const Backdrop = styled.div`
         opacity: 1;
       }
     }
+
+    ${({ $bd }) => $bd === 'none' && recordBtn}
+    ${({ $bd }) => $bd === 'listening' && recordBtnListening}
   }
 
   & .close-btn {
@@ -64,8 +61,22 @@ export const Backdrop = styled.div`
     &:hover,
     &:focus {
       color: ${hovered};
-      border-color: ${hovered};
+      border: 1px solid ${hovered};
       background-color: ${backgroundHoverd};
     }
   }
+`;
+
+// RecordBtn
+const recordBtn = css`
+  transform: translateY(-50%);
+  width: calc(50vw - 26px);
+  padding: ${s} 16px;
+  background-color: ${backgroundHoverd};
+  border: 1px solid ${backgroundHoverd};
+`;
+
+const recordBtnListening = css`
+  ${recordBtn}
+  border: 1px solid ${hovered};
 `;

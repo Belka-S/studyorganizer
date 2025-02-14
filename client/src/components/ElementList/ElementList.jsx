@@ -22,7 +22,7 @@ const ElementList = () => {
   const dispatch = useDispatch();
   const { ref, inView, entry } = useInView({
     initialInView: true,
-    rootMargin: '0px 0px -30px 0px',
+    rootMargin: '0px 0px 110px 0px',
   });
   const { activeCluster } = useClusters();
   const { allElements, activeElement, elementTrash, elementFilter, isLoading } =
@@ -154,10 +154,10 @@ const ElementList = () => {
         <div ref={ref}>
           <ElementLangBar />
           <ElementEditBar
-            className={!inView || !isScrollable ? 'shown' : 'hidden'}
+            className={inView && isScrollable ? 'el_bar-up' : 'el_bar-down'}
           />
           <ElementPlayBar
-            className={!inView || !isScrollable ? 'shown' : 'hidden'}
+            className={inView && isScrollable ? 'el_bar-up' : 'el_bar-down'}
             filtredElements={filtredElements}
             setLiColor={setLiColor}
           />

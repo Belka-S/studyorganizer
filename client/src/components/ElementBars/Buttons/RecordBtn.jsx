@@ -185,14 +185,15 @@ const RecordBtn = ({ className }) => {
   return (
     <div className={classNames(className, !isForm && 'hidden')}>
       <Button onClick={toggleRecognition} $s="m" $round={true} $bs={button}>
-        {!listening ? <TbMicrophone size={18} /> : <BsStopFill size={18} />}
+        {!listening && <TbMicrophone size={18} />}{' '}
+        {listening && <BsStopFill size={18} fill={themes.colors.error} />}
       </Button>
 
       {isForm && (
         <Modal
           $x={`left: ${m}`}
           $y={`top: ${50}%`}
-          $bd="none"
+          $bd={!listening ? 'none' : 'listening'}
           btn={true}
           onClick={finishRecognition}
         >
