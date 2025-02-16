@@ -39,7 +39,7 @@ export const useSelectionPosition = () => {
     setState('selected');
 
     const nodeText = e.target.value || e.target.textContent;
-    nodeText !== 'translate' && setNodeText(nodeText);
+    nodeText.toLowerCase() !== 'translate' && setNodeText(nodeText);
 
     // Get offset when Sidebar
     const listWidth = e.target.closest('ul').getBoundingClientRect().width;

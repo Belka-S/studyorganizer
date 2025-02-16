@@ -19,7 +19,9 @@ const SelectionBtn = ({ children }) => {
   const { activeCluster } = useClusters();
 
   const captionLang = allElements.find(el => el.caption === nodeText)?.lang;
+  console.log('captionLang: ', captionLang);
   const elementLang = activeCluster.lang;
+  console.log('elementLang: ', elementLang);
 
   const dictionarys = dictionaryUrls(selection)
     .map(url => url[captionLang || elementLang])
