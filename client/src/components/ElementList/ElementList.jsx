@@ -31,7 +31,7 @@ const ElementList = () => {
 
   const { ref, inView, entry } = useInView({
     initialInView: true,
-    rootMargin: '0px 0px 110px 0px',
+    rootMargin: `0px 0px ${window.innerHeight / 2}px 0px`,
   });
 
   // Scroll on activeElement
