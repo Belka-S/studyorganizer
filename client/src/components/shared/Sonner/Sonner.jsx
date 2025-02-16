@@ -3,7 +3,7 @@ import { ToastContainer } from './Sonner.styled';
 const Sonner = () => {
   return (
     <ToastContainer
-      position="top-center"
+      position="top-right"
       visibleToasts={3}
       duration={1000}
       offset={50}
