@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 

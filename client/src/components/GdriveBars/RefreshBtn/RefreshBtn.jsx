@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { FiRefreshCcw } from 'react-icons/fi';
 
 import { listFilesThunk } from 'store/gdrive/gdriveThunks';

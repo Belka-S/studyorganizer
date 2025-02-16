@@ -1,7 +1,7 @@
 import { Formik } from 'formik';
 import { Fragment, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 import LinkRoute from 'components/AuthForms/AuthLinks/LinkRoute';
 import { signupSchema } from 'utils/validation';

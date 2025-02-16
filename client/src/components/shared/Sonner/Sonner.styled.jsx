@@ -7,6 +7,17 @@ const { colors } = themes;
 
 export const ToastContainer = styled(Toaster)`
   & .toast {
+    width: fit-content !important;
+    & .close-button {
+      opacity: 0;
+      transition: opacity 250ms;
+    }
+    &:hover,
+    :focus {
+      & .close-button {
+        opacity: 1;
+      }
+    }
   }
 
   & .title {

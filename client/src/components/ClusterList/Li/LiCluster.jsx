@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 import { TiStar } from 'react-icons/ti';
 import { FaCheck } from 'react-icons/fa';

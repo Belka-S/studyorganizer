@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
-import { HiX } from 'react-icons/hi';
 import { toast } from 'sonner';
+import { HiX } from 'react-icons/hi';
 
 import Button from 'components/shared/Button/Button';
 import { useElements } from 'utils/hooks';
@@ -16,8 +16,10 @@ const DeleteBtn = () => {
   const { elementTrash } = useElements();
 
   const emptyTrash = () => {
-    toast.success('Are you sure you want to delete the selected Element(s)?', {
+    // if (!confirm('Are you sure you want to delete the selected Element(s)?')) return;
+    toast.error('Are you sure you want to delete the selected Element(s)?', {
       duration: Infinity,
+      position: 'bottom-center',
       closeButton: true,
       // cancel: { label: 'No' },
       action: {

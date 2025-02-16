@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { useEffect } from 'react';
 import { FiPlus } from 'react-icons/fi';
 

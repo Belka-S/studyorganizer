@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { FiPlus } from 'react-icons/fi';
 
 import Button from 'components/shared/Button/Button';

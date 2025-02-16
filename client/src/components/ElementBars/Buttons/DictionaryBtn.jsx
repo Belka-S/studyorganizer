@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { PiTranslateBold } from 'react-icons/pi';
 
 import Button from 'components/shared/Button/Button';

@@ -3,7 +3,7 @@
 // import viteLogo from 'assets/icons/vite.svg';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 import Button from 'components/shared/Button/Button';
 import { loginThunk } from 'store/auth/authThunks';

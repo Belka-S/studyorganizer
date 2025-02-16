@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useState, useEffect, useCallback } from 'react';
 import { loadGapiInsideDOM, loadAuth2 } from 'gapi-script';
 import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 import Button from 'components/shared/Button/Button';
 import { listFilesThunk } from 'store/gdrive/gdriveThunks';

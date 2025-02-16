@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 import { useClusters } from 'utils/hooks';
 import { getGdiveId } from 'utils/helpers';

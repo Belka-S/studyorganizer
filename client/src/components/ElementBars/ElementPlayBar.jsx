@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 import Button from 'components/shared/Button/Button';
 import { useAuth, useClusters, useElements } from 'utils/hooks';

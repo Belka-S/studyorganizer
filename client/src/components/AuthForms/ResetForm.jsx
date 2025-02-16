@@ -3,7 +3,7 @@ import { Fragment, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 import { resetPassThunk } from 'store/auth/authThunks';
 import { resetSchema } from 'utils/validation';

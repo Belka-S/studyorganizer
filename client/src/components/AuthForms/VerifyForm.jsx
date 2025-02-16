@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Fragment } from 'react';
 import { Formik } from 'formik';
 import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 import { verifySchema } from 'utils/validation';
 import { getUserThunk, verifyEmailThunk } from 'store/auth/authThunks';

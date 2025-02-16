@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { FiTrash2 } from 'react-icons/fi';
 import { SiGoogledrive } from 'react-icons/si';
 import { FaRegCopy } from 'react-icons/fa';

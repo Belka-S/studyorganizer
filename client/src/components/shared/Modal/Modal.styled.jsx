@@ -44,8 +44,8 @@ export const Backdrop = styled.div`
   & .close-btn {
     position: absolute;
     top: 0;
-    right: 0;
-    padding: 5px;
+    left: 0;
+    padding: 4px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -56,7 +56,7 @@ export const Backdrop = styled.div`
     color: ${accent};
     background-color: ${white};
     opacity: 0;
-    transform: translate(40%, -40%);
+    transform: translate(-40%, -40%);
 
     &:hover,
     &:focus {

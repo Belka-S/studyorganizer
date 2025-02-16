@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { Fragment } from 'react';
 import { Formik } from 'formik';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 import { forgotPassThunk } from 'store/auth/authThunks';
 

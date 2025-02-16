@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useGoogleLogin } from '@react-oauth/google';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 import { setGoogleToken } from 'store/auth/authSlice';
 import { SCOPES } from 'servises/google/googleScopes';

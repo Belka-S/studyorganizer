@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 import { useAuth } from 'utils/hooks/useAuth';
 import { loginThunk } from 'store/auth/authThunks';
