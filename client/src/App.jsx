@@ -7,6 +7,7 @@ import PublicRoutes from 'routes/PublicRoutes';
 import PrivateRoutes from 'routes/PrivateRoutes';
 
 import Toast from 'components/shared/Toast/Toast';
+import Sonner from 'components/shared/Sonner/Sonner';
 import OvalLoader from 'components/shared/Loader/OvalLoader';
 import SharedLayout from 'layouts/SharedLayout/SharedLayout';
 
@@ -52,6 +53,7 @@ const App = () => {
       {(isRefreshing || isLoading) && <OvalLoader />}
 
       <Toast />
+      <Sonner />
     </>
   );
 };

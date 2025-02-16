@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { HiX } from 'react-icons/hi';
+import { toast } from 'sonner';
 
 import Button from 'components/shared/Button/Button';
 import { useElements } from 'utils/hooks';
@@ -15,23 +16,32 @@ const DeleteBtn = () => {
   const { elementTrash } = useElements();
 
   const emptyTrash = () => {
-    if (!confirm('Are you sure you want to delete the selected Element(s)?')) {
-      return;
-    }
-    // delete trash elements
-    dispatch(
-      elementThunks.deleteElementThunk(
-        elementTrash.map(el => el._id).join('&'),
-      ),
-    )
-      .unwrap()
-      .then(() => dispatch(emptyElementTrash()));
+    toast.success('Are you sure you want to delete the selected Element(s)?', {
+      duration: Infinity,
+      closeButton: true,
+      // cancel: { label: 'No' },
+      action: {
+        label: 'Yes',
+        onClick: () => {
+          // delete trash elements
+          dispatch(
+            elementThunks.deleteElementThunk(
+              elementTrash.map(el => el._id).join('&'),
+            ),
+          )
+            .unwrap()
+            .then(() => dispatch(emptyElementTrash()));
+        },
+      },
+    });
   };
 
   return (
-    <Button onClick={emptyTrash} $s="m" $round={true} $bs={button}>
-      <HiX size={16} />
-    </Button>
+    <>
+      <Button onClick={emptyTrash} $s="m" $round={true} $bs={button}>
+        <HiX size={16} />
+      </Button>
+    </>
   );
 };
 
