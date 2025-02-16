@@ -24,6 +24,8 @@ const SelectionBtn = ({ children }) => {
   const dictionarys = dictionaryUrls(selection)
     .map(url => url[captionLang || elementLang])
     .filter(url => url && url);
+
+  if (selection?.split(/\s+/).length > 1) return;
   // --------------------- end ---------------------- //
 
   const onClick = () => {
