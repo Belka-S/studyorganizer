@@ -258,7 +258,7 @@ export const speakTranslation = props => {
         messageParts[currentIndex - 1].at(-1),
       )
         ? 60
-        : 100;
+        : 80;
 
       const transLang = currentMsg.split('@±@')[1]?.substring(0, 2);
       const voicesT = voices.filter(el => el.lang.includes(transLang));
