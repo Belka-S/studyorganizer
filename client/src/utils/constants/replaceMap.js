@@ -23,6 +23,7 @@ export const enMap = {
   'Yes ': 'Yes, ',
   'No ': 'No, ',
   'Wow ': 'Wow, ',
+  'Look ': 'Look, ',
   ' but': ', but',
 };
 // German

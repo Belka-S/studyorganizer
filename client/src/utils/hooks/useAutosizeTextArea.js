@@ -6,6 +6,7 @@ export const useAutosizeTextArea = (refs, values) => {
   if (refs[0]) {
     height = Number(refs[0].style.height.replace('px', ''));
   }
+
   useEffect(() => {
     if (!refs[0]) return;
     // refs.forEach(ref => { ref.style.height = '0px';}); // Reset the height momentarily to get the correct scrollHeight for the textarea

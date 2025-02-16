@@ -5,11 +5,11 @@ import { themes } from 'styles/themes';
 const { breakpoints } = themes;
 
 export const FlexDiv = styled.div`
+  position: relative;
   margin: ${({ $m = '0 auto' }) => $m};
   padding: ${({ $p = '0 10px' }) => $p};
   width: ${({ $w = '100%' }) => $w};
   height: ${({ $h }) => $h};
-  position: relative;
 
   display: ${({ $d = 'flex' }) => $d};
   flex-direction: ${({ $fd }) => $fd};

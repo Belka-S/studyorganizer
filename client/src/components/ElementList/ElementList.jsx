@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
+import { PiTranslateBold } from 'react-icons/pi';
 
 import { useClusters, useElements } from 'utils/hooks';
-import { scrollOnDomEl } from 'utils/helpers';
+import { scrollOnDomEl, startsWithSmall } from 'utils/helpers';
 import { fetchElementsThunk } from 'store/element/elementThunks';
 import { setActiveElement } from 'store/element/elementSlice';
 import ElementLangBar from 'components/ElementBars/ElementLangBar';
@@ -11,7 +12,7 @@ import ElementEditBar from 'components/ElementBars/ElementEditBar';
 import OvalLoader from 'components/shared/Loader/OvalLoader';
 import { themes } from 'styles/themes';
 import ElementPlayBar from 'components/ElementBars/ElementPlayBar';
-import { startsWithSmall } from 'utils/helpers/startsWithCapital';
+import SelectionBtn from 'components/shared/Button/SelectionBtn';
 
 import LiElement from './Li/LiElement';
 import { List } from './ElementList.styled';
@@ -20,10 +21,6 @@ const { white } = themes.colors;
 
 const ElementList = () => {
   const dispatch = useDispatch();
-  const { ref, inView, entry } = useInView({
-    initialInView: true,
-    rootMargin: '0px 0px 110px 0px',
-  });
   const { activeCluster } = useClusters();
   const { allElements, activeElement, elementTrash, elementFilter, isLoading } =
     useElements();
@@ -32,8 +29,10 @@ const ElementList = () => {
   const [editCount, setEditCount] = useState(0);
   const [selectMode, setSelectMode] = useState(false);
 
-  let { elementSelect } = useElements();
-  elementSelect = !elementSelect ? [] : elementSelect;
+  const { ref, inView, entry } = useInView({
+    initialInView: true,
+    rootMargin: '0px 0px 110px 0px',
+  });
 
   // Scroll on activeElement
   useEffect(() => {
@@ -78,6 +77,10 @@ const ElementList = () => {
       removeEventListener('keyup', handleKeyUp);
     };
   }, [selectMode, setSelectMode]);
+
+  // Get filtred & selected elements
+  let { elementSelect } = useElements();
+  elementSelect = !elementSelect ? [] : elementSelect;
 
   const activeClusterElements = allElements
     .filter(el => el.cluster === activeCluster?._id)
@@ -166,6 +169,11 @@ const ElementList = () => {
           </div>
         )}
       </List>
+
+      <SelectionBtn>
+        <PiTranslateBold size={18} />
+        &ensp;<span>translate</span>
+      </SelectionBtn>
 
       {isLoading && <OvalLoader />}
     </>

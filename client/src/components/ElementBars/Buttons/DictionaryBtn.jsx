@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import { PiTranslateBold } from 'react-icons/pi';
 
@@ -32,7 +32,7 @@ const DictionaryBtn = () => {
     tabs.current = []; // Clear the array
   };
 
-  const openDictionary = async () => {
+  const openDictionary = useCallback(async () => {
     const text = window.getSelection().toString();
     text && (await writeClipboard(text));
     const query = await readClipboard();
@@ -47,7 +47,7 @@ const DictionaryBtn = () => {
     }
     closeAllTabs();
     openTabs(urls);
-  };
+  }, [activeCluster.lang]);
 
   useEffect(() => {
     const handleKeyDown = async e => {
@@ -61,7 +61,7 @@ const DictionaryBtn = () => {
     return () => {
       removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [openDictionary]);
 
   return (
     <Button onClick={openDictionary} $s="m" $round={true} $bs={button}>

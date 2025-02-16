@@ -51,6 +51,12 @@
 - **[react-oauth]**https://github.com/MomenSherif/react-oauth/issues/12
 - **[pdf24]**https://tools.pdf24.org/en/ocr-pdf#s=1706141238718
 - **[lucide-react]**https://lucide.dev/guide/packages/lucide-react
+- **[sonner]**https://github.com/emilkowalski/sonner
+- **[]**
+- **[]**
+- **[]**
+- **[]**
+- **[]**
 - **[]**
 - **[]**
 
