@@ -27,6 +27,7 @@ export const themes = Object.freeze({
     placeholder: '#5c5858',
 
     backdrop: 'rgba(23, 24, 32, 0.5)',
+    popup: 'rgba(0, 0, 0, 0.720)',
   },
   indents: {
     xxs: '3px',

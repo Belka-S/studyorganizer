@@ -13,7 +13,7 @@ import { Button } from './SelectionBtn.styled';
 const SelectionBtn = ({ children }) => {
   const { selection, position, offset, nodeText } = useSelectionPosition();
 
-  // ---------------- Workers to do ----------------- //
+  // ----------- ------- Workers -------- ----------- //
   const { openUrls } = useOpenUrls();
   const { allElements } = useElements();
   const { activeCluster } = useClusters();
@@ -29,13 +29,14 @@ const SelectionBtn = ({ children }) => {
   // --------------------- end ---------------------- //
 
   const onClick = () => {
-    openUrls(dictionarys); // Launch Workers
+    // Launch Workers
+    openUrls(dictionarys);
   };
 
   if (!selection) return;
   return (
     <Button
-      $x={position?.x - 16 - offset}
+      $x={position?.x - 20 - offset}
       $y={position?.y - 98}
       $selection={selection}
       onClick={onClick}

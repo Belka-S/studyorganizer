@@ -9,17 +9,18 @@ export const Button = styled.button`
   top: 0;
   left: 0;
   margin: 0;
-  padding: 8px;
+  padding-block: 10px;
+  padding-inline: 14px;
 
   display: flex;
   align-items: center;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
 
   border: none;
-  border-radius: 0.375rem;
+  border-radius: 20px;
 
-  background-color: ${colors.backdrop};
+  background-color: ${colors.popup};
   color: ${colors.white};
   transition: opacity 250ms;
 
@@ -37,6 +38,6 @@ export const Button = styled.button`
     height: 0;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-bottom: 10px solid ${colors.backdrop};
+    border-bottom: 10px solid ${colors.popup};
   }
 `;

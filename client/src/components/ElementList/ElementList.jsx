@@ -171,8 +171,9 @@ const ElementList = () => {
       </List>
 
       <SelectionBtn>
+        <span>Translate</span>
+        &ensp;
         <PiTranslateBold size={18} />
-        &ensp;<span>translate</span>
       </SelectionBtn>
 
       {isLoading && <OvalLoader />}
