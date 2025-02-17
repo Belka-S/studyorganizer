@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import GridWrap from 'components/shared/GridWrap/GridWrap';
+import FlexWrap from 'components/shared/FlexWrap/FlexWrap';
 import Filter from 'components/shared/Filter/Filter';
 import Select from 'components/shared/Select/Select';
 import { baseOptions } from 'components/shared/Select/options/baseOptions';
@@ -59,7 +59,7 @@ const ClustersSearchBar = () => {
   });
 
   return (
-    <GridWrap $w="100%" $m={`0 ${s} 0 0 `} $cg={s} $ai="center" $gtc="2fr 1fr">
+    <FlexWrap $jc="flex-end" $p="0">
       <Select
         isMulti
         onChange={data => setSelectValue(data ? data.map(el => el.value) : '')}
@@ -72,7 +72,7 @@ const ClustersSearchBar = () => {
         $br={m}
       />
       <Filter selector={selectClusterFilter} reducer={setClusterFilter} />
-    </GridWrap>
+    </FlexWrap>
   );
 };
 

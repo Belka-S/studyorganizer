@@ -32,7 +32,7 @@ export const Li = styled.li`
   &#active-element {
     border-color: ${colors.border};
     background-color: ${colors.background};
-    box-shadow: ${shadows.back};
+    box-shadow: ${shadows.backdrop};
 
     &:hover {
       border-color: ${colors.accent};
@@ -55,7 +55,7 @@ export const Li = styled.li`
 
   &:hover {
     border-color: ${colors.accent};
-    box-shadow: ${shadows.back};
+    box-shadow: ${shadows.backdrop};
   }
 
   &:hover label,

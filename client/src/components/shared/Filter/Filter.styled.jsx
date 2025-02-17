@@ -8,9 +8,11 @@ const fontSize = '16px';
 const offsetY = `calc(${heightSize} * 1)`;
 
 export const FilterDiv = styled.div`
-  width: 100%;
-  height: 100%;
+  width: fit-content;
+  width: 210px;
+  /* height: 100%; */
   position: relative;
+  margin-inline: 10px;
   display: inline-block;
 
   input {

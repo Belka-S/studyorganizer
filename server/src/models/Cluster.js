@@ -10,6 +10,7 @@ const clusterSchema = new Schema(
     cluster: { type: String, match: regex(regExp.HTTP.name), required },
     title: { type: String, default: '', required },
     group: { type: String, required },
+    subject: { type: String, required },
     gdriveId: { type: String },
     lang: { type: String, default: 'de' },
     rate: { type: String, default: 0.5 },

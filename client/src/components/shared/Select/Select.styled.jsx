@@ -36,7 +36,7 @@ export const defaultStyles = ({
   control: (styles, state) => {
     return {
       ...styles,
-      minWidth: '60px',
+      minWidth: '210px',
       borderRadius: `${$br}`,
       outline: state.isFocused ? `1px solid ${$ol}` : 'none',
       borderColor: state.isFocused ? `${$bf}` : `${$b}`,
@@ -64,7 +64,9 @@ export const defaultStyles = ({
   placeholder: styles => {
     return {
       ...styles,
+      paddingLeft: '36px',
       color: `${colors.placeholder}`,
+      justifySelf: 'center',
     };
   },
 

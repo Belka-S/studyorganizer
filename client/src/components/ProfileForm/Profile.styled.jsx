@@ -5,8 +5,8 @@ import { themes } from 'styles/themes';
 const { colors, indents } = themes;
 
 export const Profile = styled.div`
-  width: 280px;
-  height: 300px;
+  width: fit-content;
+  height: 320px;
   padding: ${indents.l};
   display: flex;
   flex-direction: column;

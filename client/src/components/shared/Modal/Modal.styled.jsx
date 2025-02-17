@@ -13,7 +13,7 @@ export const Backdrop = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 100;
+  z-index: 99;
   ${({ $bd }) => $bd !== 'transparent' && `background-color: ${backdrop}`};
   ${({ $bd }) => $bd !== 'transparent' && `backdrop-filter: blur(${s})`};
 
@@ -25,7 +25,7 @@ export const Backdrop = styled.div`
 
     border-radius: ${s};
     background-color: transparent;
-    box-shadow: ${shadows.back};
+    box-shadow: ${shadows.backdrop};
 
     &:hover,
     :focus {

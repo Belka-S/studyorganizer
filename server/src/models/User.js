@@ -25,6 +25,7 @@ const userSchema = new Schema(
     socialLink: { type: String, default: '' },
     birthday: { type: String, default: '' },
     about: { type: String, default: '' },
+
     lang: { type: String, default: 'en' },
     rate: { type: String, default: 0.6 },
     engine: { type: String, enum: engineList, default: 'google' },
