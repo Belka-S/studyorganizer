@@ -11,6 +11,7 @@ export const Button = styled.button`
   margin: 0;
   padding-block: 10px;
   padding-inline: 14px;
+  z-index: 101;
 
   display: flex;
   align-items: center;
