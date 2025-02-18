@@ -5,9 +5,9 @@ const { mongooseError, regExp } = require('../utils');
 const required = [true, 'Required field!'];
 const regex = field => [regExp[field].pattern, `Invalid ${field.toLowerCase()}!`];
 
-const elementGroupSchema = new Schema(
+const clusterSubjectSchema = new Schema(
   {
-    elementGroup: { type: String, match: regex(regExp.NAME.name), required },
+    clusterSubject: { type: String, match: regex(regExp.NAME.name), required },
 
     owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
@@ -15,8 +15,8 @@ const elementGroupSchema = new Schema(
 );
 
 // Change error status
-elementGroupSchema.post('save', mongooseError);
+clusterSubjectSchema.post('save', mongooseError);
 
-const ElementGroup = model('ElementGroup', elementGroupSchema);
+const ClusterSubject = model('ClusterSubject', clusterSubjectSchema);
 
-module.exports = { ElementGroup };
+module.exports = { ClusterSubject };

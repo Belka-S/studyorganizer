@@ -111,7 +111,7 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
 
   const availableVoices = voices;
   const playElements = e => {
-    e.currentTarget.blur();
+    e?.currentTarget.blur();
     setLiColor(background);
     const divider = '$*@';
     const index = filtredElements.findIndex(
@@ -131,7 +131,7 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
   };
 
   const playCaptions = e => {
-    e.currentTarget.blur();
+    e?.currentTarget.blur();
     const divider = '$*@';
     setLiColor(background);
     const index = filtredElements.findIndex(
@@ -151,7 +151,7 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
   };
 
   const playAll = e => {
-    e.currentTarget.blur();
+    e?.currentTarget.blur();
     setLiColor(background);
     let textString = '';
     const divider = '$*@';

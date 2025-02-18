@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import AddClusterForm from 'components/ClusterForms/ClusterAddForm';
+import AddSubjectForm from 'components/ClusterForms/ClusterSubjectForm';
 import GridWrap from 'components/shared/GridWrap/GridWrap';
 import Modal from 'components/shared/Modal/Modal';
 import { themes } from 'styles/themes';
@@ -34,9 +35,20 @@ const ClusterEditBar = () => {
         <AddBtn setClipboardText={setClipboardText} setIsModal={setIsModal} />
       </GridWrap>
 
-      {isModal && (
+      {isModal === 'addCluster' && (
         <Modal onClick={() => setIsModal(false)}>
           <AddClusterForm
+            cluster={clipboardText}
+            group={group}
+            setGroup={setGroup}
+            setIsModal={setIsModal}
+          />
+        </Modal>
+      )}
+
+      {isModal === 'addSubject' && (
+        <Modal onClick={() => setIsModal(false)}>
+          <AddSubjectForm
             cluster={clipboardText}
             group={group}
             setGroup={setGroup}

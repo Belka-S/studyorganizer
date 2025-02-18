@@ -1,8 +1,8 @@
 const auth = require('./auth');
-const clusters = require('./clusters');
-const clusterGroups = require('./clusterGroups');
-const elements = require('./elements');
-// const elementGroups = require('./elementGroups');
-const users = require('./users');
+const cluster = require('./cluster');
+const clusterGroup = require('./clusterGroup');
+const clusterSubject = require('./clusterSubject');
+const element = require('./element');
+const user = require('./user');
 
-module.exports = { auth, clusters, clusterGroups, elements, users };
+module.exports = { auth, cluster, clusterGroup, clusterSubject, element, user };

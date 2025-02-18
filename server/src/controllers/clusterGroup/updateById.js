@@ -2,7 +2,6 @@ const { HttpError, filterValues } = require('../../utils');
 
 const { ClusterGroup } = require('../../models');
 const { ctrlWrapper } = require('../../decorators');
-// const { restrictedAccess } = require('../../utils');
 
 const updateById = ctrlWrapper(async (req, res) => {
   const { id } = req.params;

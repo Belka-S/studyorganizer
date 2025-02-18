@@ -59,7 +59,6 @@ export const deleteClusterThunk = createAsyncThunk(
 );
 
 // Groups
-
 export const fetchGroupsThunk = createAsyncThunk(
   'items/fetchGroups',
   async (_, thunkAPI) => {
@@ -98,6 +97,51 @@ export const deleteGroupThunk = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       return await API.deleteGroup(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
+// Subjects
+export const fetchSubjectsThunk = createAsyncThunk(
+  'items/fetchSubjects',
+  async (_, thunkAPI) => {
+    try {
+      return await API.fetchSubjects();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
+export const addSubjectThunk = createAsyncThunk(
+  'items/addSubject',
+  async (subject, thunkAPI) => {
+    try {
+      return await API.addSubject(subject);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
+export const updateSubjectThunk = createAsyncThunk(
+  'items/updateSubject',
+  async (subject, thunkAPI) => {
+    try {
+      return await API.updateSubject(subject);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
+export const deleteSubjectThunk = createAsyncThunk(
+  'items/deleteSubject',
+  async (id, thunkAPI) => {
+    try {
+      return await API.deleteSubject(id);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

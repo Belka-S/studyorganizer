@@ -8,14 +8,14 @@ const router = express.Router();
 
 router.use(authenticate);
 
-router.get('/current', ctrl.users.getProfile);
+router.get('/current', ctrl.user.getProfile);
 
 router.patch(
   '/update',
   upload.single('avatar'),
-  validate.users.updateSchema,
-  ctrl.users.updateProfile,
+  validate.user.updateSchema,
+  ctrl.user.updateProfile,
 );
-router.delete('/delete', ctrl.users.deleteProfile);
+router.delete('/delete', ctrl.user.deleteProfile);
 
 module.exports = router;

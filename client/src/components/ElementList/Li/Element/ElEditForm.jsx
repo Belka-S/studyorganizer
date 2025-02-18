@@ -154,6 +154,7 @@ const ElementEditForm = ({ el, handleEdit, setRecording, setTranslation }) => {
   const modalEl = document.querySelector('#modal');
   useEffect(() => {
     const handleKeyDown = async e => {
+      e?.currentTarget.blur();
       if (
         modalEl.children.length === 0 &&
         (e.code === 'NumpadAdd' || e.key === 'F2')
@@ -168,13 +169,11 @@ const ElementEditForm = ({ el, handleEdit, setRecording, setTranslation }) => {
         (modalEl.children.length > 0 && e.key === 'F2')
       ) {
         e.preventDefault();
-        e.currentTarget.blur();
         handleSubmit(onSubmit)();
       }
       if (e.key === 'Escape') {
         e.preventDefault();
         handleEdit(true);
-        e.currentTarget.blur();
       }
       if (e.code === 'AltRight') {
         elementRef.current.focus();

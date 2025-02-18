@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import { useClusters } from 'utils/hooks';
 import { getGdiveId } from 'utils/helpers';
 import { addClusterThunk, addGroupThunk } from 'store/cluster/clusterThunks';
-import { titleSchema } from 'utils/validation';
+import { addClusterSchema } from 'utils/validation';
 import Button from 'components/shared/Button/Button';
 import CreatableSelect from 'components/shared/Select/CreatableSelect';
 
@@ -24,7 +24,7 @@ const AddClusterForm = ({ cluster, title, group, setGroup, setIsModal }) => {
     formState: { errors },
   } = useForm({
     mode: 'onBlur',
-    resolver: yupResolver(titleSchema),
+    resolver: yupResolver(addClusterSchema),
     defaultValues: { cluster, title },
   });
 
@@ -50,7 +50,10 @@ const AddClusterForm = ({ cluster, title, group, setGroup, setIsModal }) => {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Label>
-        {cluster.length <= 45 ? cluster : cluster.substring(0, 45) + '...'}
+        {cluster.length <= 48
+          ? cluster
+          : cluster.substring(0, 30) +
+            `...${cluster.substring(cluster.length - 15)}`}
         <Hidden {...register('cluster')} />
       </Label>
 

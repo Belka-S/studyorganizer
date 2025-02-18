@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { themes } from 'styles/themes';
 
-const { colors, indents } = themes;
+const { colors, indents, shadows } = themes;
 
 export const StyledHeader = styled.header`
   padding: 0 20px;
@@ -49,6 +49,37 @@ export const Nav = styled.nav`
     &.active {
       color: ${colors.accent};
     } /* &:global(.active) { } */
+  }
+`;
+
+export const Dropdown = styled.div`
+  position: relative;
+
+  & ul {
+    list-style: none;
+  }
+
+  & .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+
+    padding-block: ${indents.s};
+    padding-inline: ${indents.m};
+    border-radius: ${indents.xs};
+    background-color: ${colors.white};
+    box-shadow: ${shadows.button};
+
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 250ms, transform 150ms;
+  }
+
+  &:hover .dropdown-menu {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
   }
 `;
 

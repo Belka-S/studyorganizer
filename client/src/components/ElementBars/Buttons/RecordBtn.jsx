@@ -125,7 +125,7 @@ const RecordBtn = ({ className }) => {
       removeEventListener('keydown', handleKeyDown);
     };
   }, [
-    activeCluster.lang,
+    activeCluster?.lang,
     isForm,
     listening,
     punctuatedTranscript,

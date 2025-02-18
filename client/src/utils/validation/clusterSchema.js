@@ -10,7 +10,7 @@ export const clusterSchema = Yup.object().shape({
     .required('required'),
 });
 
-export const titleSchema = Yup.object().shape({
+export const addClusterSchema = Yup.object().shape({
   cluster: Yup.string()
     .matches(...pattern(regExp.HTTP))
     .required('required'),
@@ -21,9 +21,9 @@ export const titleSchema = Yup.object().shape({
   group: Yup.string(),
 });
 
-export const groupSchema = Yup.object().shape({
-  clusterGroup: Yup.string()
+export const subjectSchema = Yup.object().shape({
+  subject: Yup.string()
     .matches(...pattern(regExp.NAME))
-    .max(25, 'is too long')
+    .max(20, 'is too long')
     .required('required'),
 });

@@ -27,6 +27,7 @@ const AddBtn = () => {
 
   const addElement = useCallback(
     async e => {
+      e?.currentTarget.blur();
       const text = window.getSelection().toString();
       text && (await writeClipboard(text));
       // document.execCommand('copy');
@@ -55,10 +56,11 @@ const AddBtn = () => {
         const payload = element.includes('https://') ? mediaEl : textEl;
         dispatch(addElementThunk(payload))
           .unwrap()
-          .then(() => (activeCluster.sortBy ? scrollOnTop() : scrollOnBottom()))
-          .finally(() => e?.target?.blur());
+          .then(() =>
+            activeCluster.sortBy ? scrollOnTop() : scrollOnBottom(),
+          );
+        // .finally(() => e?.target?.blur());
       } catch (err) {
-        e?.currentTarget.blur();
         toast.error(`Invalid element, ${err.message}`);
       }
     },

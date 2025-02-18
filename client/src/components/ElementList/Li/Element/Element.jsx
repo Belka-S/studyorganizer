@@ -74,8 +74,8 @@ const Element = ({ el, setLiColor, editCount, selectMode }) => {
 
   const speakElement = useCallback(
     e => {
-      if (selectMode || element.startsWith('[')) return;
       e?.currentTarget.blur();
+      if (selectMode || element.startsWith('[')) return;
       const msg = speakText({
         setLiColor,
         divider,
@@ -98,8 +98,8 @@ const Element = ({ el, setLiColor, editCount, selectMode }) => {
 
   const speakCaption = useCallback(
     e => {
-      if (selectMode) return;
       e?.currentTarget.blur();
+      if (selectMode) return;
       const msg = speakText({
         setLiColor,
         divider,

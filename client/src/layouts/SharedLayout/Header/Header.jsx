@@ -15,7 +15,13 @@ import { scrollOnTop, scrollOnBottom, scrollOnDomEl } from 'utils/helpers';
 import { useAuth } from 'utils/hooks/useAuth';
 import { themes } from 'styles/themes';
 
-import { StyledHeader, Nav, TitleBtn, LogoBtn } from './Header.styled';
+import {
+  StyledHeader,
+  Nav,
+  Dropdown,
+  TitleBtn,
+  LogoBtn,
+} from './Header.styled';
 import Logo from './Logo/Logo';
 import ProfileBtn from './ProfileBtn/ProfileBtn';
 
@@ -107,33 +113,43 @@ const Header = ({ $height, barW, setBarW }) => {
 
         <Nav>
           {isLoggedIn && (
-            <NavLink
-              to="/gdrive"
-              onClick={() => {
-                if (!pathname.includes('/element'))
-                  dispatch(updateUserThunk({ clusterSelect }));
-              }}
-            >
-              <FcGoogle size="17px" />
-              Drive
-            </NavLink>
-          )}
-          {isLoggedIn && (
-            <NavLink
-              to="/cluster"
-              onClick={() => {
-                if (!pathname.includes('/element'))
-                  dispatch(updateUserThunk({ gdriveSelect }));
-              }}
-            >
-              Cluster
-            </NavLink>
-          )}
-          {isLoggedIn && (
-            <TitleBtn onClick={handleScroll}>
-              {clusterTitle()}
-              {gdriveTitle()}
-            </TitleBtn>
+            <>
+              <NavLink
+                to="/gdrive"
+                onClick={() => {
+                  if (!pathname.includes('/element'))
+                    dispatch(updateUserThunk({ clusterSelect }));
+                }}
+              >
+                <FcGoogle size="17px" />
+                Drive
+              </NavLink>
+
+              <Dropdown>
+                <NavLink
+                  to="/cluster"
+                  onClick={() => {
+                    if (!pathname.includes('/element'))
+                      dispatch(updateUserThunk({ gdriveSelect }));
+                  }}
+                >
+                  Cluster
+                </NavLink>
+
+                <ul className="dropdown-menu">
+                  <li>IT-Dev</li>
+                  <li>English</li>
+                  <li>German</li>
+                  <li>Songs</li>
+                  <li>Movies</li>
+                </ul>
+              </Dropdown>
+
+              <TitleBtn onClick={handleScroll}>
+                {clusterTitle()}
+                {gdriveTitle()}
+              </TitleBtn>
+            </>
           )}
         </Nav>
       </FlexWrap>

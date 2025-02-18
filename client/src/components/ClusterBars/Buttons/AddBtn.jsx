@@ -22,15 +22,26 @@ const AddBtn = ({ setClipboardText, setIsModal }) => {
   }, []);
 
   const addCluster = async e => {
+    e?.currentTarget.blur();
     const cluster = await readClipboard();
     try {
       await clusterSchema.validate({ cluster });
       setClipboardText(cluster);
-      setIsModal('add');
+      setIsModal('addCluster');
       // set cursor on input
     } catch (err) {
-      e?.currentTarget.blur();
-      toast.error(`Invalid cluster, ${err.message}`);
+      toast.info('Invalid Cluster, or you want to add a new Subject?', {
+        duration: Infinity,
+        position: 'bottom-center',
+        closeButton: true,
+        // cancel: { label: 'No' },
+        action: {
+          label: 'Yes',
+          onClick: async () => {
+            setIsModal('addSubject');
+          },
+        },
+      });
     }
   };
   return (

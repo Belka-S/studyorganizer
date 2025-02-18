@@ -8,6 +8,7 @@ const addSchema = validateBody(
     cluster: Joi.string().pattern(regExp.HTTP.pattern).required(),
     title: Joi.string().required(),
     group: Joi.string().required(),
+    subject: Joi.string().required(),
     gdriveId: Joi.string(),
   }),
 );
@@ -17,6 +18,7 @@ const updateSchema = validateBody(
     cluster: Joi.string().pattern(regExp.HTTP.pattern),
     title: Joi.string(),
     group: Joi.string(),
+    subject: Joi.string(),
     gdriveId: Joi.string(),
     lang: Joi.string().valid(...Object.keys(langCodes)),
     rate: Joi.number(),

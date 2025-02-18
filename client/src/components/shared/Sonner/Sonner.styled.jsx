@@ -27,16 +27,14 @@ export const ToastContainer = styled(Toaster)`
   & .description {
   }
 
-  & .action-button {
+  & .action-button,
+  .cancel-button {
     padding: 15px !important;
-    font-size: 16px !important;
-    font-weight: 600;
-  }
 
-  & .cancel-button {
-    padding: 15px !important;
+    font-family: 'Montserrat', sans-serif;
     font-size: 16px !important;
     font-weight: 600;
+    border-radius: 7px !important;
   }
 
   /* Info styles */

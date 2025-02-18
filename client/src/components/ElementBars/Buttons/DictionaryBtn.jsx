@@ -47,7 +47,7 @@ const DictionaryBtn = () => {
     }
     closeAllTabs();
     openTabs(urls);
-  }, [activeCluster.lang]);
+  }, [activeCluster?.lang]);
 
   useEffect(() => {
     const handleKeyDown = async e => {

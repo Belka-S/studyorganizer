@@ -7,7 +7,7 @@ const add = ctrlWrapper(async (req, res) => {
 
   const clusterGroupArr = await ClusterGroup.find({ ...req.body, owner });
   if (clusterGroupArr[0]) {
-    throw HttpError(409, 'Already existing cluster group');
+    throw HttpError(409, 'Already existing group');
   }
 
   const newClusterGroup = await ClusterGroup.create({ ...req.body, owner });

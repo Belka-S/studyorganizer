@@ -130,7 +130,7 @@ const ElementList = () => {
       return getCheckedFavorite();
     })
     .sort(
-      activeCluster.sortBy
+      activeCluster?.sortBy
         ? (a, b) => b.createdAt.localeCompare(a.createdAt)
         : (a, b) => a.createdAt.localeCompare(b.createdAt),
     );

@@ -1,5 +1,6 @@
 export const selectClusters = state => state.clusters.items;
 export const selectClusterGroups = state => state.clusters.groups;
+export const selectClusterSubjects = state => state.clusters.subjects;
 export const selectActiveCluster = state => state.clusters.active;
 export const selectClusterFilter = state => state.clusters.filter;
 export const selectClusterSelect = state => state.clusters.select;

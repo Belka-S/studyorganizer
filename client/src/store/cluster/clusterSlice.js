@@ -14,6 +14,11 @@ const thunkArr = [
   TNK.addGroupThunk,
   TNK.updateGroupThunk,
   TNK.deleteGroupThunk,
+  // Subjects
+  TNK.fetchSubjectsThunk,
+  TNK.addSubjectThunk,
+  TNK.updateSubjectThunk,
+  TNK.deleteSubjectThunk,
 ];
 const fn = type => thunkArr.map(el => el[type]);
 
@@ -44,7 +49,6 @@ const handleDeleteCluster = (state, action) => {
 };
 
 // Groups
-
 const handleFetchGroups = (_, action) => {
   return action.payload.result.groups;
 };
@@ -64,6 +68,26 @@ const handleDeleteGroup = (state, action) => {
   return state.filter(el => el._id !== group._id);
 };
 
+// Subjects
+const handleFetchSubjects = (_, action) => {
+  return action.payload.result.subjects;
+};
+
+const handleAddSubject = (state, action) => {
+  state.unshift(action.payload.result.subject);
+};
+
+const handleUpdateSubject = (state, action) => {
+  const { subject } = action.payload.result;
+  const index = state.findIndex(el => el._id === subject._id);
+  state.splice(index, 1, subject);
+};
+
+const handleDeleteSubject = (state, action) => {
+  const { subject } = action.payload.result;
+  return state.filter(el => el._id !== subject._id);
+};
+
 // fulfilled items slice
 const clusterItemsSlice = createSlice({
   name: 'items',
@@ -81,7 +105,7 @@ const clusterItemsSlice = createSlice({
   },
 });
 
-// fulfilled groups slice
+// fulfilled Groups slice
 const clusterGroupsSlice = createSlice({
   name: 'groups',
   initialState: [],
@@ -94,6 +118,22 @@ const clusterGroupsSlice = createSlice({
       .addCase(TNK.addGroupThunk.fulfilled, handleAddGroup)
       .addCase(TNK.updateGroupThunk.fulfilled, handleUpdateGroup)
       .addCase(TNK.deleteGroupThunk.fulfilled, handleDeleteGroup);
+  },
+});
+
+// fulfilled Subjects slice
+const clusterSubjectsSlice = createSlice({
+  name: 'subjects',
+  initialState: [],
+  reducers: {
+    cleanSubject: () => [],
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(TNK.fetchSubjectsThunk.fulfilled, handleFetchSubjects)
+      .addCase(TNK.addSubjectThunk.fulfilled, handleAddSubject)
+      .addCase(TNK.updateSubjectThunk.fulfilled, handleUpdateSubject)
+      .addCase(TNK.deleteSubjectThunk.fulfilled, handleDeleteSubject);
   },
 });
 
@@ -168,6 +208,7 @@ const clusterErrorSlice = createSlice({
 export const clustersReducer = combineReducers({
   items: clusterItemsSlice.reducer,
   groups: clusterGroupsSlice.reducer,
+  subjects: clusterSubjectsSlice.reducer,
   active: clusterActiveSlice.reducer,
   filter: clusterFilterSlice.reducer,
   select: clusterSelectSlice.reducer,
@@ -183,4 +224,3 @@ export const { setActiveCluster } = clusterActiveSlice.actions;
 export const { setClusterFilter } = clusterFilterSlice.actions;
 export const { setClusterSelect } = clusterSelectSlice.actions;
 export const { setClusterTrash, emptyClusterTrash } = clusterTrashSlice.actions;
-// export const { setClusterChecked } = clusterCheckedSlice.actions;

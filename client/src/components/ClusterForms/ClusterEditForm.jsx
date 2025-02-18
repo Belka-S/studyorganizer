@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import { useClusters } from 'utils/hooks';
 import { getGdiveId } from 'utils/helpers';
 import { addGroupThunk, updateClusterThunk } from 'store/cluster/clusterThunks';
-import { titleSchema } from 'utils/validation';
+import { addClusterSchema } from 'utils/validation';
 import Button from 'components/shared/Button/Button';
 import CreatableSelect from 'components/shared/Select/CreatableSelect';
 
@@ -28,7 +28,7 @@ const EditClusterForm = ({ el, setIsModal }) => {
     formState: { errors },
   } = useForm({
     mode: 'onBlur',
-    resolver: yupResolver(titleSchema),
+    resolver: yupResolver(addClusterSchema),
     defaultValues: { cluster, title },
   });
 
