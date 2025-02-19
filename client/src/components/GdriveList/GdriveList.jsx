@@ -1,9 +1,10 @@
 import { useDispatch } from 'react-redux';
 import { Fragment, useEffect, useState } from 'react';
 
-import { useClusters, useGdrive } from 'utils/hooks';
+import { useAuth, useClusters, useGdrive } from 'utils/hooks';
 import { scrollOnDomEl } from 'utils/helpers';
-import { setGdriveFolders } from 'store/gdrive/gdriveSlice';
+import { setGdriveFolders, setGdriveSelect } from 'store/gdrive/gdriveSlice';
+import { fetchSubjectsThunk } from 'store/cluster/clusterThunks';
 
 import LiFolder from './Li/LiFolder';
 import LiFile from './Li/LiFile';
@@ -11,6 +12,7 @@ import { List } from './GdriveList.styled';
 
 const GdriveList = () => {
   const dispatch = useDispatch();
+  const { user } = useAuth();
   const { allClusters } = useClusters();
   const { gdriveFiles, gdriveFolders } = useGdrive();
   const { gdriveTrash, gdriveSelect, gdriveFilter } = useGdrive();
@@ -18,6 +20,21 @@ const GdriveList = () => {
   const [sortByDate, setSortByDate] = useState(false);
   const [group, setGroup] = useState('');
 
+  // Set G-Drive select
+  useEffect(() => {
+    const { subject, subjectId } = user;
+    if (!subject || !subjectId) return;
+    dispatch(fetchSubjectsThunk())
+      .unwrap()
+      .then(res => {
+        const subject = res.result.subjects.find(
+          ({ _id }) => _id === subjectId,
+        );
+        dispatch(setGdriveSelect(subject?.gdriveSelect));
+      });
+  }, [dispatch, user]);
+
+  // Scroll on active
   useEffect(() => {
     const activeFileEl = document.getElementById('active-file');
     activeFileEl && scrollOnDomEl();

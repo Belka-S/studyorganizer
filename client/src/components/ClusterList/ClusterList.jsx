@@ -21,6 +21,7 @@ const ClusterList = () => {
 
   const [sortByDate, setSortByDate] = useState(false);
 
+  // Set Cluster select
   useEffect(() => {
     const { subject, subjectId } = user;
     if (!subject || !subjectId) return;
@@ -36,6 +37,7 @@ const ClusterList = () => {
       });
   }, [dispatch, user]);
 
+  // Scroll on active
   useEffect(() => {
     const activeDomEl = document.getElementById('active-cluster');
     activeDomEl && scrollOnDomEl(activeDomEl);

@@ -54,7 +54,14 @@ const ClustersSearchBar = () => {
     return options;
   };
 
-  const defaultValue = baseOptions.filter(el => {
+  const defaultValue = [
+    ...baseOptions.filter(
+      el => !['recent', 'wordlist', 'gdrive', 'ungdrive'].includes(el.value),
+    ),
+    ...clusterGroups
+      .map(el => ({ value: el.clusterGroup, label: el.clusterGroup }))
+      .sort((a, b) => a.value.localeCompare(b.value)),
+  ].filter(el => {
     return subject?.clusterSelect.includes(el.value);
   });
 

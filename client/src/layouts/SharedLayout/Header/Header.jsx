@@ -158,6 +158,12 @@ const Header = ({ $height, barW, setBarW }) => {
                           const { subjectId: _id } = user;
                           dispatch(updateSubjectThunk({ _id, clusterSelect }));
                         }
+                        if (pathname.includes('/gdrive')) {
+                          console.log('pathname: ', pathname);
+                          const { subjectId: _id } = user;
+                          console.log('gdriveSelect: ', gdriveSelect);
+                          dispatch(updateSubjectThunk({ _id, gdriveSelect }));
+                        }
                       }}
                     >
                       {el.clusterSubject}
