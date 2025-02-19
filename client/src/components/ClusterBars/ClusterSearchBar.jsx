@@ -27,15 +27,17 @@ const ClustersSearchBar = () => {
 
   if (clusterGroups.length === 0) return;
 
-  const getOptions = selectValue => {
-    let options = [
-      ...baseOptions.filter(
-        el => !['recent', 'wordlist', 'gdrive', 'ungdrive'].includes(el.value),
-      ),
-      ...clusterGroups
-        .map(el => ({ value: el.clusterGroup, label: el.clusterGroup }))
-        .sort((a, b) => a.value.localeCompare(b.value)),
-    ];
+  // Get select options
+  const options = [
+    ...baseOptions.filter(
+      el => !['recent', 'wordlist', 'gdrive', 'ungdrive'].includes(el.value),
+    ),
+    ...clusterGroups
+      .map(el => ({ value: el.clusterGroup, label: el.clusterGroup }))
+      .sort((a, b) => a.value.localeCompare(b.value)),
+  ];
+
+  const getOptions = (options, selectValue) => {
     if (selectValue.includes('favorite')) {
       options = options.filter(el => el.value !== 'unfavorite');
     }
@@ -54,14 +56,7 @@ const ClustersSearchBar = () => {
     return options;
   };
 
-  const defaultValue = [
-    ...baseOptions.filter(
-      el => !['recent', 'wordlist', 'gdrive', 'ungdrive'].includes(el.value),
-    ),
-    ...clusterGroups
-      .map(el => ({ value: el.clusterGroup, label: el.clusterGroup }))
-      .sort((a, b) => a.value.localeCompare(b.value)),
-  ].filter(el => {
+  const defaultValue = options.filter(el => {
     return subject?.clusterSelect.includes(el.value);
   });
 
@@ -72,7 +67,7 @@ const ClustersSearchBar = () => {
         onChange={data => setSelectValue(data ? data.map(el => el.value) : '')}
         defaultValue={defaultValue}
         isClearable={selectValue}
-        options={getOptions(selectValue)}
+        options={getOptions(options, selectValue)}
         $ol={ol}
         $b={b}
         $bh={bh}

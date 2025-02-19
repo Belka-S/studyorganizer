@@ -150,19 +150,20 @@ const Header = ({ $height, barW, setBarW }) => {
                       onClick={() => {
                         dispatch(updateUserThunk({ subject, subjectId }))
                           .unwrap()
-                          .then(dispatch(cleanCluster()));
+                          .then(res => {
+                            const { subjectId: _id } = res.result.user;
+                            dispatch(cleanCluster());
+                            if (pathname.includes('/gdrive')) {
+                              dispatch(
+                                updateSubjectThunk({
+                                  _id,
+                                  gdriveSelect,
+                                }),
+                              );
+                            }
+                          });
                         if (!pathname.includes('/cluster')) {
                           navigate('/cluster');
-                        }
-                        if (pathname.includes('/cluster')) {
-                          const { subjectId: _id } = user;
-                          dispatch(updateSubjectThunk({ _id, clusterSelect }));
-                        }
-                        if (pathname.includes('/gdrive')) {
-                          console.log('pathname: ', pathname);
-                          const { subjectId: _id } = user;
-                          console.log('gdriveSelect: ', gdriveSelect);
-                          dispatch(updateSubjectThunk({ _id, gdriveSelect }));
                         }
                       }}
                     >

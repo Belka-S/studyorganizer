@@ -7,7 +7,6 @@ import Filter from 'components/shared/Filter/Filter';
 import { baseOptions } from 'components/shared/Select/options/baseOptions';
 import { useAuth, useClusters, useGdrive } from 'utils/hooks';
 import { setGdriveFilter, setGdriveSelect } from 'store/gdrive/gdriveSlice';
-import { listFilesThunk } from 'store/gdrive/gdriveThunks';
 import { themes } from 'styles/themes';
 import { selectGdriveFilter } from 'store/gdrive/gdriveSelectors';
 
@@ -30,18 +29,24 @@ const GdriveSearchBar = () => {
 
   if (gdriveFolders.length === 0) return;
 
+  // Get select options
   const data = gdriveFolders.map(el => ({
     value: el.name.split(' / ')[0],
     label: el.name.split(' / ')[0],
   }));
 
-  const getOptions = selectValue => {
-    let options = [
-      ...baseOptions.filter(el =>
-        ['trash', 'gdrive', 'ungdrive'].includes(el.value),
-      ),
-      ...new Map(data.map(item => [item.value, item])).values(),
-    ];
+  const options = [
+    ...baseOptions.filter(el =>
+      ['trash', 'gdrive', 'ungdrive'].includes(el.value),
+    ),
+    ...new Map(data.map(item => [item.value, item])).values(),
+  ];
+
+  const defaultValue = options.filter(el => {
+    return subject?.gdriveSelect.includes(el.value);
+  });
+
+  const getOptions = (options, selectValue) => {
     if (selectValue.includes('gdrive')) {
       options = options.filter(el => el.value !== 'ungdrive');
     }
@@ -57,15 +62,6 @@ const GdriveSearchBar = () => {
     return options;
   };
 
-  const defaultValue = [
-    ...baseOptions.filter(el =>
-      ['trash', 'gdrive', 'ungdrive'].includes(el.value),
-    ),
-    ...new Map(data.map(item => [item.value, item])).values(),
-  ].filter(el => {
-    return subject?.gdriveSelect.includes(el.value);
-  });
-
   return (
     <FlexWrap $jc="flex-end" $p="0">
       <Select
@@ -73,7 +69,7 @@ const GdriveSearchBar = () => {
         onChange={data => setSelectValue(data ? data.map(el => el.value) : '')}
         defaultValue={defaultValue}
         isClearable={selectValue}
-        options={getOptions(selectValue)}
+        options={getOptions(options, selectValue)}
         $ol={ol}
         $b={b}
         $bh={bh}
