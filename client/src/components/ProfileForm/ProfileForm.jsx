@@ -82,20 +82,20 @@ const ProfileForm = ({ setIsModal }) => {
 
   const handleLogOut = () => {
     dispatch(logoutThunk());
-
+    // Cluster
     dispatch(setActiveCluster(null));
     dispatch(cleanCluster());
     dispatch(cleanGroup());
     dispatch(setClusterFilter(''));
     dispatch(setClusterSelect([]));
     dispatch(emptyClusterTrash());
-
+    // Elements
     dispatch(cleanElement());
     dispatch(setActiveElement(null));
     dispatch(setElementFilter(''));
     dispatch(setElementSelect([]));
     dispatch(emptyElementTrash());
-
+    // G-Drive
     dispatch(emptyFiles());
     dispatch(setActiveFile(null));
     dispatch(setGdriveFolders([]));

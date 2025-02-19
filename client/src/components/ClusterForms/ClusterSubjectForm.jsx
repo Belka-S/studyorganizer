@@ -19,7 +19,6 @@ const AddSubjectForm = ({ setIsModal }) => {
   } = useForm({
     mode: 'onBlur',
     resolver: yupResolver(subjectSchema),
-    // defaultValues: {  },
   });
 
   const onSubmit = data => {

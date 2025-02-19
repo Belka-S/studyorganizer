@@ -9,4 +9,13 @@ const addSchema = validateBody(
   }),
 );
 
-module.exports = { addSchema };
+const updateSchema = validateBody(
+  Joi.object({
+    clusterSubject: Joi.string().pattern(regExp.NAME.pattern),
+    clusterSelect: Joi.array(),
+    gdriveSelect: Joi.array(),
+    activeClusterId: Joi.string().allow(null),
+  }),
+);
+
+module.exports = { addSchema, updateSchema };

@@ -3,14 +3,16 @@ import { useDispatch } from 'react-redux';
 import { toast } from 'sonner';
 import { FiRefreshCcw } from 'react-icons/fi';
 
+import { useAuth } from 'utils/hooks';
 import { listFilesThunk } from 'store/gdrive/gdriveThunks';
-import { updateUserThunk } from 'store/auth/authThunks';
+import { updateSubjectThunk } from 'store/cluster/clusterThunks';
 import { setGdriveSelect } from 'store/gdrive/gdriveSlice';
 
 import { Button } from './RefreshBtn.styled';
 
 const RefreshBtn = () => {
   const dispatch = useDispatch();
+  const { user } = useAuth();
 
   const signBtnEl = document.getElementById('customBtn');
   const isRefreshable = signBtnEl?.textContent !== 'Sign In';
@@ -23,7 +25,8 @@ const RefreshBtn = () => {
 
   const handleRefresh = () => {
     dispatch(listFilesThunk()).then(toast.success('Refreshed'));
-    dispatch(updateUserThunk({ gdriveSelect: [] }));
+    const { subjectId: _id } = user;
+    dispatch(updateSubjectThunk({ _id, gdriveSelect: [] }));
     dispatch(setGdriveSelect([]));
   };
 

@@ -4,9 +4,9 @@ import * as selectors from 'store/cluster/clusterSelectors';
 
 export const useClusters = () => {
   const allClusters = useSelector(selectors.selectClusters);
+  const activeCluster = useSelector(selectors.selectActiveCluster);
   const clusterGroups = useSelector(selectors.selectClusterGroups);
   const clusterSubjects = useSelector(selectors.selectClusterSubjects);
-  const activeCluster = useSelector(selectors.selectActiveCluster);
   const clusterFilter = useSelector(selectors.selectClusterFilter);
   const clusterSelect = useSelector(selectors.selectClusterSelect);
   const clusterTrash = useSelector(selectors.selectClusterTrash);
@@ -16,9 +16,9 @@ export const useClusters = () => {
 
   return {
     allClusters,
+    activeCluster,
     clusterGroups,
     clusterSubjects,
-    activeCluster,
     clusterFilter,
     clusterSelect,
     clusterTrash,

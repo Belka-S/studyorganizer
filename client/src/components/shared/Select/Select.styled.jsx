@@ -5,6 +5,7 @@ export { Select as SelectSimple };
 export { CreatableSelect as SelectCreatable };
 
 import { themes } from 'styles/themes';
+
 const { colors, indents } = themes;
 
 export const defaultTheme = ({
@@ -48,10 +49,19 @@ export const defaultStyles = ({
     };
   },
 
+  menu: styles => {
+    return {
+      ...styles,
+      borderRadius: `${indents.xs}`,
+      overflow: 'clip',
+    };
+  },
+
   option: (styles, state) => {
     return {
       ...styles,
       borderBottom: `1px dotted ${colors.borderLight}`,
+      '&:first-of-type': { borderTop: `1px dotted ${colors.borderLight}` },
       fontSize: '16px',
       fontWeight: '500',
       color: state.isSelected ? `${$o}` : state.isFocused && `${$ob}`,

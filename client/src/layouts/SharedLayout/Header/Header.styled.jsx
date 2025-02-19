@@ -55,8 +55,10 @@ export const Nav = styled.nav`
 export const Dropdown = styled.div`
   position: relative;
 
-  & ul {
-    list-style: none;
+  &:hover .dropdown-menu {
+    opacity: 1;
+    pointer-events: all;
+    transform: translate(0);
   }
 
   & .dropdown-menu {
@@ -64,22 +66,42 @@ export const Dropdown = styled.div`
     top: 100%;
     left: 0;
 
-    padding-block: ${indents.s};
-    padding-inline: ${indents.m};
+    padding-block: ${indents.xs};
+    padding-inline: 0;
+
+    list-style: none;
     border-radius: ${indents.xs};
     background-color: ${colors.white};
     box-shadow: ${shadows.button};
-
     opacity: 0;
     pointer-events: none;
-    transform: translateY(-10px);
+    transform: translate(-10px, -10px);
     transition: opacity 250ms, transform 150ms;
-  }
 
-  &:hover .dropdown-menu {
-    opacity: 1;
-    pointer-events: all;
-    transform: translateY(0);
+    & li {
+      padding-block: 8px;
+      padding-inline: ${indents.m};
+      min-width: 140px;
+
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color 100ms, background-color 100ms;
+      border-bottom: 1px dotted ${colors.borderLight};
+
+      &:first-of-type {
+        border-top: 1px dotted ${colors.borderLight};
+      }
+
+      &:hover {
+        color: ${colors.white};
+        background-color: ${colors.accent} !important;
+      }
+
+      &.active {
+        background-color: ${colors.backgroundHoverd};
+      }
+    }
   }
 `;
 

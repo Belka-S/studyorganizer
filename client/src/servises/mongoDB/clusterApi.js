@@ -1,8 +1,14 @@
 import { apiClient } from './apiClient';
 
 // Clusters
-export const fetchClusters = async () => {
-  const { data } = await apiClient.get('/clusters');
+export const fetchClusters = async params => {
+  const path = !params
+    ? '/clusters'
+    : Object.entries(params).reduce((acc, el) => {
+        acc += `${el[0]}=${el[1]}`;
+        return acc;
+      }, '/clusters?');
+  const { data } = await apiClient.get(path);
   return data;
 };
 
@@ -59,7 +65,7 @@ export const addSubject = async subject => {
 };
 
 export const updateSubject = async ({ _id, ...subject }) => {
-  const { data } = await apiClient.put(`/clustersubjects/${_id}`, subject);
+  const { data } = await apiClient.patch(`/clustersubjects/${_id}`, subject);
   return data;
 };
 

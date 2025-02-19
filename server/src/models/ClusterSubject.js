@@ -8,6 +8,9 @@ const regex = field => [regExp[field].pattern, `Invalid ${field.toLowerCase()}!`
 const clusterSubjectSchema = new Schema(
   {
     clusterSubject: { type: String, match: regex(regExp.NAME.name), required },
+    clusterSelect: { type: Array, default: [] },
+    gdriveSelect: { type: Array, default: [] },
+    activeClusterId: { type: Schema.Types.ObjectId, ref: 'Cluster', default: null },
 
     owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },

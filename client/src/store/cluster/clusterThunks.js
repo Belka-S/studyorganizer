@@ -5,9 +5,9 @@ import * as API from 'servises/mongoDB/clusterApi';
 // Clusters
 export const fetchClustersThunk = createAsyncThunk(
   'items/fetchClusters',
-  async (_, thunkAPI) => {
+  async (params, thunkAPI) => {
     try {
-      return await API.fetchClusters();
+      return await API.fetchClusters(params);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

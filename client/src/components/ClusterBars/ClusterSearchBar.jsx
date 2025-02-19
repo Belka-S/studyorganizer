@@ -16,10 +16,10 @@ const { backgroundHoverd: ol, white: b, borderLight: bh } = themes.colors;
 const ClustersSearchBar = () => {
   const dispatch = useDispatch();
   const { user } = useAuth();
-  const { clusterGroups, clusterSelect } = useClusters();
-  const [selectValue, setSelectValue] = useState(
-    () => user?.clusterSelect ?? [],
-  );
+  const { clusterGroups, clusterSubjects } = useClusters();
+
+  const subject = clusterSubjects.find(({ _id }) => _id === user.subjectId);
+  const [selectValue, setSelectValue] = useState(subject?.clusterSelect ?? []);
 
   useEffect(() => {
     dispatch(setClusterSelect(selectValue));
@@ -54,8 +54,8 @@ const ClustersSearchBar = () => {
     return options;
   };
 
-  const defaultValue = getOptions(selectValue).filter(el => {
-    return clusterSelect.includes(el.value);
+  const defaultValue = baseOptions.filter(el => {
+    return selectValue.includes(el.value);
   });
 
   return (

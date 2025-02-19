@@ -9,11 +9,13 @@ import { TiStar } from 'react-icons/ti';
 import { FaCheck } from 'react-icons/fa';
 import { FiEdit3, FiTrash2 } from 'react-icons/fi';
 
-import { useClusters, useElements } from 'utils/hooks';
+import { useAuth, useClusters, useElements } from 'utils/hooks';
 import { getDate } from 'utils/helpers';
 import { setActiveCluster, setClusterTrash } from 'store/cluster/clusterSlice';
-import { updateClusterThunk } from 'store/cluster/clusterThunks';
-import { updateUserThunk } from 'store/auth/authThunks';
+import {
+  updateClusterThunk,
+  updateSubjectThunk,
+} from 'store/cluster/clusterThunks';
 import Modal from 'components/shared/Modal/Modal';
 import EditClusterForm from 'components/ClusterForms/ClusterEditForm';
 
@@ -32,6 +34,7 @@ import {
 const LiCluster = ({ el, sortByDate, setSortByDate }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { activeCluster, clusterTrash, clusterSelect } = useClusters();
   const { allElements } = useElements();
   const [isModal, setIsModal] = useState(false);
@@ -61,7 +64,8 @@ const LiCluster = ({ el, sortByDate, setSortByDate }) => {
   };
 
   const handleClusterNavigate = () => {
-    dispatch(updateUserThunk({ clusterSelect }));
+    const { subjectId: _id } = user;
+    dispatch(updateSubjectThunk({ _id, clusterSelect }));
     navigate(`/element/${_id}`, { replace: true });
   };
 

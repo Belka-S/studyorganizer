@@ -4,8 +4,9 @@ import { useDispatch } from 'react-redux';
 import {
   fetchClustersThunk,
   fetchGroupsThunk,
+  fetchSubjectsThunk,
 } from 'store/cluster/clusterThunks';
-import { useClusters, useElements } from 'utils/hooks';
+import { useAuth, useClusters } from 'utils/hooks';
 import { scrollOnDomEl } from 'utils/helpers';
 
 import LiGroup from './Li/LiGroup';
@@ -14,18 +15,22 @@ import { List } from './ClusterList.styled';
 
 const ClusterList = () => {
   const dispatch = useDispatch();
-  const { allElements } = useElements();
+  const { user } = useAuth();
   const { allClusters, clusterTrash, clusterFilter } = useClusters();
 
   let { clusterSelect } = useClusters();
+
   clusterSelect = !clusterSelect ? [] : clusterSelect;
 
   const [sortByDate, setSortByDate] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchClustersThunk());
+    const subject = user?.subject;
+    if (!subject) return;
+    dispatch(fetchClustersThunk({ subject }));
     dispatch(fetchGroupsThunk());
-  }, [dispatch]);
+    dispatch(fetchSubjectsThunk());
+  }, [dispatch, user.subject]);
 
   useEffect(() => {
     const activeDomEl = document.getElementById('active-cluster');
@@ -38,23 +43,6 @@ const ClusterList = () => {
     const trashId = clusterTrash.map(el => el._id);
     const trashClusters = allClusters.filter(el => trashId.includes(el._id));
     if (clusterSelect.includes('trash')) return trashClusters;
-    //recent
-    const sortedElements = [...allElements].sort((a, b) =>
-      a.createdAt.localeCompare(b.createdAt),
-    );
-    let recent = [];
-    for (let i = 0; i < sortedElements.length; i += 1) {
-      const cluster = sortedElements[i].cluster;
-      if (!recent.includes(cluster)) {
-        recent.push(cluster);
-      }
-    }
-    const recentClusters = allClusters
-      .filter(el => recent.includes(el.cluster))
-      .slice(0, 29);
-
-    if (clusterSelect.includes('recent')) return recentClusters;
-    // all
     return allClusters;
   };
 

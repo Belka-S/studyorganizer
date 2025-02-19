@@ -2,17 +2,18 @@ import PropTypes from 'prop-types';
 
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 
 import GdriveSearchBar from 'components/GdriveBars/GdriveSearchBar';
 import ClustersSearchBar from 'components/ClusterBars/ClusterSearchBar';
 import ElementSearchBar from 'components/ElementBars/ElementSearchBar';
 import FlexWrap from 'components/shared/FlexWrap/FlexWrap';
+import { cleanCluster } from 'store/cluster/clusterSlice';
 import { updateUserThunk } from 'store/auth/authThunks';
-import { useClusters, useGdrive } from 'utils/hooks';
+import { updateSubjectThunk } from 'store/cluster/clusterThunks';
+import { useAuth, useClusters, useGdrive } from 'utils/hooks';
 import { scrollOnTop, scrollOnBottom, scrollOnDomEl } from 'utils/helpers';
-import { useAuth } from 'utils/hooks/useAuth';
 import { themes } from 'styles/themes';
 
 import {
@@ -29,9 +30,10 @@ const { s } = themes.indents;
 
 const Header = ({ $height, barW, setBarW }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { isLoggedIn } = useAuth();
-  const { clusterSelect, activeCluster: ac } = useClusters();
+  const { user, isLoggedIn } = useAuth();
+  const { clusterSubjects, clusterSelect, activeCluster: ac } = useClusters();
   const { gdriveSelect, activeFile: af } = useGdrive();
 
   useEffect(() => {
@@ -94,9 +96,7 @@ const Header = ({ $height, barW, setBarW }) => {
   const clusterTitle = () => {
     const paths = ['cluster', 'element'];
     const isTitle = paths.some(el => pathname.includes(el));
-    if (isTitle && ac?.group && ac?.title) {
-      return `${ac.group} ${ac.title}`;
-    }
+    if (isTitle && ac?.title) return ac.title;
   };
 
   const gdriveTitle = () => {
@@ -110,48 +110,69 @@ const Header = ({ $height, barW, setBarW }) => {
         <LogoBtn onClick={handleClick}>
           <Logo />
         </LogoBtn>
+        {isLoggedIn && (
+          <Nav>
+            <NavLink
+              to="/gdrive"
+              onClick={() => {
+                if (!pathname.includes('/element')) {
+                  const { subjectId: _id } = user;
+                  dispatch(updateSubjectThunk({ _id, clusterSelect }));
+                }
+              }}
+            >
+              <FcGoogle size="17px" />
+              Drive
+            </NavLink>
 
-        <Nav>
-          {isLoggedIn && (
-            <>
+            <Dropdown>
               <NavLink
-                to="/gdrive"
+                to="/cluster"
                 onClick={() => {
-                  if (!pathname.includes('/element'))
-                    dispatch(updateUserThunk({ clusterSelect }));
+                  if (!pathname.includes('/element')) {
+                    const { subjectId: _id } = user;
+                    dispatch(updateSubjectThunk({ _id, gdriveSelect }));
+                  }
                 }}
               >
-                <FcGoogle size="17px" />
-                Drive
+                {user.subject ?? 'Subject'}
               </NavLink>
 
-              <Dropdown>
-                <NavLink
-                  to="/cluster"
-                  onClick={() => {
-                    if (!pathname.includes('/element'))
-                      dispatch(updateUserThunk({ gdriveSelect }));
-                  }}
-                >
-                  Cluster
-                </NavLink>
+              <ul className="dropdown-menu">
+                {clusterSubjects.map(el => {
+                  const subject = el.clusterSubject;
+                  const subjectId = el._id;
+                  const isActive = subjectId === user.subjectId;
+                  return (
+                    <li
+                      className={isActive ? 'active' : 'menu-item'}
+                      key={el._id}
+                      onClick={() => {
+                        dispatch(updateUserThunk({ subject, subjectId }))
+                          .unwrap()
+                          .then(dispatch(cleanCluster()));
+                        if (!pathname.includes('/cluster')) {
+                          navigate('/cluster');
+                        }
+                        if (pathname.includes('/cluster')) {
+                          const { subjectId: _id } = user;
+                          dispatch(updateSubjectThunk({ _id, clusterSelect }));
+                        }
+                      }}
+                    >
+                      {el.clusterSubject}
+                    </li>
+                  );
+                })}
+              </ul>
+            </Dropdown>
 
-                <ul className="dropdown-menu">
-                  <li>IT-Dev</li>
-                  <li>English</li>
-                  <li>German</li>
-                  <li>Songs</li>
-                  <li>Movies</li>
-                </ul>
-              </Dropdown>
-
-              <TitleBtn onClick={handleScroll}>
-                {clusterTitle()}
-                {gdriveTitle()}
-              </TitleBtn>
-            </>
-          )}
-        </Nav>
+            <TitleBtn onClick={handleScroll}>
+              {clusterTitle()}
+              {gdriveTitle()}
+            </TitleBtn>
+          </Nav>
+        )}
       </FlexWrap>
 
       <FlexWrap $w={`calc(100% - ${barW})`} $p={`0 0 0 ${s}`} $ai="center">

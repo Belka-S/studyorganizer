@@ -3,7 +3,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import * as API from 'servises/mongoDB/elementApi';
 
 // Elements
-
 export const fetchElementsThunk = createAsyncThunk(
   'items/fetchElements',
   async (params, thunkAPI) => {
