@@ -55,7 +55,7 @@ const ClustersSearchBar = () => {
   };
 
   const defaultValue = baseOptions.filter(el => {
-    return selectValue.includes(el.value);
+    return subject?.clusterSelect.includes(el.value);
   });
 
   return (

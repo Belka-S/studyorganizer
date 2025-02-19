@@ -220,6 +220,7 @@ export const clustersReducer = combineReducers({
 
 export const { cleanCluster } = clusterItemsSlice.actions;
 export const { cleanGroup } = clusterGroupsSlice.actions;
+export const { cleanSubject } = clusterSubjectsSlice.actions;
 export const { setActiveCluster } = clusterActiveSlice.actions;
 export const { setClusterFilter } = clusterFilterSlice.actions;
 export const { setClusterSelect } = clusterSelectSlice.actions;

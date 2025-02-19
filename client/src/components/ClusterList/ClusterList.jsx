@@ -6,6 +6,7 @@ import {
   fetchGroupsThunk,
   fetchSubjectsThunk,
 } from 'store/cluster/clusterThunks';
+import { setClusterSelect } from 'store/cluster/clusterSlice';
 import { useAuth, useClusters } from 'utils/hooks';
 import { scrollOnDomEl } from 'utils/helpers';
 
@@ -18,19 +19,22 @@ const ClusterList = () => {
   const { user } = useAuth();
   const { allClusters, clusterTrash, clusterFilter } = useClusters();
 
-  let { clusterSelect } = useClusters();
-
-  clusterSelect = !clusterSelect ? [] : clusterSelect;
-
   const [sortByDate, setSortByDate] = useState(false);
 
   useEffect(() => {
-    const subject = user?.subject;
-    if (!subject) return;
+    const { subject, subjectId } = user;
+    if (!subject || !subjectId) return;
     dispatch(fetchClustersThunk({ subject }));
     dispatch(fetchGroupsThunk());
-    dispatch(fetchSubjectsThunk());
-  }, [dispatch, user.subject]);
+    dispatch(fetchSubjectsThunk())
+      .unwrap()
+      .then(res => {
+        const subject = res.result.subjects.find(
+          ({ _id }) => _id === subjectId,
+        );
+        dispatch(setClusterSelect(subject?.clusterSelect));
+      });
+  }, [dispatch, user]);
 
   useEffect(() => {
     const activeDomEl = document.getElementById('active-cluster');
@@ -38,6 +42,8 @@ const ClusterList = () => {
   }, []);
 
   // clusters filter+selector (trash/filter/favorite/checked)
+  const { clusterSelect } = useClusters();
+
   const getClusters = () => {
     // trash
     const trashId = clusterTrash.map(el => el._id);

@@ -8,6 +8,7 @@ import {
   setClusterFilter,
   setClusterSelect,
   emptyClusterTrash,
+  cleanSubject,
 } from 'store/cluster/clusterSlice';
 import {
   cleanElement,
@@ -86,6 +87,7 @@ const ProfileForm = ({ setIsModal }) => {
     dispatch(setActiveCluster(null));
     dispatch(cleanCluster());
     dispatch(cleanGroup());
+    dispatch(cleanSubject());
     dispatch(setClusterFilter(''));
     dispatch(setClusterSelect([]));
     dispatch(emptyClusterTrash());
