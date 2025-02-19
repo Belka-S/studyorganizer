@@ -75,7 +75,7 @@ const GdriveList = () => {
         } else {
           return gdriveFolders
             .reduce((acc, el) => {
-              if (selectedFolders.includes(el.name)) {
+              if (selectedFolders.includes(el.name.split(' / ')[0])) {
                 acc.push(el);
               }
               return acc;

@@ -10,7 +10,7 @@ import { selectClusterFilter } from 'store/cluster/clusterSelectors';
 import { setClusterFilter, setClusterSelect } from 'store/cluster/clusterSlice';
 import { themes } from 'styles/themes';
 
-const { s, m } = themes.indents;
+const { m } = themes.indents;
 const { backgroundHoverd: ol, white: b, borderLight: bh } = themes.colors;
 
 const ClustersSearchBar = () => {

@@ -30,11 +30,16 @@ const GdriveSearchBar = () => {
   if (gdriveFolders.length === 0) return;
 
   const getOptions = selectValue => {
+    const data = gdriveFolders.map(el => ({
+      value: el.name.split(' / ')[0],
+      label: el.name.split(' / ')[0],
+    }));
+
     let options = [
       ...baseOptions.filter(el =>
         ['trash', 'gdrive', 'ungdrive'].includes(el.value),
       ),
-      ...gdriveFolders.map(el => ({ value: el.name, label: el.name })),
+      ...new Map(data.map(item => [item.value, item])).values(),
     ];
     if (selectValue.includes('gdrive')) {
       options = options.filter(el => el.value !== 'ungdrive');
