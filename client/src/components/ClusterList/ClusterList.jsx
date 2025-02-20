@@ -6,7 +6,7 @@ import {
   fetchGroupsThunk,
   fetchSubjectsThunk,
 } from 'store/cluster/clusterThunks';
-import { setClusterSelect } from 'store/cluster/clusterSlice';
+import { setActiveCluster, setClusterSelect } from 'store/cluster/clusterSlice';
 import { useAuth, useClusters } from 'utils/hooks';
 import { scrollOnDomEl } from 'utils/helpers';
 
@@ -17,40 +17,45 @@ import { List } from './ClusterList.styled';
 const ClusterList = () => {
   const dispatch = useDispatch();
   const { user } = useAuth();
-  const { allClusters, clusterGroups } = useClusters();
+  const { allClusters, clusterGroups, activeCluster } = useClusters();
   const { clusterTrash, clusterFilter, clusterSelect } = useClusters();
 
   const [sortByDate, setSortByDate] = useState(false);
 
-  // Set Cluster select
   useEffect(() => {
-    const { subject, subjectId } = user;
-    if (!subject || !subjectId) return;
+    if (!user.subject || !user.subjectId) return;
+    dispatch(setActiveCluster(null));
     // Get Clusters
-    dispatch(fetchClustersThunk({ subject }))
+    dispatch(fetchClustersThunk({ subject: user.subject }))
       .unwrap()
-      // Get Groups
       .then(res => {
+        // Get Groups
         const { clusters } = res.result;
         const groups = Array.from(new Set(clusters.map(el => el.group)));
         dispatch(fetchGroupsThunk({ clusterGroup: groups }));
-      });
-    // Get Subjects
-    dispatch(fetchSubjectsThunk())
-      .unwrap()
-      .then(res => {
-        const subject = res.result.subjects.find(
-          ({ _id }) => _id === subjectId,
-        );
-        dispatch(setClusterSelect(subject?.clusterSelect));
+        // Get Subjects
+        dispatch(fetchSubjectsThunk())
+          .unwrap()
+          .then(res => {
+            const subject = res.result?.subjects.find(
+              ({ _id }) => _id === user.subjectId,
+            );
+            // Set ClusterSelect
+            dispatch(setClusterSelect(subject?.clusterSelect));
+            // Set ActiveCluster
+            const active = clusters.find(
+              ({ _id }) => _id === subject?.activeCluster,
+            );
+            active && dispatch(setActiveCluster(active));
+          });
       });
   }, [dispatch, user]);
 
-  // Scroll on active
+  // Scroll on ActiveCluster
   useEffect(() => {
     const activeDomEl = document.getElementById('active-cluster');
     activeDomEl && scrollOnDomEl(activeDomEl);
-  }, []);
+  }, [activeCluster]);
 
   // Ger Clusters (filter + selector)
   const getClusters = () => {

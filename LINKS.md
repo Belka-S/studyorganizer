@@ -1,5 +1,7 @@
 # **[mern-studyorganizer](https://github.com/Belka-S/mern-studyorganizer)**
 
+<!-- &#8202; -- &thinsp; -- &ensp; -- &emsp; -->
+
 - **[react]**https://react.dev/
 - **[normalize.css]**https://www.npmjs.com/package/normalize.css
 - **[typefaces]**https://github.com/KyleAMathews/typefaces/tree/master/packages
@@ -65,7 +67,7 @@
 - **[gdriveApi]**https://developers.google.com/drive/api/reference/rest/v3/drives/list?hl=ru
 - **[node-cron]**https://www.npmjs.com/package/node-cron
 - **[google-api-nodejs-client]**https://github.com/googleapis/google-api-nodejs-client
-- **[]**
+- **[mongo-query]**https://github.com/krasimir/q2m?tab=readme-ov-file#in
 - **[]**
 - **[]**
 - **[]**

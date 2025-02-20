@@ -56,6 +56,9 @@ const LiCluster = ({ el, sortByDate, setSortByDate }) => {
   const elementCount = allElements.filter(el => el.cluster === _id).length;
 
   const handleSetActive = () => {
+    const { subjectId: _id } = user;
+    dispatch(updateSubjectThunk({ _id, activeCluster: el._id }));
+
     dispatch(setActiveCluster(el));
   };
 
@@ -66,6 +69,7 @@ const LiCluster = ({ el, sortByDate, setSortByDate }) => {
   const handleClusterNavigate = () => {
     const { subjectId: _id } = user;
     dispatch(updateSubjectThunk({ _id, clusterSelect }));
+
     navigate(`/element/${_id}`, { replace: true });
   };
 

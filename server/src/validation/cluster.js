@@ -24,7 +24,7 @@ const updateSchema = validateBody(
     rate: Joi.number(),
     favorite: Joi.boolean(),
     checked: Joi.boolean(),
-    activeEl: Joi.string(),
+    activeEl: Joi.string().allow(null),
     sortBy: Joi.boolean(),
   }),
 );
