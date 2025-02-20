@@ -8,6 +8,7 @@ import { baseOptions } from 'components/shared/Select/options/baseOptions';
 import { useAuth, useClusters } from 'utils/hooks';
 import { selectClusterFilter } from 'store/cluster/clusterSelectors';
 import { setClusterFilter, setClusterSelect } from 'store/cluster/clusterSlice';
+import { updateSubjectThunk } from 'store/cluster/clusterThunks';
 import { themes } from 'styles/themes';
 
 const { m } = themes.indents;
@@ -21,9 +22,9 @@ const ClustersSearchBar = () => {
   const subject = clusterSubjects.find(({ _id }) => _id === user.subjectId);
   const [selectValue, setSelectValue] = useState(subject?.clusterSelect ?? []);
 
-  useEffect(() => {
-    dispatch(setClusterSelect(selectValue));
-  }, [dispatch, selectValue]);
+  // useEffect(() => {
+  //   dispatch(setClusterSelect(selectValue));
+  // }, [dispatch, selectValue]);
 
   if (clusterGroups.length === 0) return;
 
@@ -60,11 +61,20 @@ const ClustersSearchBar = () => {
     return subject?.clusterSelect.includes(el.value);
   });
 
+  if (!subject) return;
+  console.log('subject: ', subject);
+  console.log('defaultValue: ', defaultValue);
+
   return (
     <FlexWrap $jc="flex-end" $p="0">
       <Select
         isMulti
-        onChange={data => setSelectValue(data ? data.map(el => el.value) : '')}
+        onChange={data => {
+          const clusterSelect = data.map(el => el.value);
+          setSelectValue(data ? clusterSelect : '');
+          dispatch(updateSubjectThunk({ _id: user.subjectId, clusterSelect }));
+          dispatch(setClusterSelect(clusterSelect));
+        }}
         defaultValue={defaultValue}
         isClearable={selectValue}
         options={getOptions(options, selectValue)}

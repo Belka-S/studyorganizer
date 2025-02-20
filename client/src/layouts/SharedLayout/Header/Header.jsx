@@ -107,12 +107,12 @@ const Header = ({ height, barW, setBarW }) => {
           <Nav>
             <NavLink
               to="/gdrive"
-              onClick={() => {
-                if (!pathname.includes('/element')) {
-                  const { subjectId: _id } = user;
-                  dispatch(updateSubjectThunk({ _id, clusterSelect }));
-                }
-              }}
+              // onClick={() => {
+              //   if (!pathname.includes('/element')) {
+              //     const { subjectId: _id } = user;
+              //     dispatch(updateSubjectThunk({ _id, clusterSelect }));
+              //   }
+              // }}
             >
               <FcGoogle size="17px" />
               Drive
@@ -121,12 +121,12 @@ const Header = ({ height, barW, setBarW }) => {
             <DropMenu>
               <NavLink
                 to="/cluster"
-                onClick={() => {
-                  if (!pathname.includes('/element')) {
-                    const { subjectId: _id } = user;
-                    dispatch(updateSubjectThunk({ _id, gdriveSelect }));
-                  }
-                }}
+                // onClick={() => {
+                //   if (!pathname.includes('/element')) {
+                //     const { subjectId: _id } = user;
+                //     dispatch(updateSubjectThunk({ _id, gdriveSelect }));
+                //   }
+                // }}
               >
                 {user.subject ?? 'Subject'}
               </NavLink>

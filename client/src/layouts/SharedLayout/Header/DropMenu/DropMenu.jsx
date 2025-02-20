@@ -36,15 +36,15 @@ const DropMenu = ({ children }) => {
   const handleMenuClick = (subjectId, subject) => {
     dispatch(cleanCluster());
     dispatch(cleanGroup());
-    dispatch(updateUserThunk({ subjectId, subject }))
-      .unwrap()
-      .then(res => {
-        if (pathname.includes('/gdrive')) {
-          const { subjectId: _id } = res.result.user;
-          const payload = { _id, gdriveSelect };
-          dispatch(updateSubjectThunk(payload));
-        }
-      });
+    dispatch(updateUserThunk({ subjectId, subject }));
+    // .unwrap()
+    // .then(res => {
+    //   if (pathname.includes('/gdrive')) {
+    //     const { subjectId: _id } = res.result.user;
+    // const payload = { _id, gdriveSelect };
+    // dispatch(updateSubjectThunk(payload));
+    // }
+    // });
     if (!pathname.includes('/cluster')) {
       navigate('/cluster');
     }

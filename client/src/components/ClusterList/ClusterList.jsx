@@ -57,6 +57,7 @@ const ClusterList = () => {
     activeDomEl && scrollOnDomEl(activeDomEl);
   }, [activeCluster]);
 
+  if (!clusterSelect) return;
   // Ger Clusters (filter + selector)
   const getClusters = () => {
     // trash
@@ -84,7 +85,7 @@ const ClusterList = () => {
       };
       // checked
       const getCheckedFavorite = () => {
-        if (clusterSelect.some(op => ['checked', 'unchecked'].includes(op))) {
+        if (clusterSelect?.some(op => ['checked', 'unchecked'].includes(op))) {
           return clusterSelect.includes('checked')
             ? getFavorite() && checked === true
             : getFavorite() && checked === false;

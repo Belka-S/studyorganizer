@@ -7,8 +7,9 @@ import Filter from 'components/shared/Filter/Filter';
 import { baseOptions } from 'components/shared/Select/options/baseOptions';
 import { useAuth, useClusters, useGdrive } from 'utils/hooks';
 import { setGdriveFilter, setGdriveSelect } from 'store/gdrive/gdriveSlice';
-import { themes } from 'styles/themes';
 import { selectGdriveFilter } from 'store/gdrive/gdriveSelectors';
+import { updateSubjectThunk } from 'store/cluster/clusterThunks';
+import { themes } from 'styles/themes';
 
 const { backgroundHoverd: ol, white: b, borderLight: bh } = themes.colors;
 const { m } = themes.indents;
@@ -22,10 +23,10 @@ const GdriveSearchBar = () => {
   const subject = clusterSubjects.find(({ _id }) => _id === user.subjectId);
   const [selectValue, setSelectValue] = useState(subject?.gdriveSelect ?? []);
 
-  useEffect(() => {
-    // dispatch(listFilesThunk());
-    dispatch(setGdriveSelect(selectValue));
-  }, [dispatch, selectValue]);
+  // useEffect(() => {
+  // dispatch(listFilesThunk());
+  //   dispatch(setGdriveSelect(selectValue));
+  // }, [dispatch, selectValue]);
 
   if (gdriveFolders.length === 0) return;
 
@@ -62,11 +63,17 @@ const GdriveSearchBar = () => {
     return options;
   };
 
+  if (!subject) return;
   return (
     <FlexWrap $jc="flex-end" $p="0">
       <Select
         isMulti
-        onChange={data => setSelectValue(data ? data.map(el => el.value) : '')}
+        onChange={data => {
+          const gdriveSelect = data.map(el => el.value);
+          setSelectValue(data ? gdriveSelect : '');
+          dispatch(updateSubjectThunk({ _id: user.subjectId, gdriveSelect }));
+          dispatch(setGdriveSelect(gdriveSelect));
+        }}
         defaultValue={defaultValue}
         isClearable={selectValue}
         options={getOptions(options, selectValue)}
