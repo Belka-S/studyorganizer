@@ -5,9 +5,9 @@ import * as API from 'servises/mongoDB/clusterApi';
 // Clusters
 export const fetchClustersThunk = createAsyncThunk(
   'items/fetchClusters',
-  async (params, thunkAPI) => {
+  async (query, thunkAPI) => {
     try {
-      return await API.fetchClusters(params);
+      return await API.fetchClusters(query);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -61,9 +61,9 @@ export const deleteClusterThunk = createAsyncThunk(
 // Groups
 export const fetchGroupsThunk = createAsyncThunk(
   'items/fetchGroups',
-  async (_, thunkAPI) => {
+  async (query, thunkAPI) => {
     try {
-      return await API.fetchGroups();
+      return await API.fetchGroups(query);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

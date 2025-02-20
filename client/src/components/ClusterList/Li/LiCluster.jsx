@@ -48,9 +48,9 @@ const LiCluster = ({ el, sortByDate, setSortByDate }) => {
       .replace('http://', '')
       .replace('www.', '');
 
-    return text.length <= 30
+    return text.length <= 23
       ? text
-      : text.substring(0, 13).concat(`...${text.substring(text.length - 10)}`);
+      : text.substring(0, 13).concat(`...${text.substring(text.length - 6)}`);
   };
 
   const elementCount = allElements.filter(el => el.cluster === _id).length;

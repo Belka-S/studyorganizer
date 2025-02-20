@@ -59,4 +59,18 @@ apiClient.interceptors.response.use(
   },
 );
 
-export { apiClient, token };
+const setQueryString = (path, query) => {
+  const queryString = Object.entries(query).reduce((acc, el) => {
+    const name = el[0];
+    const value = el[1];
+    const stringParam = !Array.isArray(value)
+      ? `${name}=${value}`
+      : `${name}[]=${value.join(`&${name}[]=`)}`;
+
+    acc += stringParam;
+    return acc;
+  }, `${path}?`);
+  return query ? queryString : path;
+};
+
+export { apiClient, token, setQueryString };

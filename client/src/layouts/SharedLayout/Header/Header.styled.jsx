@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { themes } from 'styles/themes';
 
-const { colors, indents, shadows } = themes;
+const { colors, indents } = themes;
 
 export const StyledHeader = styled.header`
   padding: 0 20px;
@@ -10,6 +10,7 @@ export const StyledHeader = styled.header`
   position: sticky;
   top: 0;
   left: 0;
+
   display: flex;
   align-items: center;
   justify-content: start;
@@ -17,14 +18,20 @@ export const StyledHeader = styled.header`
   background-color: ${colors.background};
 `;
 
+export const Img = styled.img`
+  min-width: 32px;
+`;
+
 export const Nav = styled.nav`
-  margin-right: auto;
   display: flex;
+
+  & > :nth-child(1) {
+    margin-inline: ${indents.s};
+  }
 
   & a {
     padding: 2px 0;
 
-    margin-right: ${indents.s};
     border-radius: ${indents.xs};
     text-decoration: none;
     white-space: nowrap;
@@ -49,59 +56,6 @@ export const Nav = styled.nav`
     &.active {
       color: ${colors.accent};
     } /* &:global(.active) { } */
-  }
-`;
-
-export const Dropdown = styled.div`
-  position: relative;
-
-  &:hover .dropdown-menu {
-    opacity: 1;
-    pointer-events: all;
-    transform: translate(0);
-  }
-
-  & .dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-
-    padding-block: ${indents.xs};
-    padding-inline: 0;
-
-    list-style: none;
-    border-radius: ${indents.xs};
-    background-color: ${colors.white};
-    box-shadow: ${shadows.button};
-    opacity: 0;
-    pointer-events: none;
-    transform: translate(-10px, -10px);
-    transition: opacity 250ms, transform 150ms;
-
-    & li {
-      padding-block: 8px;
-      padding-inline: ${indents.m};
-      min-width: 140px;
-
-      font-size: 16px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: color 100ms, background-color 100ms;
-      border-bottom: 1px dotted ${colors.borderLight};
-
-      &:first-of-type {
-        border-top: 1px dotted ${colors.borderLight};
-      }
-
-      &:hover {
-        color: ${colors.white};
-        background-color: ${colors.accent} !important;
-      }
-
-      &.active {
-        background-color: ${colors.backgroundHoverd};
-      }
-    }
   }
 `;
 

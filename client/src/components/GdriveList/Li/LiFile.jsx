@@ -36,9 +36,9 @@ const LiFile = ({ el, group, setGroup, sortByDate, setSortByDate }) => {
 
   const trim = link => {
     const text = link.replace('https://drive.google.com/', '');
-    return text.length <= 30
+    return text.length <= 23
       ? text
-      : text.substring(0, 13).concat(`...${text.substring(text.length - 10)}`);
+      : text.substring(0, 10).concat(`...${text.substring(text.length - 9)}`);
   };
 
   const isInClusters = allClusters.some(el => el.gdriveId === id);

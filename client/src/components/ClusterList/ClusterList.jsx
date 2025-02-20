@@ -17,7 +17,8 @@ import { List } from './ClusterList.styled';
 const ClusterList = () => {
   const dispatch = useDispatch();
   const { user } = useAuth();
-  const { allClusters, clusterTrash, clusterFilter } = useClusters();
+  const { allClusters, clusterGroups } = useClusters();
+  const { clusterTrash, clusterFilter, clusterSelect } = useClusters();
 
   const [sortByDate, setSortByDate] = useState(false);
 
@@ -25,8 +26,16 @@ const ClusterList = () => {
   useEffect(() => {
     const { subject, subjectId } = user;
     if (!subject || !subjectId) return;
-    dispatch(fetchClustersThunk({ subject }));
-    dispatch(fetchGroupsThunk());
+    // Get Clusters
+    dispatch(fetchClustersThunk({ subject }))
+      .unwrap()
+      // Get Groups
+      .then(res => {
+        const { clusters } = res.result;
+        const groups = Array.from(new Set(clusters.map(el => el.group)));
+        dispatch(fetchGroupsThunk({ clusterGroup: groups }));
+      });
+    // Get Subjects
     dispatch(fetchSubjectsThunk())
       .unwrap()
       .then(res => {
@@ -43,9 +52,7 @@ const ClusterList = () => {
     activeDomEl && scrollOnDomEl(activeDomEl);
   }, []);
 
-  // clusters filter+selector (trash/filter/favorite/checked)
-  const { clusterSelect } = useClusters();
-
+  // Ger Clusters (filter + selector)
   const getClusters = () => {
     // trash
     const trashId = clusterTrash.map(el => el._id);
@@ -87,14 +94,15 @@ const ClusterList = () => {
         ? (a, b) => b.createdAt.localeCompare(a.createdAt)
         : (a, b) => a.title.localeCompare(b.title),
     );
-  // groups filter+selector
-  const clusterGroups = Array.from(
-    new Set(filtredClusters.map(el => el.group)),
-  ).sort((a, b) => a.localeCompare(b));
+  // Get Groups (filter + selector)
+  const allGroups = clusterGroups
+    .map(el => el.clusterGroup)
+    .sort((a, b) => a.localeCompare(b));
 
-  let selectedGroups = clusterSelect.filter(el => clusterGroups.includes(el));
-  selectedGroups = selectedGroups.length !== 0 ? selectedGroups : clusterGroups;
+  let selectedGroups = clusterSelect.filter(el => allGroups.includes(el));
+  selectedGroups = selectedGroups.length !== 0 ? selectedGroups : allGroups;
 
+  if (allClusters.length === 0 || clusterGroups.length === 0) return;
   return (
     <List>
       {selectedGroups.map(group => (

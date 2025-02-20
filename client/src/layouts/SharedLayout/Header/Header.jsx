@@ -2,38 +2,31 @@ import PropTypes from 'prop-types';
 
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 
 import GdriveSearchBar from 'components/GdriveBars/GdriveSearchBar';
 import ClustersSearchBar from 'components/ClusterBars/ClusterSearchBar';
 import ElementSearchBar from 'components/ElementBars/ElementSearchBar';
 import FlexWrap from 'components/shared/FlexWrap/FlexWrap';
-import { cleanCluster } from 'store/cluster/clusterSlice';
-import { updateUserThunk } from 'store/auth/authThunks';
+
 import { updateSubjectThunk } from 'store/cluster/clusterThunks';
 import { useAuth, useClusters, useGdrive } from 'utils/hooks';
 import { scrollOnTop, scrollOnBottom, scrollOnDomEl } from 'utils/helpers';
 import { themes } from 'styles/themes';
+import mernLogo from 'assets/icons/favicon.png';
 
-import {
-  StyledHeader,
-  Nav,
-  Dropdown,
-  TitleBtn,
-  LogoBtn,
-} from './Header.styled';
-import Logo from './Logo/Logo';
 import ProfileBtn from './ProfileBtn/ProfileBtn';
+import DropMenu from './DropMenu/DropMenu';
+import { StyledHeader, Nav, TitleBtn, LogoBtn, Img } from './Header.styled';
 
 const { s } = themes.indents;
 
-const Header = ({ $height, barW, setBarW }) => {
+const Header = ({ height, barW, setBarW }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { pathname } = useLocation();
   const { user, isLoggedIn } = useAuth();
-  const { clusterSubjects, clusterSelect, activeCluster: ac } = useClusters();
+  const { clusterSelect, activeCluster: ac } = useClusters();
   const { gdriveSelect, activeFile: af } = useGdrive();
 
   useEffect(() => {
@@ -105,10 +98,10 @@ const Header = ({ $height, barW, setBarW }) => {
   };
 
   return (
-    <StyledHeader $height={$height}>
+    <StyledHeader $height={height}>
       <FlexWrap $w={barW > '45%' ? barW : '45%'} $p="0 0 0 0" $ai="center">
         <LogoBtn onClick={handleClick}>
-          <Logo />
+          <Img src={mernLogo} height="32" width="32" alt="MERN logo" />
         </LogoBtn>
         {isLoggedIn && (
           <Nav>
@@ -125,7 +118,7 @@ const Header = ({ $height, barW, setBarW }) => {
               Drive
             </NavLink>
 
-            <Dropdown>
+            <DropMenu>
               <NavLink
                 to="/cluster"
                 onClick={() => {
@@ -137,42 +130,7 @@ const Header = ({ $height, barW, setBarW }) => {
               >
                 {user.subject ?? 'Subject'}
               </NavLink>
-
-              <ul className="dropdown-menu">
-                {clusterSubjects.map(el => {
-                  const subject = el.clusterSubject;
-                  const subjectId = el._id;
-                  const isActive = subjectId === user.subjectId;
-                  return (
-                    <li
-                      className={isActive ? 'active' : 'menu-item'}
-                      key={el._id}
-                      onClick={() => {
-                        dispatch(updateUserThunk({ subject, subjectId }))
-                          .unwrap()
-                          .then(res => {
-                            const { subjectId: _id } = res.result.user;
-                            dispatch(cleanCluster());
-                            if (pathname.includes('/gdrive')) {
-                              dispatch(
-                                updateSubjectThunk({
-                                  _id,
-                                  gdriveSelect,
-                                }),
-                              );
-                            }
-                          });
-                        if (!pathname.includes('/cluster')) {
-                          navigate('/cluster');
-                        }
-                      }}
-                    >
-                      {el.clusterSubject}
-                    </li>
-                  );
-                })}
-              </ul>
-            </Dropdown>
+            </DropMenu>
 
             <TitleBtn onClick={handleScroll}>
               {clusterTitle()}
@@ -195,7 +153,7 @@ const Header = ({ $height, barW, setBarW }) => {
 export default Header;
 
 Header.propTypes = {
-  $height: PropTypes.string.isRequired,
+  height: PropTypes.string.isRequired,
   barW: PropTypes.string.isRequired,
   setBarW: PropTypes.func.isRequired,
 };

@@ -1,14 +1,9 @@
-import { apiClient } from './apiClient';
+import { apiClient, setQueryString } from './apiClient';
 
 // Clusters
-export const fetchClusters = async params => {
-  const path = !params
-    ? '/clusters'
-    : Object.entries(params).reduce((acc, el) => {
-        acc += `${el[0]}=${el[1]}`;
-        return acc;
-      }, '/clusters?');
-  const { data } = await apiClient.get(path);
+export const fetchClusters = async query => {
+  const { data } = await apiClient.get(setQueryString('/clusters', query));
+
   return data;
 };
 
@@ -33,8 +28,8 @@ export const deleteCluster = async id => {
 };
 
 // Groups
-export const fetchGroups = async () => {
-  const { data } = await apiClient.get('/clustergroups');
+export const fetchGroups = async query => {
+  const { data } = await apiClient.get(setQueryString('/clustergroups', query));
   return data;
 };
 
