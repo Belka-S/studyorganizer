@@ -99,14 +99,11 @@ const ClusterList = () => {
         ? (a, b) => b.createdAt.localeCompare(a.createdAt)
         : (a, b) => a.title.localeCompare(b.title),
     );
+
   // Get Groups (filter + selector)
-
-  const allGroups = Array.from(
-    new Set(filtredClusters.map(el => el.group)),
-  ).sort((a, b) => a.localeCompare(b));
-
-  let selectedGroups = clusterSelect.filter(el => allGroups.includes(el));
-  selectedGroups = selectedGroups.length !== 0 ? selectedGroups : allGroups;
+  const allGroupsSet = new Set(clusterGroups.map(el => el.clusterGroup));
+  let selectedGroups = [...allGroupsSet.intersection(new Set(clusterSelect))];
+  selectedGroups = selectedGroups[0] ? selectedGroups : [...allGroupsSet];
 
   if (allClusters.length === 0 || clusterGroups.length === 0) return;
   return (
