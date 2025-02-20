@@ -34,7 +34,7 @@ export const Dropdown = styled.div`
 
   & .drop-menu {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 15px);
     left: calc(100% - 12px);
 
     padding-block: ${indents.xs};

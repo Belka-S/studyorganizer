@@ -62,9 +62,6 @@ const ClustersSearchBar = () => {
   });
 
   if (!subject) return;
-  console.log('subject: ', subject);
-  console.log('defaultValue: ', defaultValue);
-
   return (
     <FlexWrap $jc="flex-end" $p="0">
       <Select

@@ -142,7 +142,7 @@ const ElementList = () => {
 
   return (
     <>
-      <List>
+      <List id="element-list">
         {filtredElements.map(el => (
           <LiElement
             key={el._id}

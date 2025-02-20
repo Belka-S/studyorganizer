@@ -20,7 +20,7 @@ const markAsRead = (current, next) => {
   const currentMsg = normalizeMessage(current);
   const nextMsg = normalizeMessage(next);
 
-  const elementList = document.querySelector('ul');
+  const elementList = document.querySelector('#element-list');
   elementList.querySelectorAll('button').forEach(el => {
     if (el.innerText) {
       el.innerText = el.innerText.replaceAll('`', '');
@@ -97,6 +97,7 @@ const markAsRead = (current, next) => {
           behavior: 'smooth',
         });
       };
+
       if (currentMsg && !currentMsg.startsWith(' ')) {
         activeEl.style.backgroundColor = white;
         scrollOnDomEl();
@@ -107,7 +108,7 @@ const markAsRead = (current, next) => {
 };
 
 const refreshPlaylist = () => {
-  const elementList = document.querySelector('ul');
+  const elementList = document.querySelector('#element-list');
 
   const styledLi = elementList.querySelectorAll('li');
   styledLi.forEach(el => el.removeAttribute('style'));
