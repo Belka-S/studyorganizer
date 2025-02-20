@@ -100,9 +100,10 @@ const ClusterList = () => {
         : (a, b) => a.title.localeCompare(b.title),
     );
   // Get Groups (filter + selector)
-  const allGroups = clusterGroups
-    .map(el => el.clusterGroup)
-    .sort((a, b) => a.localeCompare(b));
+
+  const allGroups = Array.from(
+    new Set(filtredClusters.map(el => el.group)),
+  ).sort((a, b) => a.localeCompare(b));
 
   let selectedGroups = clusterSelect.filter(el => allGroups.includes(el));
   selectedGroups = selectedGroups.length !== 0 ? selectedGroups : allGroups;

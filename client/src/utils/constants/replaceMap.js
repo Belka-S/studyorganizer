@@ -25,6 +25,7 @@ export const enMap = {
   'Wow ': 'Wow, ',
   'Look ': 'Look, ',
   ' but': ', but',
+  ' please?': ', please?',
 };
 // German
 export const deMap = {

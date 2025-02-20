@@ -9,21 +9,21 @@ const updateById = ctrlWrapper(async (req, res) => {
   const { id } = req.params;
 
   // find Group
-  const { group } = await Cluster.findById(id);
-  const clusterCount = await Cluster.countDocuments({ owner, group });
+  const { group } = !req.body && (await Cluster.findById(id));
+  const clusterCount = !req.body && (await Cluster.countDocuments({ owner, group }));
 
   // Cluster
   const newCluster = await Cluster.findByIdAndUpdate(id, { ...req.body }, { new: true });
   if (!newCluster) throw HttpError(403);
 
   // delete Group
-  if (clusterCount === 1) {
+  if (clusterCount === 1 && !req.body) {
     const delGroup = await ClusterGroup.findOneAndDelete({ owner, clusterGroup: group });
     if (!delGroup) throw HttpError(403, 'Failed to delete group');
   }
 
   res.status(200).json({
-    message: clusterCount === 1 ? `Updated, deleted ${clusterCount} group(s)` : 'Updated',
+    message: !req.body ? `Deleted ${clusterCount} group(s)` : 'Updated',
     result: { cluster: filterValues(newCluster) },
   });
 });
