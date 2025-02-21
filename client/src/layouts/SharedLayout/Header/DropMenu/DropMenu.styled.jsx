@@ -13,6 +13,7 @@ export const Dropdown = styled.div`
   & .drop-button {
     width: 22px;
     height: 22px;
+    margin-inline: 2px;
     padding-bottom: 2px;
 
     display: flex;
@@ -35,7 +36,8 @@ export const Dropdown = styled.div`
   & .drop-menu {
     position: absolute;
     top: calc(100% + 15px);
-    left: calc(100% - 12px);
+    right: 0;
+    /* left: calc(100% - 12px); */
 
     padding-block: ${indents.xs};
     padding-inline: 0;
@@ -48,7 +50,10 @@ export const Dropdown = styled.div`
 
     opacity: ${({ $menu }) => (!$menu ? 0 : 1)};
     pointer-events: ${({ $menu }) => (!$menu ? 'none' : 'all')};
-    transform: ${({ $menu }) => `translate(${!$menu ? '-5px, -10px' : '0'})`};
+    transform: ${({ $menu }) =>
+      !$menu
+        ? 'translate(calc(50% - 22px / 2), -10px)'
+        : 'translate(calc(50% - 22px / 2), 0)'};
 
     & .menu-item,
     .active {

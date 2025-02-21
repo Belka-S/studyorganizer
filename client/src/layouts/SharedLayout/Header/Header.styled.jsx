@@ -63,10 +63,11 @@ export const TitleBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: transparent;
-  border-color: transparent;
+  border: none;
+
   transition: color 250ms;
   color: ${colors.accent};
+  background-color: transparent;
   white-space: nowrap;
 
   font-size: 18px;
