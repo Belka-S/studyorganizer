@@ -13,8 +13,8 @@ const elementSchema = new Schema(
     checked: { type: Boolean, default: false },
     group: { type: String, default: '' },
 
-    cluster: { type: Schema.Types.ObjectId, ref: 'Cluster', default: null },
-    owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    clusterId: { type: Schema.Types.ObjectId, ref: 'Cluster', default: null },
+    ownerId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { versionKey: false, timestamps: true },
 );

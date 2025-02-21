@@ -1,10 +1,8 @@
-import { apiClient } from './apiClient';
+import { apiClient, setQueryString } from './apiClient';
 
 // Elements
-
-export const fetchElements = async params => {
-  const { cluster } = params;
-  const { data } = await apiClient.get(`/elements?cluster=${cluster}`);
+export const fetchElements = async query => {
+  const { data } = await apiClient.get(setQueryString('/elements', query));
   return data;
 };
 

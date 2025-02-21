@@ -52,7 +52,7 @@ const LiElement = ({
     }
   };
 
-  // Set key controle
+  // Set key control
   const modalEl = document.querySelector('#modal');
   useEffect(() => {
     if (!isActive) return;

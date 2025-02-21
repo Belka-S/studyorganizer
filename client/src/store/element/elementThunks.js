@@ -5,9 +5,9 @@ import * as API from 'servises/mongoDB/elementApi';
 // Elements
 export const fetchElementsThunk = createAsyncThunk(
   'items/fetchElements',
-  async (params, thunkAPI) => {
+  async (query, thunkAPI) => {
     try {
-      return await API.fetchElements(params);
+      return await API.fetchElements(query);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

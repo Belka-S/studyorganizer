@@ -7,7 +7,7 @@ const { ctrlWrapper } = require('../../decorators');
 const { restrictedAccess } = require('../../utils');
 
 const removeById = ctrlWrapper(async (req, res) => {
-  const owner = req.user._id;
+  const ownerId = req.user._id;
   let { id } = req.params;
   id = id.includes('&') ? id.split('&') : [id];
 
@@ -31,9 +31,9 @@ const removeById = ctrlWrapper(async (req, res) => {
   if (!clusterCount) throw HttpError(403, 'Failed to delete cluster');
   // groups
   for (let i = 0; i < groupIdArr.length; i += 1) {
-    const clusters = await Cluster.find({ owner, groupId: groupIdArr[i] });
+    const clusters = await Cluster.find({ ownerId, groupId: groupIdArr[i] });
     if (clusters.length === 0) {
-      const delGroup = await ClusterGroup.findOneAndDelete({ owner, _id: groupIdArr[i] });
+      const delGroup = await ClusterGroup.findOneAndDelete({ ownerId, _id: groupIdArr[i] });
       if (!delGroup) throw HttpError(403, 'Failed to delete group');
       groupCount += 1;
     }

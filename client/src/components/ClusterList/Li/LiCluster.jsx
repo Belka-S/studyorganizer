@@ -40,6 +40,7 @@ const LiCluster = ({ el, sortByDate, setSortByDate }) => {
   const [isModal, setIsModal] = useState(false);
 
   const { _id, cluster, title, favorite, checked, createdAt } = el;
+  const isActive = _id === activeCluster?._id;
 
   const trim = link => {
     const text = link
@@ -56,9 +57,9 @@ const LiCluster = ({ el, sortByDate, setSortByDate }) => {
   const elementCount = allElements.filter(el => el.cluster === _id).length;
 
   const handleSetActive = () => {
+    if (isActive) return;
     const { subjectId: _id } = user;
-    dispatch(updateSubjectThunk({ _id, activeCluster: el._id }));
-
+    dispatch(updateSubjectThunk({ _id, activeClusterId: el._id }));
     dispatch(setActiveCluster(el));
   };
 
@@ -88,8 +89,6 @@ const LiCluster = ({ el, sortByDate, setSortByDate }) => {
   const handleCheck = () => {
     dispatch(updateClusterThunk({ _id, checked: !checked }));
   };
-
-  const isActive = _id === activeCluster?._id;
 
   return (
     <Li

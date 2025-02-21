@@ -14,7 +14,7 @@ const updateSchema = validateBody(
     subject: Joi.string().pattern(regExp.NAME.pattern),
     clusterSelect: Joi.array(),
     gdriveSelect: Joi.array(),
-    activeCluster: Joi.string().allow(null),
+    activeClusterId: Joi.string().allow(null),
   }),
 );
 

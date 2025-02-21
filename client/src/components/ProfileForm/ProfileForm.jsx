@@ -68,9 +68,9 @@ const ProfileForm = ({ setIsModal }) => {
         dispatch(fetchElementsThunk({ cluster: activeCluster._id }))
           .unwrap()
           .then(({ result }) => {
-            if (!activeCluster.activeElement) return;
+            if (!activeCluster.activeElementId) return;
             const activeElement = result.elements.find(
-              ({ _id }) => _id === cluster.activeElement,
+              ({ _id }) => _id === cluster.activeElementId,
             );
             dispatch(setActiveElement(activeElement));
           })

@@ -42,21 +42,21 @@ const ElementList = () => {
       const activeDomEl = document.getElementById('active-element');
       activeDomEl && scrollOnDomEl(activeDomEl);
     };
-    if (activeElement?._id === activeCluster.activeElement) {
+    if (activeElement?._id === activeCluster.activeElementId) {
       scrollOnActiveEl();
     } else {
-      dispatch(fetchElementsThunk({ cluster: activeCluster._id }))
+      dispatch(fetchElementsThunk({ clusterId: activeCluster._id }))
         .unwrap()
         .then(({ result }) => {
-          if (!activeCluster.activeElement) return;
+          if (!activeCluster.activeElementId) return;
           const activeElement = result.elements.find(
-            ({ _id }) => _id === activeCluster.activeElement,
+            ({ _id }) => _id === activeCluster.activeElementId,
           );
           dispatch(setActiveElement(activeElement));
         })
         .then(() => scrollOnActiveEl());
     }
-  }, []);
+  }, [activeCluster, activeElement?._id, dispatch]);
 
   // Set selection mode
   useEffect(() => {
@@ -83,7 +83,7 @@ const ElementList = () => {
   elementSelect = !elementSelect ? [] : elementSelect;
 
   const activeClusterElements = allElements
-    .filter(el => el.cluster === activeCluster?._id)
+    .filter(el => el.clusterId === activeCluster?._id)
     .sort((a, b) => a.createdAt.localeCompare(b.createdAt));
 
   // element trash/filter/favorite/checked

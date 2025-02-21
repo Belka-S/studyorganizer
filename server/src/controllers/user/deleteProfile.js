@@ -8,7 +8,7 @@ const deleteProfile = ctrlWrapper(async (req, res) => {
   if (restrictedAccess.userId.includes(_id)) {
     throw HttpError(403, 'Register to access');
   }
-  const { deletedCount } = await Contact.deleteMany({ owner: _id });
+  const { deletedCount } = await Contact.deleteMany({ ownerId: _id });
   if (avatarId) await cloudinary.destroy(avatarId);
 
   const delUser = await User.findByIdAndDelete(_id);

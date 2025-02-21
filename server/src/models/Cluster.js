@@ -18,9 +18,9 @@ const clusterSchema = new Schema(
     favorite: { type: Boolean, default: false },
     checked: { type: Boolean, default: false },
     sortBy: { type: Boolean, default: false },
-    activeElement: { type: Schema.Types.ObjectId, ref: 'Element' },
+    activeElementId: { type: Schema.Types.ObjectId, ref: 'Element' },
 
-    owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    ownerId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { versionKey: false, timestamps: true },
 );

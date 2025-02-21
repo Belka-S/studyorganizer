@@ -3,13 +3,13 @@ const { HttpError } = require('../../utils');
 const { ctrlWrapper } = require('../../decorators');
 
 const getAll = ctrlWrapper(async (req, res) => {
-  const owner = req.user._id;
+  const ownerId = req.user._id;
   const { page = 1, limit = 500, ...query } = req.query;
   const projection = '-createdAt -updatedAt';
   const skip = (page - 1) * limit;
-  const total = await ClusterSubject.countDocuments({ owner, ...query });
-  const subjects = await ClusterSubject.find({ owner, ...query }, projection, { skip, limit })
-    // .populate('owner', 'name email')
+  const total = await ClusterSubject.countDocuments({ ownerId, ...query });
+  const subjects = await ClusterSubject.find({ ownerId, ...query }, projection, { skip, limit })
+    // .populate('ownerId', 'name email')
     .sort({ subject: 1 });
   if (!subjects) throw HttpError(403);
 

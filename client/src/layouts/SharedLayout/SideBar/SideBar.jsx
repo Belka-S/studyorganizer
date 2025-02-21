@@ -11,7 +11,7 @@ const SideBar = ({ $side, $width, $height, $offY }) => {
 
   const isFrame = () => {
     const paths = ['cluster', 'element', 'gdrive'];
-    return paths.some(el => pathname.includes(el)); // && user?._id === activeCluster?.owner
+    return paths.some(el => pathname.includes(el)); // && user?._id === activeCluster?.ownerId
   };
 
   return (

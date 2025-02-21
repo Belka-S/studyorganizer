@@ -3,9 +3,9 @@ const { HttpError, filterValues } = require('../../utils');
 const { ctrlWrapper } = require('../../decorators');
 
 const add = ctrlWrapper(async (req, res) => {
-  const { _id: owner, lang } = req.user;
+  const { _id: ownerId, lang } = req.user;
 
-  const newElement = await Element.create({ ...req.body, lang, owner });
+  const newElement = await Element.create({ ...req.body, lang, ownerId });
   if (!newElement) throw HttpError(403);
 
   res

@@ -5,14 +5,14 @@ const { ClusterGroup } = require('../../models');
 const { ctrlWrapper } = require('../../decorators');
 
 const updateById = ctrlWrapper(async (req, res) => {
-  const owner = req.user._id;
+  const ownerId = req.user._id;
   const { id } = req.params;
 
   const toDelete = Boolean(!req.body || req.body.groupId);
 
   // find Group
   const { groupId } = toDelete && (await Cluster.findById(id));
-  const clusterCount = toDelete && (await Cluster.countDocuments({ owner, groupId }));
+  const clusterCount = toDelete && (await Cluster.countDocuments({ ownerId, groupId }));
 
   // Cluster
   const newCluster = await Cluster.findByIdAndUpdate(id, { ...req.body }, { new: true });
@@ -20,7 +20,7 @@ const updateById = ctrlWrapper(async (req, res) => {
 
   // delete Group
   if (toDelete && clusterCount === 1) {
-    const delGroup = await ClusterGroup.findOneAndDelete({ owner, _id: groupId });
+    const delGroup = await ClusterGroup.findOneAndDelete({ ownerId, _id: groupId });
     if (!delGroup) throw HttpError(403, 'Failed to delete group');
   }
 

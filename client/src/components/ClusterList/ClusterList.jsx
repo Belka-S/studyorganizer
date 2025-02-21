@@ -44,7 +44,7 @@ const ClusterList = () => {
             dispatch(setClusterSelect(subject?.clusterSelect));
             // Set ActiveCluster
             const active = clusters.find(
-              ({ _id }) => _id === subject?.activeCluster,
+              ({ _id }) => _id === subject?.activeClusterId,
             );
             active && dispatch(setActiveCluster(active));
           });

@@ -11,6 +11,7 @@ const addSchema = validateBody(
     favorite: Joi.boolean(),
     checked: Joi.boolean(),
     group: Joi.string(),
+    clusterId: Joi.string(),
   }),
 );
 
@@ -19,10 +20,11 @@ const updateSchema = validateBody(
     element: Joi.string(),
     caption: Joi.string().allow(''),
     cluster: Joi.string(),
+    lang: Joi.string().valid(...Object.keys(langCodes)),
     favorite: Joi.boolean(),
     checked: Joi.boolean(),
     group: Joi.string(),
-    lang: Joi.string().valid(...Object.keys(langCodes)),
+    clusterId: Joi.string(),
   }),
 );
 

@@ -17,8 +17,8 @@ const { s, m } = themes.indents;
 
 const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
   const { user } = useAuth();
-  const { activeCluster: ac } = useClusters();
-  const { activeElement: ae } = useElements();
+  const { activeCluster } = useClusters();
+  const { activeElement } = useElements();
   const [voices, setVoices] = useState(null);
 
   useEffect(() => {
@@ -82,7 +82,7 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
           .replaceAll('?', text !== 'caption' ? `?${divider}` : `?${ld}`)
           .replaceAll(':', text !== 'caption' ? `:${divider}` : `:${ld}`);
         // numbers
-        if (ac.lang.includes('de')) {
+        if (activeCluster.lang.includes('de')) {
           textString = textString
             .replaceAll(`0.${divider}`, '0.')
             .replaceAll(`1.${divider}`, '1.')
@@ -115,7 +115,7 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
     setLiColor(background);
     const divider = '$*@';
     const index = filtredElements.findIndex(
-      item => item.element === ae.element,
+      item => item.element === activeElement.element,
     );
     const playList = filtredElements.splice(index === -1 ? 0 : index);
 
@@ -124,8 +124,8 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
       divider,
       voices: availableVoices,
       text: getTextString({ text: 'element', playList, divider }),
-      lang: ac.lang,
-      rate: ac.rate,
+      lang: activeCluster.lang,
+      rate: activeCluster.rate,
     });
     msg && toast.error(msg);
   };
@@ -135,7 +135,7 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
     const divider = '$*@';
     setLiColor(background);
     const index = filtredElements.findIndex(
-      item => item.element === ae.element,
+      item => item.element === activeElement.element,
     );
     const playList = filtredElements.splice(index === -1 ? 0 : index);
 
@@ -156,7 +156,7 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
     let textString = '';
     const divider = '$*@';
     const index = filtredElements.findIndex(
-      item => item.element === ae.element,
+      item => item.element === activeElement.element,
     );
     const playList = filtredElements.splice(index === -1 ? 0 : index);
 
@@ -175,7 +175,7 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
       divider,
       voices: availableVoices,
       text: textString,
-      lang: ac.lang,
+      lang: activeCluster.lang,
       rate: user.rate,
     });
     msg && toast.error(msg);
@@ -193,7 +193,8 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
     >
       <RecordBtn />
       <Button onClick={playElements} $s="m" $round={true} $bs={button}>
-        {ac?.lang.at(0).toUpperCase() + ac?.lang.substring(1)}
+        {activeCluster?.lang.at(0).toUpperCase() +
+          activeCluster?.lang.substring(1)}
       </Button>
       <RefreshBtn onClick={playAll} />
       <Button onClick={playCaptions} $s="m" $round={true} $bs={button}>

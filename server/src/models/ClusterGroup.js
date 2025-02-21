@@ -8,9 +8,9 @@ const regex = field => [regExp[field].pattern, `Invalid ${field.toLowerCase()}!`
 const clusterGroupSchema = new Schema(
   {
     group: { type: String, match: regex(regExp.NAME.name), required },
-    subject: { type: Schema.Types.ObjectId, ref: 'ClusterSubject', required: true },
+    subjectId: { type: Schema.Types.ObjectId, ref: 'ClusterSubject', required: true },
 
-    owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    ownerId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { versionKey: false, timestamps: true },
 );

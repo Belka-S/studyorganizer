@@ -6,7 +6,7 @@ const { regExp } = require('../utils');
 const addSchema = validateBody(
   Joi.object({
     group: Joi.string().pattern(regExp.NAME.pattern).required(),
-    subject: Joi.string().required(),
+    subjectId: Joi.string().required(),
   }),
 );
 

@@ -10,9 +10,9 @@ const clusterSubjectSchema = new Schema(
     subject: { type: String, match: regex(regExp.NAME.name), required },
     clusterSelect: { type: Array, default: [] },
     gdriveSelect: { type: Array, default: [] },
-    activeCluster: { type: Schema.Types.ObjectId, ref: 'Cluster', default: null },
+    activeClusterId: { type: Schema.Types.ObjectId, ref: 'Cluster', default: null },
 
-    owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    ownerId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { versionKey: false, timestamps: true },
 );
