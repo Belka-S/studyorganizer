@@ -60,6 +60,7 @@ apiClient.interceptors.response.use(
 );
 
 const setQueryString = (path, query) => {
+  if (!query) return path;
   const queryString = Object.entries(query).reduce((acc, el) => {
     const name = el[0];
     const value = el[1];
@@ -70,7 +71,7 @@ const setQueryString = (path, query) => {
     acc += stringParam;
     return acc;
   }, `${path}?`);
-  return query ? queryString : path;
+  return queryString;
 };
 
 export { apiClient, token, setQueryString };
