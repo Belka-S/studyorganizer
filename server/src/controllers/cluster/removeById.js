@@ -11,7 +11,7 @@ const removeById = ctrlWrapper(async (req, res) => {
   let { id } = req.params;
   id = id.includes('&') ? id.split('&') : [id];
 
-  const groups = [];
+  const groupIdArr = [];
   let elementCount = 0;
   let groupCount = 0;
   // elements
@@ -19,21 +19,21 @@ const removeById = ctrlWrapper(async (req, res) => {
     if (restrictedAccess.clusterId.includes(id[i])) {
       throw HttpError(403);
     }
-    const { cluster, group } = await Cluster.findById(id[i]);
-    const { deletedCount } = await Element.deleteMany({ cluster });
+    const { _id, groupId } = await Cluster.findById(id[i]);
+    const { deletedCount } = await Element.deleteMany({ _id });
     deletedCount ?? HttpError(403, 'Failed to delete element');
     elementCount += deletedCount;
     // groups
-    if (!groups.includes(group)) groups.push(group);
+    if (!groupIdArr.includes(groupId)) groupIdArr.push(groupId);
   }
   // clusters
   const { deletedCount: clusterCount } = await Cluster.deleteMany({ _id: { $in: id } });
   if (!clusterCount) throw HttpError(403, 'Failed to delete cluster');
   // groups
-  for (let i = 0; i < groups.length; i += 1) {
-    const clusters = await Cluster.find({ owner, group: groups[i] });
+  for (let i = 0; i < groupIdArr.length; i += 1) {
+    const clusters = await Cluster.find({ owner, groupId: groupIdArr[i] });
     if (clusters.length === 0) {
-      const delGroup = await ClusterGroup.findOneAndDelete({ owner, clusterGroup: groups[i] });
+      const delGroup = await ClusterGroup.findOneAndDelete({ owner, _id: groupIdArr[i] });
       if (!delGroup) throw HttpError(403, 'Failed to delete group');
       groupCount += 1;
     }

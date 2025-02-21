@@ -5,13 +5,13 @@ const { regExp } = require('../utils');
 
 const addSchema = validateBody(
   Joi.object({
-    clusterSubject: Joi.string().pattern(regExp.NAME.pattern).required(),
+    subject: Joi.string().pattern(regExp.NAME.pattern).required(),
   }),
 );
 
 const updateSchema = validateBody(
   Joi.object({
-    clusterSubject: Joi.string().pattern(regExp.NAME.pattern),
+    subject: Joi.string().pattern(regExp.NAME.pattern),
     clusterSelect: Joi.array(),
     gdriveSelect: Joi.array(),
     activeCluster: Joi.string().allow(null),

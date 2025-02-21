@@ -4,8 +4,9 @@ const { ctrlWrapper } = require('../../decorators');
 
 const add = ctrlWrapper(async (req, res) => {
   const { _id: owner } = req.user;
+  const { subject } = req.body;
 
-  const clusterGroupArr = await ClusterGroup.find({ ...req.body, owner });
+  const clusterGroupArr = await ClusterGroup.find({ ...req.body, owner, subject });
   if (clusterGroupArr[0]) {
     throw HttpError(409, 'Already existing group');
   }

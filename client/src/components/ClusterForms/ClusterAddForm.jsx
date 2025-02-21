@@ -29,26 +29,26 @@ const AddClusterForm = ({ cluster, title, group, setGroup, setIsModal }) => {
     defaultValues: { cluster, title },
   });
 
-  const onSubmit = data => {
-    const { value } = group;
-    const { subject } = user;
+  const onSubmit = async data => {
     const gdriveId = getGdiveId(data.cluster);
-    const payload = { ...data, group: value, subject, gdriveId };
-
-    dispatch(addClusterThunk(payload)).unwrap();
+    const group = await group.value;
+    const groupId = await clusterGroups.find(el => el.group === group)._id;
+    const subject = user.subject;
+    const payload = { group, groupId, subject, gdriveId };
+    dispatch(addClusterThunk({ ...data, ...payload })).unwrap();
     setIsModal(false);
   };
 
   const options = clusterGroups
-    .map(el => ({ value: el.clusterGroup, label: el.clusterGroup }))
+    .map(el => ({ value: el.group, label: el.group }))
     .sort((a, b) => a.value.localeCompare(b.value));
 
-  const createGroup = groupValue => {
+  const createGroup = value => {
     if (!watch('title')) {
       toast.error('Title is required');
     } else {
-      dispatch(addGroupThunk({ clusterGroup: groupValue }));
-      setGroup({ value: groupValue, label: groupValue });
+      dispatch(addGroupThunk({ group: value, subject: user.subjectId }));
+      setGroup({ value, label: value });
     }
   };
 

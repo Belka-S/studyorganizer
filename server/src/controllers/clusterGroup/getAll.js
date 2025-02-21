@@ -10,7 +10,7 @@ const getAll = ctrlWrapper(async (req, res) => {
   const total = await ClusterGroup.countDocuments({ owner, ...query });
   const groups = await ClusterGroup.find({ owner, ...query }, projection, { skip, limit })
     // .populate('owner', 'name email')
-    .sort({ clusterGroup: 1 });
+    .sort({ group: 1 });
   if (!groups) throw HttpError(403);
 
   res.status(200).json({ message: `Found ${total} group(s)`, result: { groups } });

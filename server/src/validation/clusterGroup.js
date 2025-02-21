@@ -5,7 +5,8 @@ const { regExp } = require('../utils');
 
 const addSchema = validateBody(
   Joi.object({
-    clusterGroup: Joi.string().pattern(regExp.NAME.pattern).required(),
+    group: Joi.string().pattern(regExp.NAME.pattern).required(),
+    subject: Joi.string().required(),
   }),
 );
 

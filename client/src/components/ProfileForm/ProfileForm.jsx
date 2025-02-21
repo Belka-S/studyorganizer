@@ -68,11 +68,11 @@ const ProfileForm = ({ setIsModal }) => {
         dispatch(fetchElementsThunk({ cluster: activeCluster._id }))
           .unwrap()
           .then(({ result }) => {
-            if (!activeCluster.activeEl) return;
-            const activeEl = result.elements.find(
-              ({ _id }) => _id === cluster.activeEl,
+            if (!activeCluster.activeElement) return;
+            const activeElement = result.elements.find(
+              ({ _id }) => _id === cluster.activeElement,
             );
-            dispatch(setActiveElement(activeEl));
+            dispatch(setActiveElement(activeElement));
           })
           .then(() => {
             const activeDomEl = document.getElementById('active-element');

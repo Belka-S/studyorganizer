@@ -10,7 +10,7 @@ const getAll = ctrlWrapper(async (req, res) => {
   const total = await ClusterSubject.countDocuments({ owner, ...query });
   const subjects = await ClusterSubject.find({ owner, ...query }, projection, { skip, limit })
     // .populate('owner', 'name email')
-    .sort({ clusterSubject: 1 });
+    .sort({ subject: 1 });
   if (!subjects) throw HttpError(403);
 
   res.status(200).json({ message: `Found ${total} subject(s)`, result: { subjects } });

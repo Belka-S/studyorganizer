@@ -31,8 +31,8 @@ const ClusterList = () => {
       .then(res => {
         // Get Groups
         const { clusters } = res.result;
-        const groups = [...new Set(clusters.map(el => el.group))];
-        dispatch(fetchGroupsThunk({ clusterGroup: groups }));
+        const groupId = [...new Set(clusters.map(el => el.groupId))];
+        dispatch(fetchGroupsThunk({ _id: groupId }));
         // Get Subjects
         dispatch(fetchSubjectsThunk())
           .unwrap()
@@ -102,7 +102,7 @@ const ClusterList = () => {
     );
 
   // Get Groups (filter + selector)
-  const allGroupsSet = new Set(clusterGroups.map(el => el.clusterGroup));
+  const allGroupsSet = new Set(clusterGroups.map(el => el.group));
   let selectedGroups = [...allGroupsSet.intersection(new Set(clusterSelect))];
   // .sort((a, b) => a.title.localeCompare(b.title));
   selectedGroups = selectedGroups[0] ? selectedGroups : [...allGroupsSet];

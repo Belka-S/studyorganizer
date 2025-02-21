@@ -50,13 +50,13 @@ const DropMenu = ({ children }) => {
       </button>
 
       <ul className="drop-menu" onMouseLeave={() => setMenu(false)}>
-        {clusterSubjects.map(({ _id, clusterSubject }) => (
+        {clusterSubjects.map(({ _id, subject }) => (
           <li
             className={_id === user.subjectId ? 'active' : 'menu-item'}
             key={_id}
-            onClick={() => handleMenuClick(_id, clusterSubject)}
+            onClick={() => handleMenuClick(_id, subject)}
           >
-            {clusterSubject}
+            {subject}
           </li>
         ))}
       </ul>

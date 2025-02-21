@@ -42,17 +42,17 @@ const ElementList = () => {
       const activeDomEl = document.getElementById('active-element');
       activeDomEl && scrollOnDomEl(activeDomEl);
     };
-    if (activeElement?._id === activeCluster.activeEl) {
+    if (activeElement?._id === activeCluster.activeElement) {
       scrollOnActiveEl();
     } else {
       dispatch(fetchElementsThunk({ cluster: activeCluster._id }))
         .unwrap()
         .then(({ result }) => {
-          if (!activeCluster.activeEl) return;
-          const activeEl = result.elements.find(
-            ({ _id }) => _id === activeCluster.activeEl,
+          if (!activeCluster.activeElement) return;
+          const activeElement = result.elements.find(
+            ({ _id }) => _id === activeCluster.activeElement,
           );
-          dispatch(setActiveElement(activeEl));
+          dispatch(setActiveElement(activeElement));
         })
         .then(() => scrollOnActiveEl());
     }

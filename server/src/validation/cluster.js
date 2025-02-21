@@ -18,14 +18,15 @@ const updateSchema = validateBody(
     cluster: Joi.string().pattern(regExp.HTTP.pattern),
     title: Joi.string(),
     group: Joi.string(),
+    groupId: Joi.string(),
     subject: Joi.string(),
     gdriveId: Joi.string(),
     lang: Joi.string().valid(...Object.keys(langCodes)),
     rate: Joi.number(),
     favorite: Joi.boolean(),
     checked: Joi.boolean(),
-    activeEl: Joi.string().allow(null),
     sortBy: Joi.boolean(),
+    activeElement: Joi.string().allow(null),
   }),
 );
 

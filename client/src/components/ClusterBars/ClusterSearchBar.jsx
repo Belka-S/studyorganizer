@@ -30,7 +30,7 @@ const ClustersSearchBar = () => {
       el => !['recent', 'wordlist', 'gdrive', 'ungdrive'].includes(el.value),
     ),
     ...clusterGroups
-      .map(el => ({ value: el.clusterGroup, label: el.clusterGroup }))
+      .map(el => ({ value: el.group, label: el.group }))
       .sort((a, b) => a.value.localeCompare(b.value)),
   ];
 

@@ -22,7 +22,7 @@ const AddSubjectForm = ({ setIsModal }) => {
   });
 
   const onSubmit = data => {
-    dispatch(addSubjectThunk({ clusterSubject: data.subject }));
+    dispatch(addSubjectThunk({ subject: data.subject }));
     setIsModal(false);
   };
 

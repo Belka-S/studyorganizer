@@ -138,10 +138,10 @@ const Element = ({ el, setLiColor, editCount, selectMode }) => {
       setIsIframe(!isIframe);
       return;
     }
-    const { _id, activeEl } = activeCluster;
+    const { _id, activeElement } = activeCluster;
     dispatch(setActiveElement(el));
-    if (activeEl !== el._id) {
-      dispatch(updateClusterThunk({ _id, activeEl: el._id }))
+    if (activeElement !== el._id) {
+      dispatch(updateClusterThunk({ _id, activeElement: el._id }))
         .unwrap()
         .then(pld => dispatch(setActiveCluster(pld.result.cluster)));
     }

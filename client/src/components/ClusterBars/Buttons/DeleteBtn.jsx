@@ -40,8 +40,8 @@ const DeleteBtn = () => {
             })
             .then(() => {
               dispatch(emptyClusterTrash());
-              const groups = [...new Set(allClusters.map(el => el.group))];
-              dispatch(fetchGroupsThunk({ clusterGroup: groups }));
+              const groupId = [...new Set(allClusters.map(el => el.groupId))];
+              dispatch(fetchGroupsThunk({ _id: groupId }));
             });
         },
       },

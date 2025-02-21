@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from 'sonner';
 
-import { useClusters } from 'utils/hooks';
+import { useAuth, useClusters } from 'utils/hooks';
 import { getGdiveId } from 'utils/helpers';
 import { addGroupThunk, updateClusterThunk } from 'store/cluster/clusterThunks';
 import { addClusterSchema } from 'utils/validation';
@@ -18,8 +18,9 @@ const EditClusterForm = ({ el, setIsModal }) => {
   const { _id, cluster, title, group } = el;
 
   const dispatch = useDispatch();
-  const [stateGroup, setStateGroup] = useState({ value: group, label: group });
+  const { user } = useAuth();
   const { clusterGroups } = useClusters();
+  const [state, setState] = useState({ value: group, label: group });
 
   const {
     register,
@@ -34,22 +35,22 @@ const EditClusterForm = ({ el, setIsModal }) => {
 
   const onSubmit = async data => {
     const gdriveId = getGdiveId(data.cluster);
-    dispatch(
-      updateClusterThunk({ _id, ...data, group: stateGroup.value, gdriveId }),
-    );
+    const group = await state.value;
+    const groupId = await clusterGroups.find(el => el.group === group)._id;
+    dispatch(updateClusterThunk({ _id, ...data, group, groupId, gdriveId }));
     setIsModal(false);
   };
 
   const options = clusterGroups
-    .map(el => ({ value: el.clusterGroup, label: el.clusterGroup }))
+    .map(el => ({ value: el.group, label: el.group }))
     .sort((a, b) => a.value.localeCompare(b.value));
 
   const createGroup = value => {
     if (!watch('title')) {
       toast.error('Title is required');
     } else {
-      dispatch(addGroupThunk({ clusterGroup: value }));
-      setStateGroup({ value, label: value });
+      dispatch(addGroupThunk({ group: value, subject: user.subjectId }));
+      setState({ value, label: value });
     }
   };
 
@@ -68,11 +69,12 @@ const EditClusterForm = ({ el, setIsModal }) => {
       <Label>
         Group
         <CreatableSelect
-          value={stateGroup}
+          value={state}
           options={options}
-          onChange={data => setStateGroup(data ? data : '')}
+          onChange={data => setState(data ? data : '')}
           onCreateOption={createGroup}
-          isClearable={stateGroup}
+          isClearable={state}
+          $ph="left"
         />
       </Label>
 
