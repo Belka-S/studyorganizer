@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import FlexWrap from 'components/shared/FlexWrap/FlexWrap';
@@ -21,10 +21,6 @@ const ClustersSearchBar = () => {
 
   const subject = clusterSubjects.find(({ _id }) => _id === user.subjectId);
   const [selectValue, setSelectValue] = useState(subject?.clusterSelect ?? []);
-
-  // useEffect(() => {
-  //   dispatch(setClusterSelect(selectValue));
-  // }, [dispatch, selectValue]);
 
   if (clusterGroups.length === 0) return;
 

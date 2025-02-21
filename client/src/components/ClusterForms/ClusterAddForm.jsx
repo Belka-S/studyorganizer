@@ -33,9 +33,9 @@ const AddClusterForm = ({ cluster, title, group, setGroup, setIsModal }) => {
     const { value } = group;
     const { subject } = user;
     const gdriveId = getGdiveId(data.cluster);
-    dispatch(
-      addClusterThunk({ ...data, group: value, subject, gdriveId }),
-    ).unwrap();
+    const payload = { ...data, group: value, subject, gdriveId };
+
+    dispatch(addClusterThunk(payload)).unwrap();
     setIsModal(false);
   };
 

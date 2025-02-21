@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { NavLink, useLocation } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 
@@ -9,8 +8,6 @@ import GdriveSearchBar from 'components/GdriveBars/GdriveSearchBar';
 import ClustersSearchBar from 'components/ClusterBars/ClusterSearchBar';
 import ElementSearchBar from 'components/ElementBars/ElementSearchBar';
 import FlexWrap from 'components/shared/FlexWrap/FlexWrap';
-
-import { updateSubjectThunk } from 'store/cluster/clusterThunks';
 import { useAuth, useClusters, useGdrive } from 'utils/hooks';
 import { scrollOnTop, scrollOnBottom, scrollOnDomEl } from 'utils/helpers';
 import { themes } from 'styles/themes';
@@ -23,11 +20,10 @@ import { StyledHeader, Nav, TitleBtn, LogoBtn, Img } from './Header.styled';
 const { s } = themes.indents;
 
 const Header = ({ height, barW, setBarW }) => {
-  const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { user, isLoggedIn } = useAuth();
-  const { clusterSelect, activeCluster: ac } = useClusters();
-  const { gdriveSelect, activeFile: af } = useGdrive();
+  const { activeCluster } = useClusters();
+  const { activeFile } = useGdrive();
 
   useEffect(() => {
     isLoggedIn ? setBarW(`${s}`) : setBarW('45%');
@@ -89,12 +85,12 @@ const Header = ({ height, barW, setBarW }) => {
   const clusterTitle = () => {
     const paths = ['cluster', 'element'];
     const isTitle = paths.some(el => pathname.includes(el));
-    if (isTitle && ac?.title) return ac.title;
+    if (isTitle && activeCluster?.title) return activeCluster.title;
   };
 
   const gdriveTitle = () => {
     const isTitle = pathname === '/gdrive';
-    if (isTitle && af?.name) return af.name;
+    if (isTitle && activeFile?.name) return activeFile.name;
   };
 
   return (
@@ -105,31 +101,13 @@ const Header = ({ height, barW, setBarW }) => {
         </LogoBtn>
         {isLoggedIn && (
           <Nav>
-            <NavLink
-              to="/gdrive"
-              // onClick={() => {
-              //   if (!pathname.includes('/element')) {
-              //     const { subjectId: _id } = user;
-              //     dispatch(updateSubjectThunk({ _id, clusterSelect }));
-              //   }
-              // }}
-            >
+            <NavLink to="/gdrive">
               <FcGoogle size="17px" />
               Drive
             </NavLink>
 
             <DropMenu>
-              <NavLink
-                to="/cluster"
-                // onClick={() => {
-                //   if (!pathname.includes('/element')) {
-                //     const { subjectId: _id } = user;
-                //     dispatch(updateSubjectThunk({ _id, gdriveSelect }));
-                //   }
-                // }}
-              >
-                {user.subject ?? 'Subject'}
-              </NavLink>
+              <NavLink to="/cluster">{user.subject ?? 'Subject'}</NavLink>
             </DropMenu>
 
             <TitleBtn onClick={handleScroll}>

@@ -4,10 +4,10 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PiTriangleFill } from 'react-icons/pi';
 
-import { useAuth, useClusters, useGdrive } from 'utils/hooks';
+import { useAuth, useClusters } from 'utils/hooks';
 import { cleanCluster, cleanGroup } from 'store/cluster/clusterSlice';
 import { updateUserThunk } from 'store/auth/authThunks';
-import { updateSubjectThunk } from 'store/cluster/clusterThunks';
+
 import { themes } from 'styles/themes';
 
 import { Dropdown } from './DropMenu.styled';
@@ -20,7 +20,6 @@ const DropMenu = ({ children }) => {
   const { pathname } = useLocation();
   const { user } = useAuth();
   const { clusterSubjects } = useClusters();
-  const { gdriveSelect } = useGdrive();
 
   const [menu, setMenu] = useState(false);
 
@@ -37,14 +36,6 @@ const DropMenu = ({ children }) => {
     dispatch(cleanCluster());
     dispatch(cleanGroup());
     dispatch(updateUserThunk({ subjectId, subject }));
-    // .unwrap()
-    // .then(res => {
-    //   if (pathname.includes('/gdrive')) {
-    //     const { subjectId: _id } = res.result.user;
-    // const payload = { _id, gdriveSelect };
-    // dispatch(updateSubjectThunk(payload));
-    // }
-    // });
     if (!pathname.includes('/cluster')) {
       navigate('/cluster');
     }

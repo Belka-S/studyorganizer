@@ -92,8 +92,10 @@ const GoogleAuth = ({ signInBtn, signOutBtn, children }) => {
 
   // list G-Drive files
   useEffect(() => {
+    if (!user) return;
+    if (!gapi?.client?.drive?.files) return;
     dispatch(listFilesThunk());
-  }, [user, dispatch]);
+  }, [user, dispatch, gapi?.client?.drive?.files]);
 
   const signOut = () => {
     const auth2 = gapi.auth2.getAuthInstance();

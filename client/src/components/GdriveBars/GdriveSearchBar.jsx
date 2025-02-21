@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import FlexWrap from 'components/shared/FlexWrap/FlexWrap';
@@ -22,11 +22,6 @@ const GdriveSearchBar = () => {
 
   const subject = clusterSubjects.find(({ _id }) => _id === user.subjectId);
   const [selectValue, setSelectValue] = useState(subject?.gdriveSelect ?? []);
-
-  // useEffect(() => {
-  // dispatch(listFilesThunk());
-  //   dispatch(setGdriveSelect(selectValue));
-  // }, [dispatch, selectValue]);
 
   if (gdriveFolders.length === 0) return;
 

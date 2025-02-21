@@ -67,9 +67,6 @@ const LiCluster = ({ el, sortByDate, setSortByDate }) => {
   };
 
   const handleClusterNavigate = () => {
-    // const { subjectId: _id } = user;
-    // dispatch(updateSubjectThunk({ _id, clusterSelect }));
-
     navigate(`/element/${_id}`, { replace: true });
   };
 

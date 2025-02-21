@@ -14,7 +14,7 @@ const GdriveList = () => {
   const dispatch = useDispatch();
   const { user } = useAuth();
   const { allClusters } = useClusters();
-  const { gdriveFiles, gdriveFolders } = useGdrive();
+  const { gdriveFiles, gdriveFolders, isLoading } = useGdrive();
   const { gdriveTrash, gdriveSelect, gdriveFilter } = useGdrive();
 
   const [sortByDate, setSortByDate] = useState(false);
@@ -122,6 +122,7 @@ const GdriveList = () => {
         : (a, b) => a.name.localeCompare(b.name),
     );
 
+  if (gdriveFiles.length === 0 || isLoading) return;
   return (
     <List>
       {gdriveFolders.map(folder => {
