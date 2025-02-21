@@ -3,16 +3,23 @@ import { toast } from 'sonner';
 import { HiX } from 'react-icons/hi';
 
 import Button from 'components/shared/Button/Button';
-import * as clusterSlice from 'store/cluster/clusterSlice';
-import { deleteClusterThunk } from 'store/cluster/clusterThunks';
-import { themes } from 'styles/themes';
+import {
+  setActiveCluster,
+  emptyClusterTrash,
+} from 'store/cluster/clusterSlice';
+import {
+  deleteClusterThunk,
+  fetchGroupsThunk,
+} from 'store/cluster/clusterThunks';
 import { useClusters } from 'utils/hooks';
+
+import { themes } from 'styles/themes';
 
 const { button } = themes.shadows;
 
 const DeleteBtn = () => {
   const dispatch = useDispatch();
-  const { activeCluster, clusterTrash } = useClusters();
+  const { allClusters, activeCluster, clusterTrash } = useClusters();
 
   const emptyTrash = () => {
     // if (!confirm('Are you sure you want to delete the selected Cluster(s)?')) return;
@@ -29,10 +36,13 @@ const DeleteBtn = () => {
             .then(() => {
               const trashId = clusterTrash.map(el => el._id);
               const { _id } = activeCluster;
-              trashId.includes(_id) &&
-                dispatch(clusterSlice.setActiveCluster(null));
+              trashId.includes(_id) && dispatch(setActiveCluster(null));
             })
-            .then(() => dispatch(clusterSlice.emptyClusterTrash()));
+            .then(() => {
+              dispatch(emptyClusterTrash());
+              const groups = [...new Set(allClusters.map(el => el.group))];
+              dispatch(fetchGroupsThunk({ clusterGroup: groups }));
+            });
         },
       },
     });

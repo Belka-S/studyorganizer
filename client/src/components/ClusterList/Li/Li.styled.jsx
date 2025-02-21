@@ -33,8 +33,10 @@ export const LiGroup = styled.li`
     text-transform: uppercase;
 
     &::before {
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
       counter-increment: section;
-      content: 'Group ' counter(section) ' - ';
+      content: counter(section) '. ';
       text-transform: capitalize;
     }
   }

@@ -16,6 +16,7 @@ const CreatableSelect = ({
   $o,
   $oh,
   $ob,
+  $ph,
 
   name,
   value = { value: 'HTML', label: 'Chocolate' },
@@ -32,7 +33,7 @@ const CreatableSelect = ({
     <SelectCreatable
       theme={defaultTheme({ $obh, $sobh })}
       styles={{
-        ...defaultStyles({ $br, $ol, $b, $bh, $bf, $o, $oh, $ob, $obh }),
+        ...defaultStyles({ $br, $ol, $b, $bh, $bf, $o, $oh, $ob, $obh, $ph }),
         ...styles,
       }}
       name={name}
@@ -63,6 +64,7 @@ CreatableSelect.propTypes = {
   $o: PropTypes.string,
   $oh: PropTypes.string,
   $ob: PropTypes.string,
+  $ph: PropTypes.string,
 
   options: PropTypes.arrayOf(PropTypes.object),
   name: PropTypes.string,

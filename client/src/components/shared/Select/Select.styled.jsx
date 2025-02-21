@@ -32,6 +32,7 @@ export const defaultStyles = ({
   $o = colors.black, // option text
   $oh = colors.hovered, // hoverd option
   $ob = colors.white, // option background
+  $ph = 'center', // placeholder position
 }) => ({
   // Select Styles
   control: (styles, state) => {
@@ -74,9 +75,9 @@ export const defaultStyles = ({
   placeholder: styles => {
     return {
       ...styles,
-      paddingLeft: '36px',
+      paddingLeft: $ph === 'center' && '36px',
+      justifySelf: `${$ph}`,
       color: `${colors.placeholder}`,
-      justifySelf: 'center',
     };
   },
 

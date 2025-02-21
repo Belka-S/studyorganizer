@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { toast } from 'sonner';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { FiPlus } from 'react-icons/fi';
 
 import Button from 'components/shared/Button/Button';
@@ -11,6 +11,33 @@ import { themes } from 'styles/themes';
 const { button } = themes.shadows;
 
 const AddBtn = ({ setClipboardText, setIsModal }) => {
+  const addCluster = useCallback(
+    async e => {
+      e?.currentTarget.blur();
+      const cluster = await readClipboard();
+      try {
+        await clusterSchema.validate({ cluster });
+        setClipboardText(cluster);
+        setIsModal('addCluster');
+        // set cursor on input
+      } catch (err) {
+        toast.info('Invalid Cluster, or you want to add a new Subject?', {
+          duration: Infinity,
+          position: 'bottom-center',
+          closeButton: true,
+          // cancel: { label: 'No' },
+          action: {
+            label: 'Yes',
+            onClick: async () => {
+              setIsModal('addSubject');
+            },
+          },
+        });
+      }
+    },
+    [setClipboardText, setIsModal],
+  );
+
   useEffect(() => {
     const handleKeyDown = e => {
       if (e.key === '+') addCluster();
@@ -19,31 +46,8 @@ const AddBtn = ({ setClipboardText, setIsModal }) => {
     return () => {
       removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [addCluster]);
 
-  const addCluster = async e => {
-    e?.currentTarget.blur();
-    const cluster = await readClipboard();
-    try {
-      await clusterSchema.validate({ cluster });
-      setClipboardText(cluster);
-      setIsModal('addCluster');
-      // set cursor on input
-    } catch (err) {
-      toast.info('Invalid Cluster, or you want to add a new Subject?', {
-        duration: Infinity,
-        position: 'bottom-center',
-        closeButton: true,
-        // cancel: { label: 'No' },
-        action: {
-          label: 'Yes',
-          onClick: async () => {
-            setIsModal('addSubject');
-          },
-        },
-      });
-    }
-  };
   return (
     <Button onClick={addCluster} $s="m" $round={true} $bs={button}>
       <FiPlus size={18} />

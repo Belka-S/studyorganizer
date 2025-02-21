@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from 'sonner';
 
-import { useClusters } from 'utils/hooks';
+import { useAuth, useClusters } from 'utils/hooks';
 import { getGdiveId } from 'utils/helpers';
 import { addClusterThunk, addGroupThunk } from 'store/cluster/clusterThunks';
 import { addClusterSchema } from 'utils/validation';
@@ -15,6 +15,7 @@ import { Form, Label, Input, Hidden } from './ClusterForms.styled';
 
 const AddClusterForm = ({ cluster, title, group, setGroup, setIsModal }) => {
   const dispatch = useDispatch();
+  const { user } = useAuth();
   const { clusterGroups } = useClusters();
 
   const {
@@ -29,8 +30,12 @@ const AddClusterForm = ({ cluster, title, group, setGroup, setIsModal }) => {
   });
 
   const onSubmit = data => {
+    const { value } = group;
+    const { subject } = user;
     const gdriveId = getGdiveId(data.cluster);
-    dispatch(addClusterThunk({ ...data, group: group.value, gdriveId }));
+    dispatch(
+      addClusterThunk({ ...data, group: value, subject, gdriveId }),
+    ).unwrap();
     setIsModal(false);
   };
 
@@ -70,6 +75,7 @@ const AddClusterForm = ({ cluster, title, group, setGroup, setIsModal }) => {
           onChange={data => setGroup(data ? data : '')}
           onCreateOption={createGroup}
           isClearable={group}
+          $ph="left"
         />
       </Label>
 

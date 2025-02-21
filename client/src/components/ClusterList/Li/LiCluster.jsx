@@ -35,7 +35,7 @@ const LiCluster = ({ el, sortByDate, setSortByDate }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { activeCluster, clusterTrash, clusterSelect } = useClusters();
+  const { activeCluster, clusterTrash } = useClusters();
   const { allElements } = useElements();
   const [isModal, setIsModal] = useState(false);
 

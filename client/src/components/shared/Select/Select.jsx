@@ -16,6 +16,7 @@ const Select = ({
   $o,
   $oh,
   $ob,
+  $ph,
 
   name,
   value,
@@ -31,7 +32,7 @@ const Select = ({
     <SelectSimple
       theme={defaultTheme({ $obh, $sobh })}
       styles={{
-        ...defaultStyles({ $br, $ol, $b, $bh, $bf, $o, $oh, $ob, $obh }),
+        ...defaultStyles({ $br, $ol, $b, $bh, $bf, $o, $oh, $ob, $obh, $ph }),
         ...styles,
       }}
       name={name}
@@ -61,6 +62,7 @@ Select.propTypes = {
   $o: PropTypes.string,
   $oh: PropTypes.string,
   $ob: PropTypes.string,
+  $ph: PropTypes.string,
 
   options: PropTypes.arrayOf(PropTypes.object),
   name: PropTypes.string,
