@@ -31,7 +31,7 @@ export const Li = styled.li`
 
   &#active-element {
     border-color: ${colors.border};
-    background-color: ${colors.background};
+    background-color: ${colors.backgroundAccent};
     box-shadow: ${shadows.backdrop};
 
     &:hover {

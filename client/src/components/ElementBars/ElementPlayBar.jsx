@@ -79,8 +79,8 @@ const ElementPlayBar = ({ className, filtredElements, setLiColor }) => {
           .replaceAll('.', text !== 'caption' ? `.${divider}` : `.${ld}`)
           .replaceAll(',', text !== 'caption' ? `,${divider}` : `,${ld}`)
           .replaceAll('!', text !== 'caption' ? `!${divider}` : `!${ld}`)
-          .replaceAll('?', text !== 'caption' ? `?${divider}` : `?${ld}`)
-          .replaceAll(':', text !== 'caption' ? `:${divider}` : `:${ld}`);
+          .replaceAll('?', text !== 'caption' ? `?${divider}` : `?${ld}`);
+        // .replaceAll(':', text !== 'caption' ? `:${divider}` : `:${ld}`);
         // numbers
         if (activeCluster.lang.includes('de')) {
           textString = textString

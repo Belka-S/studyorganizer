@@ -46,8 +46,8 @@ const Element = ({ el, setLiColor, editCount, selectMode }) => {
           .replaceAll('.', `.${divider}`)
           .replaceAll(',', `,${divider}`)
           .replaceAll('!', `!${divider}`)
-          .replaceAll('?', `?${divider}`)
-          .replaceAll(':', `:${divider}`);
+          .replaceAll('?', `?${divider}`);
+        // .replaceAll(':', `:${divider}`);
         // numbers
         if (activeCluster.lang.includes('de')) {
           textString = textString

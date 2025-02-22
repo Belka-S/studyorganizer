@@ -2,7 +2,7 @@ import { themes } from 'styles/themes';
 
 import { startsWithCapital } from './startsWithCapital';
 
-const { white, black, smokeBlack, lightYellow, background, placeholder } =
+const { white, black, smokeBlack, background, backgroundAccent, placeholder } =
   themes.colors;
 
 const markAsRead = (current, next) => {
@@ -40,9 +40,9 @@ const markAsRead = (current, next) => {
       const prevActiveEl = activeEl?.previousElementSibling;
       const prePrevActiveEl = prevActiveEl?.previousElementSibling;
 
-      // if (startsWithSmall(currentMsg)) activeEl.id = 'vocabulary';
+      // set lightened text
       if (activeEl?.innerText.includes(currentMsg)) {
-        activeEl.style.fontSize = '2vw';
+        activeEl.style.fontSize = '2.4vw';
         gridWrap.style.display = 'flex';
         gridWrap.style.justifyContent = 'space-between';
         gridWrap.style.alignItems = 'center';
@@ -50,13 +50,12 @@ const markAsRead = (current, next) => {
 
         el.style.fontSize = '3vw';
         el.style.color = black;
-        // set lightened text
-        if (currentMsg?.startsWith(' ') || nextMsg?.startsWith(' ')) {
-          el.style.display = 'inline';
-          el.style.color = placeholder;
-          const lightenedEl = `<span style="color: ${smokeBlack}; background-color: ${lightYellow}; ">${currentMsg.trim()}</span>`;
-          el.innerHTML = el.innerText.replace(currentMsg, ' ' + lightenedEl);
-        }
+        // if (currentMsg?.startsWith(' ') || nextMsg?.startsWith(' ')) {
+        el.style.display = 'inline';
+        el.style.color = placeholder;
+        const lightenedEl = `<span style="color: ${smokeBlack}; background-color: ${white}; ">${currentMsg.trim()}</span>`;
+        el.innerHTML = el.innerText.replace(currentMsg, ' ' + lightenedEl);
+        // }
         // set element styles
         if (
           startsWithCapital(currentMsg) &&
@@ -94,6 +93,7 @@ const markAsRead = (current, next) => {
           prevActiveEl.querySelectorAll('button')[1].innerText;
         prevActiveEl.querySelectorAll('div')[1].style.justifyContent = null;
         prevActiveEl.querySelectorAll('div')[1].style.alignItems = null;
+        prevActiveEl.querySelectorAll('div')[1].style.backgroundColor = null;
         prevActiveEl.querySelectorAll('div')[1].style.display = null;
         prevActiveEl.querySelectorAll('div')[2].style.display = null;
       }
@@ -112,6 +112,7 @@ const markAsRead = (current, next) => {
           prePrevActiveEl.querySelectorAll('button')[1].innerText;
         prePrevActiveEl.querySelectorAll('div')[1].style.justifyContent = null;
         prePrevActiveEl.querySelectorAll('div')[1].style.alignItems = null;
+        prePrevActiveEl.querySelectorAll('div')[1].style.backgroundColor = null;
         prePrevActiveEl.querySelectorAll('div')[1].style.display = null;
         prePrevActiveEl.querySelectorAll('div')[2].style.display = null;
       }
@@ -123,7 +124,7 @@ const markAsRead = (current, next) => {
       };
 
       if (currentMsg && !currentMsg.startsWith(' ')) {
-        activeEl.style.backgroundColor = white;
+        activeEl.style.backgroundColor = backgroundAccent;
         scrollOnDomEl();
       }
       return activeEl;
