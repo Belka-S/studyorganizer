@@ -48,7 +48,7 @@ const markAsRead = (current, next) => {
         gridWrap.style.alignItems = 'center';
         divider.style.display = 'none';
 
-        el.style.fontSize = '2.8vw';
+        el.style.fontSize = '3vw';
         el.style.color = black;
         // set lightened text
         if (currentMsg?.startsWith(' ') || nextMsg?.startsWith(' ')) {
