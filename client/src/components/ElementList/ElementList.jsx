@@ -34,7 +34,7 @@ const ElementList = () => {
     rootMargin: `0px 0px ${window.innerHeight / 2}px 0px`,
   });
 
-  // Scroll on activeElement
+  // Scroll on activeElement on first page load
   useEffect(() => {
     if (!activeCluster) return;
 
@@ -42,6 +42,7 @@ const ElementList = () => {
       const activeDomEl = document.getElementById('active-element');
       activeDomEl && scrollOnDomEl(activeDomEl);
     };
+
     if (activeElement?._id === activeCluster.activeElementId) {
       scrollOnActiveEl();
     } else {
@@ -56,7 +57,7 @@ const ElementList = () => {
         })
         .then(() => scrollOnActiveEl());
     }
-  }, [activeCluster, activeElement?._id, dispatch]);
+  }, []);
 
   // Set selection mode
   useEffect(() => {
