@@ -21,7 +21,8 @@ const DeleteBtn = () => {
   const dispatch = useDispatch();
   const { allClusters, activeCluster, clusterTrash } = useClusters();
 
-  const emptyTrash = () => {
+  const emptyTrash = e => {
+    e?.currentTarget.blur();
     // if (!confirm('Are you sure you want to delete the selected Cluster(s)?')) return;
     toast.error('Are you sure you want to delete the selected Cluster(s)?', {
       duration: Infinity,

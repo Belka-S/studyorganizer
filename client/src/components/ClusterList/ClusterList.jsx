@@ -30,10 +30,9 @@ const ClusterList = () => {
       .unwrap()
       .then(res => {
         // Get Groups
-        const { clusters } = res.result;
-        const groupId = [...new Set(clusters.map(el => el.groupId))];
-        dispatch(fetchGroupsThunk({ _id: groupId }));
+        dispatch(fetchGroupsThunk({ subjectId: user.subjectId }));
         // Get Subjects
+        const { clusters } = res.result;
         dispatch(fetchSubjectsThunk())
           .unwrap()
           .then(res => {

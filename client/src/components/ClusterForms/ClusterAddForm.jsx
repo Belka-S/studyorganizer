@@ -6,7 +6,11 @@ import { toast } from 'sonner';
 
 import { useAuth, useClusters } from 'utils/hooks';
 import { getGdiveId } from 'utils/helpers';
-import { addClusterThunk, addGroupThunk } from 'store/cluster/clusterThunks';
+import {
+  addClusterThunk,
+  addGroupThunk,
+  fetchGroupsThunk,
+} from 'store/cluster/clusterThunks';
 import { addClusterSchema } from 'utils/validation';
 import Button from 'components/shared/Button/Button';
 import CreatableSelect from 'components/shared/Select/CreatableSelect';
@@ -29,12 +33,13 @@ const AddClusterForm = ({ cluster, title, group, setGroup, setIsModal }) => {
     defaultValues: { cluster, title },
   });
 
-  const onSubmit = async data => {
+  const onSubmit = data => {
     const gdriveId = getGdiveId(data.cluster);
-    const group = await group.value;
-    const groupId = await clusterGroups.find(el => el.group === group)._id;
+    const { value } = group;
+    const groupId = clusterGroups.find(el => el.group === value)._id;
+
     const subject = user.subject;
-    const payload = { group, groupId, subject, gdriveId };
+    const payload = { group: value, groupId, subject, gdriveId };
     dispatch(addClusterThunk({ ...data, ...payload })).unwrap();
     setIsModal(false);
   };
@@ -47,7 +52,10 @@ const AddClusterForm = ({ cluster, title, group, setGroup, setIsModal }) => {
     if (!watch('title')) {
       toast.error('Title is required');
     } else {
-      dispatch(addGroupThunk({ group: value, subject: user.subjectId }));
+      dispatch(addGroupThunk({ group: value, subjectId: user.subjectId }))
+        .unwrap()
+        .then(dispatch(fetchGroupsThunk({ subjectId: user.subjectId })));
+
       setGroup({ value, label: value });
     }
   };

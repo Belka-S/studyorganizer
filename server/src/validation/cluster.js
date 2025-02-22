@@ -8,6 +8,7 @@ const addSchema = validateBody(
     cluster: Joi.string().pattern(regExp.HTTP.pattern).required(),
     title: Joi.string().required(),
     group: Joi.string().required(),
+    groupId: Joi.string(),
     subject: Joi.string().required(),
     gdriveId: Joi.string(),
   }),
