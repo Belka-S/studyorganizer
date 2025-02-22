@@ -13,3 +13,4 @@ export * from 'utils/helpers/getCaptionType';
 export * from 'utils/helpers/translateText';
 export * from 'utils/helpers/writeClipboard';
 export * from 'utils/helpers/trimChar';
+export * from 'utils/helpers/shuffleArr';

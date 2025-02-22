@@ -24,14 +24,9 @@ import {
 } from './LiElement.styled';
 // import { TranslateBtn } from './Element/Element.styled';
 
-const LiElement = ({
-  el,
-  liColor,
-  setLiColor,
-  editCount,
-  setEditCount,
-  selectMode,
-}) => {
+const LiElement = props => {
+  const { el, liColor, setLiColor, editCount, setEditCount, selectMode } =
+    props;
   const dispatch = useDispatch();
   const elementRef = useRef(null);
   const { activeCluster } = useClusters();
