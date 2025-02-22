@@ -1,5 +1,7 @@
 import { themes } from 'styles/themes';
 
+import { startsWithCapital } from './startsWithCapital';
+
 const { white, black, smokeBlack, lightYellow, background, placeholder } =
   themes.colors;
 
@@ -33,11 +35,21 @@ const markAsRead = (current, next) => {
         el.innerText.includes(currentMsg + nextMsg))
     ) {
       const activeEl = el.closest('li');
+      const gridWrap = activeEl.querySelectorAll('div')[1];
+      const divider = activeEl.querySelectorAll('div')[2];
       const prevActiveEl = activeEl?.previousElementSibling;
       const prePrevActiveEl = prevActiveEl?.previousElementSibling;
+
+      // if (startsWithSmall(currentMsg)) activeEl.id = 'vocabulary';
       if (activeEl?.innerText.includes(currentMsg)) {
-        el.style.color = black;
+        activeEl.style.fontSize = '2vw';
+        gridWrap.style.display = 'flex';
+        gridWrap.style.justifyContent = 'space-between';
+        gridWrap.style.alignItems = 'center';
+        divider.style.display = 'none';
+
         el.style.fontSize = '2.8vw';
+        el.style.color = black;
         // set lightened text
         if (currentMsg?.startsWith(' ') || nextMsg?.startsWith(' ')) {
           el.style.display = 'inline';
@@ -46,25 +58,30 @@ const markAsRead = (current, next) => {
           el.innerHTML = el.innerText.replace(currentMsg, ' ' + lightenedEl);
         }
         // set element styles
-        if (el.nextElementSibling && el.nextElementSibling.nextElementSibling) {
-          el.parentElement.style.display = 'block';
-          el.nextElementSibling.style.display = 'none';
-          el.nextElementSibling.nextElementSibling.style.display = 'none';
-        }
-        // set caption styles
         if (
+          startsWithCapital(currentMsg) &&
+          el.nextElementSibling &&
+          el.nextElementSibling.nextElementSibling
+        ) {
+          el.parentElement.style.display = 'block';
+          el.nextElementSibling.nextElementSibling.style.display = 'none';
+          el.nextElementSibling.style.display = 'none';
+        }
+        if (
+          startsWithCapital(currentMsg) &&
           el.previousElementSibling &&
           el.previousElementSibling.previousElementSibling
         ) {
           el.parentElement.style.display = 'block';
-          el.previousElementSibling.style.display = 'none';
           el.previousElementSibling.previousElementSibling.style.display =
             'none';
+          el.previousElementSibling.style.display = 'none';
         }
       }
       // restore styles
       if (prevActiveEl) {
         prevActiveEl.style.backgroundColor = null;
+        prevActiveEl.style.fontSize = null;
         prevActiveEl.querySelectorAll('button')[0].style.color = null;
         prevActiveEl.querySelectorAll('button')[0].style.fontSize = null;
         prevActiveEl.querySelectorAll('button')[0].style.display = null;
@@ -75,11 +92,14 @@ const markAsRead = (current, next) => {
         prevActiveEl.querySelectorAll('button')[1].style.display = null;
         prevActiveEl.querySelectorAll('button')[1].innerHTML =
           prevActiveEl.querySelectorAll('button')[1].innerText;
+        prevActiveEl.querySelectorAll('div')[1].style.justifyContent = null;
+        prevActiveEl.querySelectorAll('div')[1].style.alignItems = null;
         prevActiveEl.querySelectorAll('div')[1].style.display = null;
         prevActiveEl.querySelectorAll('div')[2].style.display = null;
       }
       if (prePrevActiveEl) {
         prePrevActiveEl.style.backgroundColor = null;
+        prePrevActiveEl.style.fontSize = null;
         prePrevActiveEl.querySelectorAll('button')[0].style.color = null;
         prePrevActiveEl.querySelectorAll('button')[0].style.fontSize = null;
         prePrevActiveEl.querySelectorAll('button')[0].style.display = null;
@@ -90,6 +110,8 @@ const markAsRead = (current, next) => {
         prePrevActiveEl.querySelectorAll('button')[1].style.display = null;
         prePrevActiveEl.querySelectorAll('button')[1].innerHTML =
           prePrevActiveEl.querySelectorAll('button')[1].innerText;
+        prePrevActiveEl.querySelectorAll('div')[1].style.justifyContent = null;
+        prePrevActiveEl.querySelectorAll('div')[1].style.alignItems = null;
         prePrevActiveEl.querySelectorAll('div')[1].style.display = null;
         prePrevActiveEl.querySelectorAll('div')[2].style.display = null;
       }
@@ -111,7 +133,6 @@ const markAsRead = (current, next) => {
 
 const refreshPlaylist = () => {
   const elementList = document.querySelector('#element-list');
-
   const styledLi = elementList.querySelectorAll('li');
   styledLi.forEach(el => el.removeAttribute('style'));
   const styledDiv = elementList.querySelectorAll('div');
@@ -167,6 +188,7 @@ export const speakText = props => {
   }
   // mark current message
   message.onstart = () => {
+    // console.log(1);
     setLiColor(background);
     if (currentIndex === messageParts.length - 1) {
       setLiColor(white);
@@ -178,6 +200,10 @@ export const speakText = props => {
   // divide message on parts
   const timeout = lang.includes('de') ? 120 : 100;
   message.onend = () => {
+    // console.log(2);
+    // const activeEl = document.querySelector('#vocabulary');
+    // console.log('activeEl: ', activeEl);
+
     currentIndex += 1;
     if (currentIndex < messageParts.length) {
       message.text = messageParts[currentIndex].split('@±@')[0];

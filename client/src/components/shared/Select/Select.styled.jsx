@@ -105,7 +105,7 @@ export const defaultStyles = ({
   multiValueLabel: styles => ({
     ...styles,
     display: 'flex',
-    alineItems: 'center',
+    alignItems: 'center',
     padding: 0,
     paddingLeft: 0,
     fontSize: '16px',

@@ -10,8 +10,9 @@ const { colors, indents } = themes;
 const baseWrapStyles = css`
   padding-block: 4px;
   display: grid;
-  align-items: start;
+  align-items: top;
   grid-template-columns: 20fr 1fr 20fr;
+  color: ${colors.black};
 `;
 
 export const GridWrap = styled.div`
@@ -82,11 +83,11 @@ export const SpeakBtn = styled.button`
   height: 100%;
   text-align: left;
   display: flex;
-  align-items: top;
+  align-items: inherit;
   background-color: transparent;
   border-color: transparent;
   border-radius: ${indents.xs};
-  color: ${colors.black};
+  color: inherit;
   transition: background-color 250ms;
 
   ${({ $mode }) => $mode === 'true' && 'cursor: text;'}

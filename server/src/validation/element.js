@@ -22,7 +22,7 @@ const updateSchema = validateBody(
     favorite: Joi.boolean(),
     checked: Joi.boolean(),
     group: Joi.string(),
-    clusterId: Joi.string().required(),
+    clusterId: Joi.string(),
   }),
 );
 
