@@ -59,7 +59,7 @@ const ElementList = () => {
     }
   }, []);
 
-  // Set selection mode
+  // Set selection mode by ALT key
   useEffect(() => {
     const handleKeyDown = e => {
       if (e.altKey) {

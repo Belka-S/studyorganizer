@@ -45,10 +45,12 @@ const ElementEditForm = ({ el, handleEdit, setRecording, setTranslation }) => {
     mode: 'onBlur',
     defaultValues: { element, caption },
   });
+
   // Set caption from 'el' argument
   useEffect(() => {
     setValue('caption', caption);
   }, [caption, setValue]);
+
   // Get refs in RHF https://www.react-hook-form.com/faqs/#Howtosharerefusage
   const { ref: refElement, ...restElement } = register('element');
   const { ref: refCaption, ...restCaption } = register('caption');
@@ -56,6 +58,7 @@ const ElementEditForm = ({ el, handleEdit, setRecording, setTranslation }) => {
   const refs = [elementRef.current, captionRef.current, buttonsRef.current];
   const values = [watch('caption'), watch('element')];
   useAutosizeTextArea(refs, values);
+
   // set Article (Deutsch)
   useEffect(() => {
     setFocus('element');
@@ -150,7 +153,7 @@ const ElementEditForm = ({ el, handleEdit, setRecording, setTranslation }) => {
     [activeCluster.lang, setValue, user.lang, watch],
   );
 
-  // Set key controle
+  // Set key control
   const modalEl = document.querySelector('#modal');
   useEffect(() => {
     const handleKeyDown = async e => {

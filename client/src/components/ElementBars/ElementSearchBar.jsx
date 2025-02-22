@@ -18,10 +18,6 @@ const ElementSearchBar = () => {
   const { elementSelect } = useElements();
   const [selectValue, setSelectValue] = useState(elementSelect);
 
-  useEffect(() => {
-    dispatch(setElementSelect(selectValue));
-  }, [dispatch, selectValue]);
-
   const getOptions = selectValue => {
     let options = baseOptions.filter(
       el => !['recent', 'gdrive', 'ungdrive'].includes(el.value),
@@ -50,7 +46,11 @@ const ElementSearchBar = () => {
     <FlexWrap $jc="flex-end" $p="0">
       <Select
         isMulti
-        onChange={data => setSelectValue(data ? data.map(el => el.value) : '')}
+        onChange={data => {
+          const value = data.map(el => el.value);
+          setSelectValue(data ? value : '');
+          dispatch(setElementSelect(value));
+        }}
         defaultValue={defaultValue}
         isClearable={selectValue}
         options={getOptions(selectValue)}

@@ -22,7 +22,8 @@ const GdriveList = () => {
 
   // Set G-Drive select
   useEffect(() => {
-    const { subject, subjectId } = user;
+    const subject = user?.subject;
+    const subjectId = user?.subjectId;
     if (!subject || !subjectId) return;
     dispatch(fetchSubjectsThunk())
       .unwrap()
@@ -32,7 +33,7 @@ const GdriveList = () => {
         );
         dispatch(setGdriveSelect(subject?.gdriveSelect));
       });
-  }, [dispatch, user]);
+  }, [dispatch, user?.subject, user?.subjectId]);
 
   // Scroll on active
   useEffect(() => {

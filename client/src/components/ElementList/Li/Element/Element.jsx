@@ -113,7 +113,7 @@ const Element = ({ el, setLiColor, editCount, selectMode }) => {
     [caption.text, el.lang, getTextString, selectMode, setLiColor, user.rate],
   );
 
-  // Set key controle
+  // Set key control
   useEffect(() => {
     if (editCount > 0 || el._id !== activeElement?._id) return;
     const handleKeyDown = e => {

@@ -63,10 +63,11 @@ const ClustersSearchBar = () => {
       <Select
         isMulti
         onChange={data => {
-          const clusterSelect = data.map(el => el.value);
-          setSelectValue(data ? clusterSelect : '');
-          dispatch(updateSubjectThunk({ _id: user.subjectId, clusterSelect }));
-          dispatch(setClusterSelect(clusterSelect));
+          const value = data.map(el => el.value);
+          setSelectValue(data ? value : '');
+          dispatch(setClusterSelect(value));
+          const payload = { _id: user.subjectId, clusterSelect: value };
+          dispatch(updateSubjectThunk(payload));
         }}
         defaultValue={defaultValue}
         isClearable={selectValue}

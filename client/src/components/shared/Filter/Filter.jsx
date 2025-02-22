@@ -15,6 +15,7 @@ const Filter = ({ selector, reducer }) => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
+  // Scroll on active element when use Filter
   useEffect(() => {
     if (pathname.includes('/cluster')) {
       const activeDomEl = document.getElementById('active-cluster');

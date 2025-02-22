@@ -48,7 +48,7 @@ const ClusterList = () => {
             active && dispatch(setActiveCluster(active));
           });
       });
-  }, [dispatch, user]);
+  }, [dispatch, user.subject, user.subjectId]);
 
   // Scroll on ActiveCluster
   useEffect(() => {

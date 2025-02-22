@@ -64,10 +64,11 @@ const GdriveSearchBar = () => {
       <Select
         isMulti
         onChange={data => {
-          const gdriveSelect = data.map(el => el.value);
-          setSelectValue(data ? gdriveSelect : '');
-          dispatch(updateSubjectThunk({ _id: user.subjectId, gdriveSelect }));
-          dispatch(setGdriveSelect(gdriveSelect));
+          const value = data.map(el => el.value);
+          setSelectValue(data ? value : '');
+          dispatch(setGdriveSelect(value));
+          const payload = { _id: user.subjectId, gdriveSelect: value };
+          dispatch(updateSubjectThunk(payload));
         }}
         defaultValue={defaultValue}
         isClearable={selectValue}
