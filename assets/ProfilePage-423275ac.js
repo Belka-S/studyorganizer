@@ -1,0 +1,1 @@
+import{t,j as e,k as n}from"./index-81f62c26.js";const a=()=>{const{s:r,m:s}=t.indents;return e.jsx(n,{$p:`${r} ${s}`,$fd:"column",$ai:"center",$jc:"center",children:e.jsx("h1",{children:"Profile"})})};export{a as default};
