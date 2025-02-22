@@ -1,6 +1,7 @@
 import { themes } from 'styles/themes';
 
-const { white, black, smokeBlack, lightYellow, background } = themes.colors;
+const { white, black, smokeBlack, lightYellow, background, placeholder } =
+  themes.colors;
 
 const markAsRead = (current, next) => {
   const normalizeMessage = message =>
@@ -36,11 +37,12 @@ const markAsRead = (current, next) => {
       const prePrevActiveEl = prevActiveEl?.previousElementSibling;
       if (activeEl?.innerText.includes(currentMsg)) {
         el.style.color = black;
-        el.style.fontSize = '2.6vw';
+        el.style.fontSize = '2.8vw';
         // set lightened text
         if (currentMsg?.startsWith(' ') || nextMsg?.startsWith(' ')) {
           el.style.display = 'inline';
-          const lightenedEl = `<span style="color: ${smokeBlack}; background-color: ${lightYellow};">${currentMsg.trim()}</span>`;
+          el.style.color = placeholder;
+          const lightenedEl = `<span style="color: ${smokeBlack}; background-color: ${lightYellow}; ">${currentMsg.trim()}</span>`;
           el.innerHTML = el.innerText.replace(currentMsg, ' ' + lightenedEl);
         }
         // set element styles

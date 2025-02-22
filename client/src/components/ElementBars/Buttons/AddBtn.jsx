@@ -45,9 +45,9 @@ const AddBtn = () => {
       caption = trimChar(caption.trim(), ',');
       const { _id } = activeCluster;
       try {
-        const mediaEl = { cluster: _id, element: '[]', caption: element };
+        const mediaEl = { clusterId: _id, element: '[]', caption: element };
         const textEl = {
-          cluster: _id,
+          clusterId: _id,
           element,
           caption,
           favorite: true,
