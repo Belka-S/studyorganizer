@@ -36,7 +36,7 @@ const markAsRead = (current, next) => {
       const prePrevActiveEl = prevActiveEl?.previousElementSibling;
       if (activeEl?.innerText.includes(currentMsg)) {
         el.style.color = black;
-        el.style.fontSize = '36px';
+        el.style.fontSize = '2.6vw';
         // set lightened text
         if (currentMsg?.startsWith(' ') || nextMsg?.startsWith(' ')) {
           el.style.display = 'inline';
