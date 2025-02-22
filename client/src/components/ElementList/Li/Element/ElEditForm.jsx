@@ -108,7 +108,7 @@ const ElementEditForm = ({ el, handleEdit, setRecording, setTranslation }) => {
         _id
           ? updateElementThunk({ _id, lang, element, caption })
           : addElementThunk({ ...el, element, caption }),
-      ).then(dispatch(fetchElementsThunk()));
+      ).then(dispatch(fetchElementsThunk({ clusterId: activeCluster._id })));
 
       if (!_id && caption) {
         activeCluster.sortBy ? scrollOnTop() : scrollOnBottom();
@@ -119,6 +119,7 @@ const ElementEditForm = ({ el, handleEdit, setRecording, setTranslation }) => {
     },
     [
       _id,
+      activeCluster._id,
       activeCluster.lang,
       activeCluster.sortBy,
       dispatch,
